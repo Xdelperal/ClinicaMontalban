@@ -17,7 +17,7 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         Scene scene2 = new Scene(fxmlLoader2.load(), 320, 240);
 
-        stage.setTitle("ClinicaMontalban App");
+        stage.setTitle("ClinicaMontalban!");
         stage.setScene(scene);
 
         stage.show();
