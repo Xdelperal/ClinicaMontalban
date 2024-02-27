@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.StackPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <left>
-      <AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: rgb(218, 238, 255);" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../../img/LOGO-COLOR.png" />
-               </image>
+   <BorderPane stylesheets="@../../../css/login.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+      <left>
+         <AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: rgb(218, 238, 255);" BorderPane.alignment="CENTER">
+            <ImageView fx:id="ClinicaLogo" fitHeight="150.0" fitWidth="200.0" layoutX="98.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../../../img/logo.png" />
             </ImageView>
-         </children>
-      </AnchorPane>
-   </left>
-   <right>
-      <AnchorPane prefHeight="600.0" prefWidth="451.0" BorderPane.alignment="CENTER">
-         <children>
-            <TextField layoutX="100.0" layoutY="253.0" promptText="User Name" style="-fx-background-color: transparent; -fx-border-color: #0596ff; -fx-border-width: 0px 0px 2px;" />
-            <PasswordField layoutX="100.0" layoutY="325.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #0596ff; -fx-border-width: 0px 0px 2px;" />
-            <FontAwesomeIconView layoutX="80.0" layoutY="277.0" />
-            <FontAwesomeIconView layoutX="74.0" layoutY="342.0" />
-         </children>
-      </AnchorPane>
-   </right>
-</BorderPane>
+         </AnchorPane>
+      </left>
+      <right>
+         <StackPane prefHeight="600.0" prefWidth="445.0">
+            <AnchorPane styleClass="borderedPane" prefHeight="600.0" prefWidth="445.0" BorderPane.alignment="CENTER">
+               <TextField layoutX="127.0" layoutY="239.0" promptText="Usuario" style="-fx-background-color: transparent; -fx-border-color: #0596ff; -fx-border-width: 0px 0px 2px;" />
+               <PasswordField layoutX="127.0" layoutY="299.0" promptText="Contraseña" style="-fx-background-color: transparent; -fx-border-color: #0596ff; -fx-border-width: 0px 0px 2px;" />
+               <FontAwesomeIconView fill="#00882d" glyphName   ="USER" layoutX="81.0" layoutY="269.0" size="25" />
+               <FontAwesomeIconView fill="#00882d" glyphName="LOCK" layoutX="82.0" layoutY="325.0" size="25" />
+               <Button id="buttonEntrap" fx:id="buttonEntrap" layoutX="115.0" layoutY="374.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="118.0" styleClass="buttonEntrap" text="Entrar">
+                  <font>
+                     <Font name="Arial Bold" size="16.0" />
+                  </font></Button>
+            </AnchorPane>
+         </StackPane>
+      </right>
+   </BorderPane>
+
