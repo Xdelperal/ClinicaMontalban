@@ -1,0 +1,26 @@
+/* Es el estilo del login.css  */
+
+.buttonEntrap {
+    -fx-background-color: rgb(151, 212, 154);
+    -fx-outline: none;
+    -fx-border-color: rgb(151, 212, 154);
+    -fx-border-radius: 20px;
+    -fx-padding: 10px 20px;
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-transition: background-color 0.3s ease;
+}
+
+.buttonEntrap:hover {
+    -fx-background-color: rgb(218, 238, 255);
+    -fx-border-color: rgb(218, 238, 255);
+    -fx-border-width: 2px;
+    -fx-text-fill: rgb(62, 74, 134);
+}
+
+.borderedPane {
+    -fx-border-width: 0px 0px 0px 2px;
+    -fx-border-color: rgba(151, 212, 154, 0.8);
+    -fx-padding: 10px;
+}
