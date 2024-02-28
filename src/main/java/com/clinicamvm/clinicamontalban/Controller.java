@@ -10,32 +10,22 @@ import javafx.scene.control.TextField;
 public class HelloController {
     @FXML
     private TextField fieldUsuario;
-    @FXML
 
+    @FXML
     private PasswordField fieldPass;
-    @FXML
 
+    @FXML
     private Label msgLabel;
-    @FXML
 
+    @FXML
     private Button buttonEntrap;
 
     @FXML
-    public void buttonEntrap(ActionEvent e) {
-
-        if(fieldUsuario.getText().isBlank() == true || fieldPass.getText().isBlank() == true){
-
-                msgLabel.setText("No has introducido datos!");
-
-        }else{
-
-
-
-
+    public void comprobacion(ActionEvent e) {
+        if (fieldUsuario.getText().isBlank() || fieldPass.getText().isBlank()) {
+            msgLabel.setText("No has introducido datos!");
+        } else {
+            // Aquí puedes agregar la lógica para verificar el inicio de sesión
         }
-
-
     }
-
-
 }
