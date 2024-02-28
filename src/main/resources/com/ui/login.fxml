@@ -7,14 +7,14 @@
 <?import javafx.scene.text.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-            prefWidth="800.0" stylesheets="@../../resources/css/login.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.clinicamontalban.Controller">
+            prefWidth="800.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.Controller">
     <left>
         <AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: rgb(218, 238, 255);"
                     BorderPane.alignment="CENTER">
             <ImageView fx:id="ClinicaLogo" fitHeight="150.0" fitWidth="200.0" layoutX="98.0" layoutY="77.0"
                        pickOnBounds="true" preserveRatio="true">
-                <Image url="@../../resources/img/logo.png"/>
+                <Image url="@../../img/logo.png"/>
             </ImageView>
         </AnchorPane>
     </left>
@@ -28,7 +28,8 @@
                 <FontAwesomeIconView fill="#00882d" glyphName="USER" layoutX="81.0" layoutY="269.0" size="25"/>
                 <FontAwesomeIconView fill="#00882d" glyphName="LOCK" layoutX="82.0" layoutY="325.0" size="25"/>
                 <Button id="buttonEntrap" fx:id="buttonEntrap" layoutX="115.0" layoutY="374.0" mnemonicParsing="false"
-                        prefHeight="49.0" prefWidth="118.0" styleClass="buttonEntrap" text="Entrar" onAction="#comprobacion">
+                        prefHeight="49.0" prefWidth="118.0" styleClass="buttonEntrap" text="Entrar"
+                        onAction="#comprobacion">
                     <font>
                         <Font name="Arial Bold" size="16.0"/>
                     </font>

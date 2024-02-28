@@ -10,7 +10,11 @@ module com.clinicamvm.clinicamontalban {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.sql;
+    requires mysql.connector.j;
 
-    opens com.clinicamvm.clinicamontalban to javafx.fxml;
-    exports com.clinicamvm.clinicamontalban;
+    opens com.clinicamvm.controller to javafx.fxml;
+    exports com.clinicamvm.controller;
+    exports app;
+    opens app to javafx.fxml;
 }

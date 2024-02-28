@@ -1,4 +1,4 @@
-package com.clinicamvm.clinicamontalban;
+package com.clinicamvm.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,7 +75,7 @@ public class Controller {
     private boolean autenticarUsuario(String dni, String contrasena) {
         JDBCUtils jdbcUtils = new JDBCUtils();
         try (Connection connection = jdbcUtils.getConnection()) {
-            String query = "SELECT DNI, contrasena FROM cliente WHERE DNI=? and contrasena=?";
+            String query = "SELECT DNI, contrasena FROM trabajador WHERE DNI=? and contrasena=?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, dni);
                 statement.setString(2, contrasena);
