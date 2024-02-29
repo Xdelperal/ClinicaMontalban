@@ -56,11 +56,11 @@ public class Controller {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-512");
             byte[] hash = digest.digest(contrasena.getBytes());
-            StringBuilder hexString = new StringBuilder();
 
+            // Convertir el hash en una cadena hexadecimal
+            StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
+                String hex = String.format("%02x", b);
                 hexString.append(hex);
             }
 
@@ -71,16 +71,23 @@ public class Controller {
         }
     }
 
+
+
     // Método para autenticar al usuario en la base de datos
-    private boolean autenticarUsuario(String dni, String password) {
+    private boolean autenticarUsuario(String dni, String hashedPassword) {
         JDBCUtils jdbcUtils = new JDBCUtils();
         try (Connection connection = jdbcUtils.getConnection()) {
-            String query = "SELECT DNI, password FROM personal WHERE DNI=? and password=?";
+            String query = "SELECT password FROM personal WHERE DNI=?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, dni);
-                statement.setString(2, password);
                 try (ResultSet resultSet = statement.executeQuery()) {
-                    return resultSet.next();
+                    if (resultSet.next()) {
+                        String storedPassword = resultSet.getString("password");
+                        return hashedPassword.equals(storedPassword);
+                    } else {
+                        // El usuario no existe en la base de datos
+                        return false;
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -88,4 +95,5 @@ public class Controller {
             return false;
         }
     }
+
 }
