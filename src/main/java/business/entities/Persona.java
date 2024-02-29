@@ -11,16 +11,17 @@ public abstract class Persona {
 
     /**
      * Constructor de la classe Persona.
-     * @param dni DNI de la persona
-     * @param nom Nom de la persona
-     * @param apellidos Cognoms de la persona
+     *
+     * @param dni             DNI de la persona
+     * @param nom             Nom de la persona
+     * @param apellidos       Cognoms de la persona
      * @param fechaNacimiento Data de naixement de la persona
      */
-    public Persona(String dni, String nom, String apellidos, LocalDate fechaNacimiento, String genere) {
+    public Persona(String dni, String nom, String apellidos, LocalDate fechaNacimiento) {
         this.setDni(dni);
         this.setNombre(nom);
         this.setCognoms(apellidos);
-        this.setFechaNacimiento(this.fechaNacimiento);
+        this.setFechaNacimiento(fechaNacimiento);
     }
 
     //</editor-fold>
@@ -43,9 +44,7 @@ public abstract class Persona {
         return fechaNacimiento;
     }
 
-    //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Setters">
 
     public void setDni(String dni) {
         this.dni = dni;
@@ -65,7 +64,6 @@ public abstract class Persona {
 
 
 
-    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="API pública">
     /**
@@ -82,12 +80,7 @@ public abstract class Persona {
      * @param integer Enter apellidos convertir
      * @return Cadena de text que representa l'enter
      */
-    public String toString(int integer){
-        StringBuilder sb = new StringBuilder();
-        sb.append(integer);
-        return sb.toString();
-    }
 
-    //</editor-fold>
+
 
 }
