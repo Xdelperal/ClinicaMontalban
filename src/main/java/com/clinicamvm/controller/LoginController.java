@@ -2,11 +2,16 @@ package com.clinicamvm.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import persistence.utils.JDBCUtils;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -14,7 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Controller {
+public class LoginController {
 
     @FXML
     private TextField fieldDNI;
@@ -24,16 +29,24 @@ public class Controller {
 
     @FXML
     private Label msgLabel;
+    @FXML
+    private Stage stage;
+    private MainPanelController mainPanelController; // Referencia al controlador del MainPanel
+
+
+    public void setMainPanelController(MainPanelController mainPanelController) {
+        this.mainPanelController = mainPanelController;
+    }
+
 
     @FXML
-    public void comprobacion(ActionEvent e) {
+    public void comprobacion(ActionEvent e) throws IOException {
         String dni = fieldDNI.getText();
         String contrasena = fieldContrasena.getText();
 
         if (dni.isBlank() || contrasena.isBlank()) {
             msgLabel.setText("No has introducido datos!");
         } else {
-
             // Hashear la contraseña
             String hashedContrasena = hashPassword(contrasena);
 
@@ -43,13 +56,30 @@ public class Controller {
             if (autenticado) {
                 // Usuario autenticado, redirigir a la página principal
                 msgLabel.setText("Inicio de sesión exitoso!");
-                // Aquí puedes agregar el código para redirigir a la página principal
+
+                // Obtener el Stage del login
+                Stage loginStage = (Stage) fieldDNI.getScene().getWindow();
+
+                // Cargar la vista del panel principal
+                FXMLLoader mainPanelLoader = new FXMLLoader(getClass().getResource("/com/ui/mainPanel.fxml"));
+                Parent mainPanelRoot = mainPanelLoader.load();
+                MainPanelController mainPanelController = mainPanelLoader.getController();
+
+                // Verificar si mainPanelController es null antes de configurarlo
+
+
+                // Configurar la escena y mostrarla en el escenario
+                Scene scene = new Scene(mainPanelRoot);
+                loginStage.setScene(scene);
+                loginStage.show();
             } else {
                 // Usuario no autenticado, mostrar mensaje de error
                 msgLabel.setText("Error en el inicio de sesión. Por favor, verifica tus credenciales.");
             }
         }
     }
+
+
 
     // Método para hashear la contraseña usando el algoritmo SHA-512
     private String hashPassword(String contrasena) {
