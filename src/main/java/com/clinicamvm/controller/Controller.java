@@ -72,13 +72,13 @@ public class Controller {
     }
 
     // Método para autenticar al usuario en la base de datos
-    private boolean autenticarUsuario(String dni, String contrasena) {
+    private boolean autenticarUsuario(String dni, String password) {
         JDBCUtils jdbcUtils = new JDBCUtils();
         try (Connection connection = jdbcUtils.getConnection()) {
-            String query = "SELECT DNI, contrasena FROM doctor WHERE DNI=? and contrasena=?";
+            String query = "SELECT DNI, password FROM personal WHERE DNI=? and password=?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, dni);
-                statement.setString(2, contrasena);
+                statement.setString(2, password);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return resultSet.next();
                 }

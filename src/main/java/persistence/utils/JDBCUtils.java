@@ -12,7 +12,8 @@ public class JDBCUtils {
         String databaseName = "adminmontalban_clinica";
         String databaseUser = "329292_admin";
         String databasePassword = "adminmontalban!";
-        String url = "mysql-adminmontalban.alwaysdata.net" + databaseName;
+        String url = "jdbc:mysql://mysql-adminmontalban.alwaysdata.net:3306/adminmontalban_clinica";
+
 
         try {
 
