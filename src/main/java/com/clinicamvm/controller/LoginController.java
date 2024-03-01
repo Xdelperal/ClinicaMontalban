@@ -11,12 +11,15 @@ import javafx.stage.Stage;
 import persistence.utils.JDBCUtils;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 public class LoginController {
 
@@ -44,7 +47,8 @@ public class LoginController {
         String contrasena = fieldContrasena.getText();
 
         if (dni.isBlank() || contrasena.isBlank()) {
-            msgLabel.setText("No has introducido datos!");
+            msgLabel.setText("No has introducido los datos!");
+            msgLabel.setWrapText(true);
         } else {
             // Hashear la contraseña
             String hashedContrasena = hashPassword(contrasena);
@@ -62,6 +66,16 @@ public class LoginController {
                 // Usuario no autenticado, mostrar mensaje de error
                 msgLabel.setText("Error en el inicio de sesión. Por favor, verifica tus credenciales.");
             }
+        }
+    }
+
+    @FXML
+    private void abrirSoporte(ActionEvent event) {
+        try {
+            URI uri = new URI("https://google.com");
+            java.awt.Desktop.getDesktop().browse(uri);
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
         }
     }
 

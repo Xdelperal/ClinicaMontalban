@@ -11,6 +11,7 @@ module com.clinicamvm.clinicamontalban {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires java.desktop;
 
     opens com.clinicamvm.controller to javafx.fxml;
     exports com.clinicamvm.controller;

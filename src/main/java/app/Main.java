@@ -3,13 +3,10 @@ package app;
 import com.clinicamvm.controller.LoginController;
 import com.clinicamvm.controller.MainPanelController;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 
@@ -36,7 +33,7 @@ public class Main extends Application {
         // Configurar la escena y mostrarla en el escenario
         Scene scene = new Scene(loginRoot);
 
-        scene.getStylesheets().add(getClass().getResource("/css/fontstyle.css").toExternalForm());
+        scene.getStylesheets().add("/com/ui/css/fontstyle.css");
         loginStage.setScene(scene);
         loginStage.show();
     }
