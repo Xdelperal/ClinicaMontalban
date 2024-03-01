@@ -3,7 +3,6 @@ package com.clinicamvm.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -56,22 +55,9 @@ public class LoginController {
             if (autenticado) {
                 // Usuario autenticado, redirigir a la página principal
                 msgLabel.setText("Inicio de sesión exitoso!");
-
-                // Obtener el Stage del login
-                Stage loginStage = (Stage) fieldDNI.getScene().getWindow();
-
-                // Cargar la vista del panel principal
-                FXMLLoader mainPanelLoader = new FXMLLoader(getClass().getResource("/com/ui/mainPanel.fxml"));
-                Parent mainPanelRoot = mainPanelLoader.load();
-                MainPanelController mainPanelController = mainPanelLoader.getController();
-
-                // Verificar si mainPanelController es null antes de configurarlo
+                cargarMainPanel();
 
 
-                // Configurar la escena y mostrarla en el escenario
-                Scene scene = new Scene(mainPanelRoot);
-                loginStage.setScene(scene);
-                loginStage.show();
             } else {
                 // Usuario no autenticado, mostrar mensaje de error
                 msgLabel.setText("Error en el inicio de sesión. Por favor, verifica tus credenciales.");
@@ -123,6 +109,31 @@ public class LoginController {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+
+
+
+
+
+    @FXML
+    private void cargarMainPanel() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/ui/mainPanel.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 820, 640);
+
+            // Obtener el controlador del MainPanel
+            MainPanelController controller = fxmlLoader.getController();
+
+            // Obtener el Stage del login
+            Stage loginStage = (Stage) fieldDNI.getScene().getWindow();
+
+            // Configurar la escena y mostrarla en el escenario
+            loginStage.setScene(scene);
+            loginStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
