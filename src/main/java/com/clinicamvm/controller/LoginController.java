@@ -59,6 +59,8 @@ public class LoginController {
             if (autenticado) {
                 // Usuario autenticado, redirigir a la página principal
                 msgLabel.setText("Inicio de sesión exitoso!");
+                mainPanelController.setUserAfterLogin(String.valueOf(fieldDNI));
+
                 cargarMainPanel();
 
 
@@ -144,7 +146,6 @@ public class LoginController {
 
             // Obtener el Stage del login
             Stage loginStage = (Stage) fieldDNI.getScene().getWindow();
-
             // Configurar la escena y mostrarla en el escenario
             loginStage.setScene(scene);
             loginStage.show();
