@@ -33,7 +33,7 @@ public class Main extends Application {
         // Configurar la escena y mostrarla en el escenario
         Scene scene = new Scene(loginRoot);
 
-        scene.getStylesheets().add("/com/ui/css/fontstyle.css");
+        scene.getStylesheets().add("../ui/css/fontstyle.css");
         loginStage.setScene(scene);
         loginStage.show();
     }

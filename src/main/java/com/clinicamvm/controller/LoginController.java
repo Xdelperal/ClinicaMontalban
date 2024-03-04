@@ -62,8 +62,6 @@ public class LoginController {
                 mainPanelController.setUserAfterLogin(String.valueOf(fieldDNI));
 
                 cargarMainPanel();
-
-
             } else {
                 // Usuario no autenticado, mostrar mensaje de error
                 msgLabel.setText("Error en el inicio de sesión. Por favor, verifica tus credenciales.");
