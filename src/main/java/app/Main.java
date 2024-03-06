@@ -15,12 +15,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage loginStage) throws IOException {
+        // Crear un nuevo Stage para la vista del panel principal
+        Stage mainPanelStage = new Stage();
 
         // Cargar la vista del panel principal
         FXMLLoader mainPanelLoader = new FXMLLoader(getClass().getResource("/com/ui/mainPanel.fxml"));
         Parent mainPanelRoot = mainPanelLoader.load();
         MainPanelController mainPanelController = mainPanelLoader.getController();
-
 
         // Cargar la vista del inicio de sesión
         FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/com/ui/login.fxml"));
@@ -31,12 +32,15 @@ public class Main extends Application {
         loginController.setMainPanelController(mainPanelController);
 
         // Configurar la escena y mostrarla en el escenario
-        Scene scene = new Scene(loginRoot);
-
-        scene.getStylesheets().add("/com/ui/css/fontstyle.css");
-        loginStage.setScene(scene);
+        Scene loginScene = new Scene(loginRoot);
+        loginStage.setScene(loginScene);
         loginStage.show();
+
+        // Configurar la escena del panel principal y mostrarla en el escenario
+        Scene mainPanelScene = new Scene(mainPanelRoot);
+        mainPanelStage.setScene(mainPanelScene);
     }
+
 
     public static void main(String[] args) {
         launch();
