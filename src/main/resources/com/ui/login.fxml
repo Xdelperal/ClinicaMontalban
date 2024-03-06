@@ -31,11 +31,16 @@
                <Font size="33.0" />
             </font>
          </Text>
-         <TextFlow layoutX="69.0" layoutY="292.0" prefHeight="218.0" prefWidth="264.0" textAlignment="CENTER">
+         <TextFlow layoutX="65.0" layoutY="300.0" prefHeight="111.0" prefWidth="272.0" textAlignment="CENTER">
             <children>
-               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aqui comprobamos las citas pendientes creamos informes y recetas para los pacientes" wrappingWidth="263.53515625">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Text>
             </children>
          </TextFlow>
+         <FontAwesomeIconView glyphName="BOOK" layoutX="163.0" layoutY="507.0" size="80" wrappingWidth="59.71428680419922" />
         </AnchorPane>
     </left>
     <right>
@@ -50,7 +55,7 @@
                         <Font name="Arial Bold" size="16.0" />
                     </font>
                 </Button>
-                <Label fx:id="msgLabel" layoutX="86.0" layoutY="422.0" prefHeight="71.0" prefWidth="233.0" textAlignment="CENTER" textFill="RED">
+                <Label fx:id="msgLabel" layoutX="86.0" layoutY="414.0" prefHeight="90.0" prefWidth="233.0" textAlignment="CENTER" textFill="RED">
                <font>
                   <Font size="1.0" />
                </font></Label>
