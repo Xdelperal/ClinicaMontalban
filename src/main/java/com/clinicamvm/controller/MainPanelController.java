@@ -1,30 +1,25 @@
 package com.clinicamvm.controller;
 
-import business.entities.Personal;
-import persistence.daos.contracts.PersonalDAO;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 
 public class MainPanelController {
-    private LoginController loginController;
-    private PersonalDAO personalDAO; // DAO para acceder a los datos del personal
-    private Personal loggedInUser; // Usuario que ha iniciado sesión
+    @FXML
+    private Label TEST; // El Label donde se mostrará el nombre de usuario
 
-    public void setLoginController(LoginController loginController) {
-        this.loginController = loginController;
-    }
+    private String loggedInUsername; // Nombre de usuario actualmente iniciado sesión
 
-    public void setPersonalDAO(PersonalDAO personalDAO) {
-        this.personalDAO = personalDAO;
-    }
-
-    public Personal getLoggedInUser() {
-        return loggedInUser;
-    }
-
+    // Método para establecer el nombre de usuario después de iniciar sesión
     public void setUserAfterLogin(String username) {
+        this.loggedInUsername = username;
+        updateLoggedInUserLabel(); // Actualizar el texto del Label
+    }
 
-
-
-
+    // Método para actualizar el texto del Label con el nombre de usuario actual
+    private void updateLoggedInUserLabel() {
+        if (TEST != null && loggedInUsername != null) {
+            TEST.setText("Usuario: " + loggedInUsername);
+        }
     }
 
     // Otros métodos y lógica de tu controlador
