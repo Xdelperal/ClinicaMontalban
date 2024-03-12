@@ -1,0 +1,38 @@
+.white-background {
+    -fx-background-color: #fff;
+}
+
+.transparent {
+    -fx-background-color: rgba(0,0,0,0);
+}
+
+.round-layout {
+    -fx-border-radius: 50;
+    -fx-border-color: #D7D7D7;
+}
+
+.selected {
+    -fx-background-color: #F3F3F3;
+}
+
+.mouse-moved: hover {
+    -fx-background-color: #E4E4E4;
+}
+
+.button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.button:pressed {
+    -fx-text-fill: #93bf85;
+}
+
+.button:hover {
+    -fx-background-color: #F3F3F3;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #F3F3F3;
+    -fx-text-fill: #93bf85;
+}

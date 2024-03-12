@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1315.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="1315.0" styleClass="white-background" stylesheets="@css/mainPanel.css" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@img/logo.png" />
+                    </image>
+                </ImageView>
+                <Label text="Clinica" textFill="#017eff">
+                    <font>
+                        <Font size="25.0" />
+                    </font>
+                </Label>
+                <Label text="Montalban" textFill="#00da67">
+                    <font>
+                        <Font size="25.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="10.0" />
+                    </HBox.margin>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </Label>
+                <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="53.0" prefWidth="5.0">
+                    <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                    </cursor>
+                    <HBox.margin>
+                        <Insets left="20.0" />
+                    </HBox.margin>
+                    <opaqueInsets>
+                        <Insets left="10.0" />
+                    </opaqueInsets>
+                </Separator>
+                <HBox maxHeight="-Infinity" prefHeight="35.0" prefWidth="290.0">
+                    <HBox.margin>
+                        <Insets left="20.0" />
+                    </HBox.margin>
+                </HBox>
+            <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="53.0" prefWidth="5.0">
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+               <opaqueInsets>
+                  <Insets left="10.0" />
+               </opaqueInsets>
+            </Separator>
+            <Label fx:id="userNameLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Label">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            </children>
+        </HBox>
+    </top>
+    <left>
+        <VBox prefHeight="200.0" prefWidth="310.0" styleClass="white-background" stylesheets="@css/mainPanel.css" BorderPane.alignment="CENTER">
+            <children>
+                <VBox prefHeight="245.0" prefWidth="310.0">
+                    <children>
+                  <Label text="Citas">
+                     <font>
+                        <Font name="System Bold" size="30.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                        <Button alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css">
+                            <graphic>
+                                <!-- Aquí colocas la imagen que desees -->
+                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
+                                    <image>
+                                        <Image url="@img/mainPane/inbox.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <!-- Puedes agregar un texto opcional si lo deseas -->
+                            <text>Pendientes</text>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                        </Button>
+                  <Button alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Realizadas">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
+                           <image>
+                              <Image url="@img/mainPane/checked.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                    </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+                </VBox>
+            <Separator prefWidth="310.0" />
+            <VBox prefHeight="220.0" prefWidth="310.0">
+               <children>
+                  <Label text="Medicamentos">
+                     <font>
+                        <Font name="System Bold" size="30.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Button alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Tipos medicamentos">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
+                           <image>
+                              <Image url="@img/mainPane/drugs.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Recetar">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
+                           <image>
+                              <Image url="@img/mainPane/sheet.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </VBox>
+            <VBox prefHeight="106.0" prefWidth="310.0">
+               <children>
+                  <Separator prefWidth="310.0" />
+                  <Button alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Busqueda">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
+                           <image>
+                              <Image url="@img/mainPane/search.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Label>
+                     <font>
+                        <Font name="System Bold" size="30.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" top="20.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </VBox>
+            </children>
+        </VBox>
+    </left>
+
+</BorderPane>

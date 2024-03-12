@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class Main extends Application {
     // En el método start de tu clase Main
@@ -31,9 +32,9 @@ public class Main extends Application {
         loginController.setMainPanelController(mainPanelController);
 
         // Configurar la escena y mostrarla en el escenario
-        Scene scene = new Scene(loginRoot);
-
-        scene.getStylesheets().add("../ui/css/fontstyle.css");
+        Scene scene = new Scene(mainPanelRoot);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("../ui/css/fontstyle.css")).toExternalForm());
+        //scene.getStylesheets().add("../ui/css/fontstyle.css");
         loginStage.setScene(scene);
         loginStage.show();
     }
