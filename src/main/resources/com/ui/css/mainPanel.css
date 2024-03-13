@@ -24,15 +24,28 @@
     -fx-border-color: transparent;
 }
 
-.button:pressed {
-    -fx-text-fill: #93bf85;
-}
 
 .button:hover {
     -fx-background-color: #F3F3F3;
 }
 
-.toggle-button:selected {
-    -fx-background-color: #F3F3F3;
-    -fx-text-fill: #93bf85;
+.root {
+    -fx-default-background: white;
+}
+
+.button:selected {
+    -fx-background-color: #93bf85;
+}
+
+.button:armed {
+    -fx-background-color: -fx-default-background, -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2, 3;
+}
+
+.button .graphic {
+    -fx-content-display: graphic-only;
+}
+
+.button:pressed {
+    -fx-text-fill:  #229954;
 }
