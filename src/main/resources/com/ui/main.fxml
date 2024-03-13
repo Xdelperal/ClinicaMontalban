@@ -66,6 +66,18 @@
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
+            <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="58.0" stylesheets="@css/mainPanel.css">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
+                     <image>
+                        <Image url="@img/mainPane/power-button.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
             </children>
         </HBox>
     </top>
