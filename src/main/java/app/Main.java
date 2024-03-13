@@ -25,7 +25,7 @@ public class Main extends Application {
         Parent loginRoot = loginLoader.load();
         LoginController loginController = loginLoader.getController();
 
-        // Configurar la referencia al controlador del panel principal en el controlador de inicio de sesión
+        // Crear la referencia al controlador del panel principal en el controlador de inicio de sesión
         loginController.setMainPanelController(mainPanelController);
 
         // Configurar la escena y mostrarla en el escenario
