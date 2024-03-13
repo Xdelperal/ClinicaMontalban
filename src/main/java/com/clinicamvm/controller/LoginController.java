@@ -1,5 +1,6 @@
 package com.clinicamvm.controller;
 
+import business.entities.UserSession;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import persistence.utils.JDBCUtils;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,14 +22,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 public class LoginController {
 
     @FXML
     private TextField fieldDNI;
 
     @FXML
-    private PasswordField fieldContrasena;
+    private PasswordField fieldContrasena; // Utiliza PasswordField de javafx.scene.control
 
     @FXML
     private Label msgLabel;
@@ -35,11 +36,15 @@ public class LoginController {
     private Stage stage;
     private MainPanelController mainPanelController; // Referencia al controlador del MainPanel
 
+    private UserSession userSession;
 
     public void setMainPanelController(MainPanelController mainPanelController) {
         this.mainPanelController = mainPanelController;
     }
 
+    public void initialize() {
+        userSession = UserSession.getInstance();
+    }
 
     @FXML
     public void comprobacion(ActionEvent e) throws IOException {
@@ -59,10 +64,8 @@ public class LoginController {
             if (autenticado) {
                 // Usuario autenticado, redirigir a la página principal
                 msgLabel.setText("Inicio de sesión exitoso!");
-                mainPanelController.setUserAfterLogin(String.valueOf(fieldDNI));
-
-                cargarMainPanel();
-
+                userSession.setUserName(dni); // Assuming DNI is the username for simplicity
+                mainPanelController.cargarMainPanel();
 
             } else {
                 // Usuario no autenticado, mostrar mensaje de error
@@ -75,15 +78,11 @@ public class LoginController {
     private void abrirSoporte(ActionEvent event) {
         try {
             URI uri = new URI("https://google.com");
-            java.awt.Desktop.getDesktop().browse(uri);
+            Desktop.getDesktop().browse(uri);
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
     }
-
-
-
-
 
     // Método para hashear la contraseña usando el algoritmo SHA-512
     private String hashPassword(String contrasena) {
@@ -104,8 +103,6 @@ public class LoginController {
             return null;
         }
     }
-
-
 
     // Método para autenticar al usuario en la base de datos
     private boolean autenticarUsuario(String dni, String hashedPassword) {
@@ -130,15 +127,10 @@ public class LoginController {
         }
     }
 
-
-
-
-
-
     @FXML
-    private void cargarMainPanel() {
+    public void cargarMainPanel() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/ui/mainPanel.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/ui/main.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 820, 640);
 
             // Obtener el controlador del MainPanel
@@ -153,5 +145,29 @@ public class LoginController {
             e.printStackTrace();
         }
     }
-
 }
+
+
+
+/*
+
+    @FXML
+    private void cargarMainPanel() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/ui/main.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 820, 640);
+
+            // Obtener el controlador del MainPanel
+            MainPanelController controller = fxmlLoader.getController();
+
+            // Obtener el Stage del login
+            Stage loginStage = (Stage) fieldDNI.getScene().getWindow();
+            // Configurar la escena y mostrarla en el escenario
+            loginStage.setScene(scene);
+            loginStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }  */
+
+
