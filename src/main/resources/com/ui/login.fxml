@@ -51,7 +51,8 @@
                 <FontAwesomeIconView fill="#00b539" glyphName="USER" layoutX="81.0" layoutY="257.0" size="25" />
                 <FontAwesomeIconView fill="#00b539" glyphName="LOCK" layoutX="82.0" layoutY="313.0" size="25" />
                 <Button id="buttonEntrap" fx:id="buttonEntrap" layoutX="144.0" layoutY="359.0" mnemonicParsing="false" onAction="#comprobacion" prefHeight="37.0" prefWidth="113.0" styleClass="buttonEntrap" text="Entrar">
-                    <font>
+                    <font> 
+
                         <Font name="Arial Bold" size="16.0" />
                     </font>
                 </Button>

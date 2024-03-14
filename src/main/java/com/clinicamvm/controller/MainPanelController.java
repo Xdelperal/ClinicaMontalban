@@ -1,26 +1,27 @@
 package com.clinicamvm.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-public class MainPanelController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class MainPanelController implements Initializable {
+
     @FXML
-    private Label TEST; // El Label donde se mostrará el nombre de usuario
+    private Label userNameLabel;
 
-    private String loggedInUsername; // Nombre de usuario actualmente iniciado sesión
 
-    // Método para establecer el nombre de usuario después de iniciar sesión
-    public void setUserAfterLogin(String username) {
-        this.loggedInUsername = username;
-        updateLoggedInUserLabel(); // Actualizar el texto del Label
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Inicialización del controlador
     }
 
-    // Método para actualizar el texto del Label con el nombre de usuario actual
-    private void updateLoggedInUserLabel() {
-        if (TEST != null && loggedInUsername != null) {
-            TEST.setText("Usuario: " + loggedInUsername);
-        }
+    // Método para actualizar el Label con el nombre de usuario
+    public void updateUserNameLabel(String userName) {
+        userNameLabel.setText("Usuario: " + userName);
     }
 
-    // Otros métodos y lógica de tu controlador
+
 }
