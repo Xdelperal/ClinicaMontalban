@@ -7,12 +7,13 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1315.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1315.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.PruebaMain">
     <top>
         <HBox alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="1315.0" styleClass="white-background" stylesheets="@css/mainPanel.css" BorderPane.alignment="CENTER">
             <children>
@@ -94,7 +95,7 @@
                         <Insets bottom="10.0" left="10.0" top="20.0" />
                      </VBox.margin>
                   </Label>
-                        <Button alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css">
+                        <Button fx:id="pendingButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarPendientes" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css">
                             <graphic>
                                 <!-- Aquí colocas la imagen que desees -->
                                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
@@ -109,7 +110,7 @@
                         <Font size="20.0" />
                      </font>
                         </Button>
-                  <Button alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Realizadas">
+                  <Button fx:id="madeButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarRealizadas" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Realizadas">
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
                            <image>
@@ -206,5 +207,19 @@
             </children>
         </VBox>
     </left>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="pendientes" layoutX="353.0" layoutY="133.0" text="Pendientes">
+               <font>
+                  <Font size="57.0" />
+               </font></Label>
+            <Label fx:id="realizadas" layoutX="358.0" layoutY="218.0" text="Realizadas">
+               <font>
+                  <Font size="57.0" />
+               </font></Label>
+         </children>
+      </AnchorPane>
+   </center>
 
 </BorderPane>

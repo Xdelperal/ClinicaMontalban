@@ -11,19 +11,14 @@
     -fx-border-color: #D7D7D7;
 }
 
-.selected {
+.button.selected {
     -fx-background-color: #F3F3F3;
-}
-
-.mouse-moved: hover {
-    -fx-background-color: #E4E4E4;
 }
 
 .button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
-
 
 .button:hover {
     -fx-background-color: #F3F3F3;
@@ -33,13 +28,8 @@
     -fx-default-background: white;
 }
 
-.button:selected {
-    -fx-background-color: #93bf85;
-}
-
 .button:armed {
-    -fx-background-color: -fx-default-background, -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
-    -fx-background-insets: 0 0 0 0, 0, 1, 2, 3;
+    -fx-background-color: #a4ffd9;
 }
 
 .button .graphic {
@@ -47,5 +37,5 @@
 }
 
 .button:pressed {
-    -fx-text-fill:  #229954;
+    -fx-text-fill:  #0000ff;
 }
