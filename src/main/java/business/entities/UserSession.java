@@ -34,6 +34,11 @@ public class UserSession {
         return privileges;
     }
 
+    public void setUserSession(String userName, Set<String> privileges) {
+        this.userName = userName;
+        this.privileges = privileges;
+    }
+
     public void setPrivileges(Set<String> privileges) {
         this.privileges = privileges;
     }

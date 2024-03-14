@@ -1,21 +1,21 @@
 package com.clinicamvm.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainPanelController {
+public class MainPanelController implements Initializable {
 
     @FXML
     private Label userNameLabel;
 
-    public void initialize() {
-        // Aquí puedes realizar cualquier inicialización necesaria
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Inicialización del controlador
     }
 
     // Método para actualizar el Label con el nombre de usuario
@@ -23,25 +23,5 @@ public class MainPanelController {
         userNameLabel.setText("Usuario: " + userName);
     }
 
-    // Método para cargar el MainPanel y mostrarlo en el escenario
-    public void cargarMainPanel() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/ui/main.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root);
 
-            // Obtener el controlador del MainPanel
-            MainPanelController controller = fxmlLoader.getController();
-
-            // Llamar al método para actualizar el Label
-            controller.updateUserNameLabel("NombreDeUsuario"); // Puedes pasar el nombre de usuario como argumento
-
-            // Obtener el Stage actual y establecer la escena
-            Stage stage = (Stage) userNameLabel.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
