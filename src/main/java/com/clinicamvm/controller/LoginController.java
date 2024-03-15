@@ -40,11 +40,11 @@ public class LoginController implements Initializable {
     private Label msgLabel;
 
 
-    /**
-     * Este es el metodo  que las credenciales coinciden en la base de datos.
-     * y que el inicioha sido exitoso, tambien comprueba que los datos han sido rellenados
-     * de forma correta.
-     **/
+/**
+* Este es el metodo  que las credenciales coinciden en la base de datos.
+* y que el inicioha sido exitoso, tambien comprueba que los datos han sido rellenados
+* de forma correta.
+*/
     @FXML
     public void comprobacion(ActionEvent e) throws IOException {
         String dni = fieldDNI.getText();
@@ -69,10 +69,10 @@ public class LoginController implements Initializable {
     }
 
 
-    /**
-     * Este metodo es el que redirecciona a la web cunando pulsas el link
-     * de recuperacion de credenciales en caso de perdida.
-     */
+/**
+* Este metodo es el que redirecciona a la web cunando pulsas el link
+* de recuperacion de credenciales en caso de perdida.
+*/
     @FXML
     private void abrirSoporte(ActionEvent event) {
         try {
