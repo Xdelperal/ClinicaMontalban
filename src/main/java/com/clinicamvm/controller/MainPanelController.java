@@ -1,5 +1,8 @@
 package com.clinicamvm.controller;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +17,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import business.entities.Cita;
+import javafx.util.Duration;
+
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import static java.awt.SystemColor.window;
@@ -42,18 +49,61 @@ public class MainPanelController implements Initializable {
     @FXML
     private Button closeButton;
 
+    @FXML
+    private Label currentTime;
+
+    @FXML
+    private Label countTime;
+
+    @FXML
+    private Button webClinica;
+
+    private int seconds = 0;
+    private int minutes = 0;
+    private int hours = 0;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Inicialización del controlador
+        pendientes.setVisible(true);
+        realizadas.setVisible(false);
+
+        closeButton.setOnAction(event -> cerrarVentana());
+        pendingButton.setOnAction(event -> mostrarPendientes());
+        madeButton.setOnAction(event -> mostrarRealizadas());
+
+        // Iniciar el timeline para actualizar el tiempo actual y el tiempo transcurrido
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            // Obtener la hora actual y formatearla como deseado
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy  -  HH:mm:ss");
+            String formattedDate = dateFormat.format(new Date());
+
+            // Actualizar el texto del Label con el tiempo actual
+            currentTime.setText(formattedDate);
+
+            // Incrementar los segundos del contador
+            seconds++;
+            // Ajustar los minutos y los segundos si es necesario
+            if (seconds >= 60) {
+                seconds = 0;
+                minutes++;
+                if (minutes >= 60) {
+                    minutes = 0;
+                    hours++;
+                }
+            }
+            // Actualizar el texto del Label con el tiempo transcurrido
+            String formattedTime = String.format("%d:%02d:%02d", hours, minutes, seconds);
+            countTime.setText(formattedTime);
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE); // Ejecutar continuamente
+        timeline.play(); // Iniciar la animación
     }
 
     // Método para actualizar el Label con el nombre de usuario
     public void updateUserNameLabel(String userName) {
         userNameLabel.setText("Usuario: " + userName);
     }
-
-
-
 
 
     public void cerrarVentana() {
@@ -80,18 +130,6 @@ public class MainPanelController implements Initializable {
     }
 
     @FXML
-    private void initialize() {
-        // Ocultar los labels al inicio
-        pendientes.setVisible(false);
-        realizadas.setVisible(false);
-        closeButton.setOnAction(event -> cerrarVentana());
-        // Establecer listeners de acción para los botones
-        pendingButton.setOnAction(event -> mostrarPendientes());
-        madeButton.setOnAction(event -> mostrarRealizadas());
-        closeButton.setOnAction(event -> salir());
-    }
-
-    @FXML
     private void mostrarPendientes() {
         // Mostrar pendientes y ocultar realizadas
         pendientes.setVisible(true);
@@ -113,7 +151,6 @@ public class MainPanelController implements Initializable {
     }
 
 
-
     @FXML
     private void salir() {
         // Mostrar realizadas y ocultar pendientes
@@ -123,8 +160,14 @@ public class MainPanelController implements Initializable {
         pendingButton.getStyleClass().remove("selected");
     }
 
-
-
-
+    @FXML
+    private void abrirPaginaWeb() {
+        // Abrir la página web en el navegador por defecto
+        try {
+            java.awt.Desktop.getDesktop().browse(new java.net.URI("https://www.clinicamontalban.com"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

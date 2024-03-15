@@ -4,11 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import persistence.utils.JDBCUtils;
 
@@ -106,12 +108,22 @@ public class LoginController implements Initializable {
             // Obtener el Stage actual y configurar la nueva escena
             Stage stage = (Stage) fieldDNI.getScene().getWindow();
             Scene scene = new Scene(root);
+
+            // Obtener la resolución de la pantalla
+            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+            // Establecer el tamaño de la ventana para que ocupe toda la pantalla
+            stage.setX(primaryScreenBounds.getMinX());
+            stage.setY(primaryScreenBounds.getMinY());
+            stage.setWidth(primaryScreenBounds.getWidth());
+            stage.setHeight(primaryScreenBounds.getHeight());
+
+            // Establecer la escena en la ventana
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
 /**
  * Este metodo es el encargado de hashear las contraseñas introducido
