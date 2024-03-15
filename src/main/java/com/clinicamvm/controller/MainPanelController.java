@@ -11,8 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
+import business.entities.Cita;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,6 +26,9 @@ public class MainPanelController implements Initializable {
 
     @FXML
     private TableView pendientes;
+
+    @FXML
+    private AnchorPane anchorPane;
 
     @FXML
     private TableView realizadas;
@@ -84,6 +88,7 @@ public class MainPanelController implements Initializable {
         // Establecer listeners de acción para los botones
         pendingButton.setOnAction(event -> mostrarPendientes());
         madeButton.setOnAction(event -> mostrarRealizadas());
+        closeButton.setOnAction(event -> salir());
     }
 
     @FXML
@@ -117,4 +122,9 @@ public class MainPanelController implements Initializable {
         madeButton.getStyleClass().add("selected");
         pendingButton.getStyleClass().remove("selected");
     }
+
+
+
+
+
 }
