@@ -60,12 +60,19 @@ public class LoginController implements Initializable {
             String hashedContrasena = hashPassword(contrasena);
 
             // Realizar la autenticación
-            boolean autenticado = autenticarUsuario(dni, hashedContrasena);
+            String result = autenticarUsuario(dni, hashedContrasena);
 
-            if (autenticado) {
-                // Usuario autenticado, redirigir a la página principal
-                cargarMainPanel();
-
+            switch (result) {
+                case "success":
+                    // Usuario autenticado, redirigir a la página principal
+                    cargarMainPanel();
+                    break;
+                case "Contraseña incorrecta":
+                case "Usuario no encontrado":
+                case "Error de base de datos":
+                    // Mostrar mensaje de error en el panel
+                    msgLabel.setText(result);
+                    break;
             }
         }
     }
@@ -154,7 +161,7 @@ public class LoginController implements Initializable {
  * Este metodo es el que ejecuta la query para la comprobacion de las
  * credenciales del login coincidan con las almacenadas en la de la base de datos.
  */
-    private boolean autenticarUsuario(String dni, String hashedPassword) {
+    private String autenticarUsuario(String dni, String hashedPassword) {
         JDBCUtils jdbcUtils = new JDBCUtils();
         try (Connection connection = jdbcUtils.getConnection()) {
             String query = "SELECT password FROM personal WHERE DNI=?";
@@ -163,17 +170,26 @@ public class LoginController implements Initializable {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
                         String storedPassword = resultSet.getString("password");
-                        return hashedPassword.equals(storedPassword);
+                        if (hashedPassword.equals(storedPassword)) {
+                            // Autenticación exitosa
+                            return "success";
+                        } else {
+                            // Contraseña incorrecta
+                            return "Contraseña incorrecta";
+                        }
                     } else {
-                        return false;
+                        // Usuario no encontrado
+                        return "Usuario no encontrado";
                     }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            // Error de base de datos
+            return "Error de base de datos";
         }
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
