@@ -26,6 +26,10 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
+   /**
+    * Declaracion de constantes privadas
+    */
+
     @FXML
     private TextField fieldDNI;
 
@@ -35,12 +39,12 @@ public class LoginController implements Initializable {
     @FXML
     private Label msgLabel;
 
-    private MainPanelController mainPanelController;
-    private LoginController loginController;
 
-
-    // En el método que maneja el evento de inicio de sesión exitoso
-
+    /**
+     * Este es el metodo  que las credenciales coinciden en la base de datos.
+     * y que el inicioha sido exitoso, tambien comprueba que los datos han sido rellenados
+     * de forma correta.
+     **/
     @FXML
     public void comprobacion(ActionEvent e) throws IOException {
         String dni = fieldDNI.getText();
@@ -64,6 +68,11 @@ public class LoginController implements Initializable {
         }
     }
 
+
+    /**
+     * Este metodo es el que redirecciona a la web cunando pulsas el link
+     * de recuperacion de credenciales en caso de perdida.
+     */
     @FXML
     private void abrirSoporte(ActionEvent event) {
         try {
@@ -75,6 +84,14 @@ public class LoginController implements Initializable {
     }
 
 
+
+/**
+ * Este metodo es el encargado de instanciar el inicializador del FXML que es la parte visual,
+ * despues creamos el Pane que es el panel que mostraremos al cargarlo y despues le indicamos el
+ * controlador encargado de la logica de ese panel
+ *
+ *
+ */
     @FXML
     private void cargarMainPanel() {
         try {
@@ -96,19 +113,22 @@ public class LoginController implements Initializable {
     }
 
 
-    // Método para hashear la contraseña usando el algoritmo SHA-512
+/**
+ * Este metodo es el encargado de hashear las contraseñas introducido
+ * en el campo de contraseña para que despues coincida con del de la base de datos
+ */
     private String hashPassword(String contrasena) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-512");
             byte[] hash = digest.digest(contrasena.getBytes());
 
-            // Convertir el hash en una cadena hexadecimal
+            //Convertir el hash en una cadena hexadecimal
             StringBuilder hexString = new StringBuilder();
+
             for (byte b : hash) {
                 String hex = String.format("%02x", b);
                 hexString.append(hex);
             }
-
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -116,7 +136,12 @@ public class LoginController implements Initializable {
         }
     }
 
-    // Método para autenticar al usuario en la base de datos
+
+
+/**
+ * Este metodo es el que ejecuta la query para la comprobacion de las
+ * credenciales del login coincidan con las almacenadas en la de la base de datos.
+ */
     private boolean autenticarUsuario(String dni, String hashedPassword) {
         JDBCUtils jdbcUtils = new JDBCUtils();
         try (Connection connection = jdbcUtils.getConnection()) {
@@ -128,7 +153,6 @@ public class LoginController implements Initializable {
                         String storedPassword = resultSet.getString("password");
                         return hashedPassword.equals(storedPassword);
                     } else {
-                        // El usuario no existe en la base de datos
                         return false;
                     }
                 }
@@ -141,6 +165,8 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loginController = this;
+
+
+
     }
 }

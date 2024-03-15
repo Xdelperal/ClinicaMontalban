@@ -16,7 +16,6 @@ public class Main extends Application {
         // Cargar la vista del inicio de sesión
         FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/com/ui/login.fxml"));
         Parent loginRoot = loginLoader.load();
-        LoginController loginController = loginLoader.getController();
 
         // Configurar la escena del inicio de sesión
         Scene loginScene = new Scene(loginRoot);
