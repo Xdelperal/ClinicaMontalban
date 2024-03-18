@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1315.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.MainPanelController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.MainPanelController">
     <top>
         <HBox alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="1315.0" styleClass="white-background" stylesheets="@css/mainPanel.css" BorderPane.alignment="CENTER">
             <children>
@@ -54,7 +54,7 @@
                     </opaqueInsets>
                 </Separator>
                 <!-- Espacio en blanco para expandir -->
-                <Region prefHeight="72.0" prefWidth="145.0" />
+                <Region prefHeight="72.0" prefWidth="330.0" />
                 <Label fx:id="currentTime" alignment="CENTER" prefHeight="35.0" prefWidth="343.0">
                     <HBox.margin>
                         <Insets left="20.0" />
@@ -63,7 +63,7 @@
                   <Font size="25.0" />
                </font>
                 </Label>
-            <Region prefHeight="72.0" prefWidth="335.0" />
+            <Region prefHeight="72.0" prefWidth="270.0" />
             <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="53.0" prefWidth="5.0">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
@@ -72,11 +72,13 @@
                   <Insets left="10.0" />
                </opaqueInsets>
             </Separator>
+            <Region prefHeight="72.0" prefWidth="30.0" />
                 <Label fx:id="userNameLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Label">
                     <font>
                         <Font name="System Bold" size="25.0" />
                     </font>
                 </Label>
+            <Region prefHeight="72.0" prefWidth="160.0" />
                 <Button fx:id="closeButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#cerrarVentana" prefHeight="54.0" prefWidth="58.0" stylesheets="@css/mainPanel.css">
                     <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 70px;">

@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -40,6 +41,9 @@ public class LoginController implements Initializable {
 
     @FXML
     private Label msgLabel;
+
+    // Declarar la variable stage
+    private Stage stage;
 
 
 /**
@@ -127,6 +131,12 @@ public class LoginController implements Initializable {
 
             // Establecer la escena en la ventana
             stage.setScene(scene);
+            stage.setResizable(false);
+            stage.setTitle("Panel Principal");
+
+            Image icono = new Image(getClass().getResourceAsStream("/com/ui/img/logo.png"), 200, 200, true, true);
+            stage.getIcons().add(icono);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -188,6 +198,13 @@ public class LoginController implements Initializable {
             // Error de base de datos
             return "Error de base de datos";
         }
+    }
+
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+        // Configurar la ventana para que no sea redimensionable
+        stage.setResizable(false);
     }
 
 

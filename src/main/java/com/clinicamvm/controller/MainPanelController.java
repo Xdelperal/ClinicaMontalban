@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import business.entities.Cita;
@@ -123,7 +124,13 @@ public class MainPanelController implements Initializable {
             // Crear un nuevo escenario (ventana)
             Stage loginStage = new Stage();
             loginStage.setScene(scene);
+
+            Image icono = new Image(getClass().getResourceAsStream("/com/ui/img/logo.png"), 200, 200, true, true);
+            loginStage.getIcons().add(icono);
+
             loginStage.show();
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

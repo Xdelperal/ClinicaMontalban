@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 import java.io.IOException;
 
@@ -22,7 +23,17 @@ public class Main extends Application {
 
         // Configurar el escenario principal con la escena del inicio de sesión
         primaryStage.setScene(loginScene);
+        primaryStage.setTitle("Login");
+
+        // Cargar el ícono de la aplicación
+        Image icono = new Image(getClass().getResourceAsStream("/com/ui/img/logo.png"), 200, 200, true, true);
+        primaryStage.getIcons().add(icono);
+
         primaryStage.show();
+
+        // Obtener el controlador y establecer la etapa
+        LoginController loginController = loginLoader.getController();
+        loginController.setStage(primaryStage);
     }
 
     public static void main(String[] args) {
