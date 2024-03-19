@@ -21,10 +21,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -165,40 +162,42 @@ public class LoginController implements Initializable {
         }
     }
 
+    private static Connection dbLink;
+
 
 
 /**
  * Este metodo es el que ejecuta la query para la comprobacion de las
  * credenciales del login coincidan con las almacenadas en la de la base de datos.
  */
-    private String autenticarUsuario(String dni, String hashedPassword) {
-        JDBCUtils jdbcUtils = new JDBCUtils();
-        try (Connection connection = jdbcUtils.getConnection()) {
-            String query = "SELECT password FROM personal WHERE DNI=?";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, dni);
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    if (resultSet.next()) {
-                        String storedPassword = resultSet.getString("password");
-                        if (hashedPassword.equals(storedPassword)) {
-                            // Autenticación exitosa
-                            return "success";
-                        } else {
-                            // Contraseña incorrecta
-                            return "Contraseña incorrecta";
-                        }
+private String autenticarUsuario(String dni, String hashedPassword) {
+    JDBCUtils jdbcUtils = new JDBCUtils();
+    try (Connection connection = jdbcUtils.getConnection()) {
+        String query = "SELECT password FROM personal WHERE DNI=?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, dni);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    String storedPassword = resultSet.getString("password");
+                    if (hashedPassword.equals(storedPassword)) {
+                        // Autenticación exitosa
+                        return "success";
                     } else {
-                        // Usuario no encontrado
-                        return "Usuario no encontrado";
+                        // Contraseña incorrecta
+                        return "Contraseña incorrecta";
                     }
+                } else {
+                    // Usuario no encontrado
+                    return "Usuario no encontrado";
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Error de base de datos
-            return "Error de base de datos";
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // Error de base de datos
+        return "Error de base de datos";
     }
+}
 
 
     public void setStage(Stage stage) {

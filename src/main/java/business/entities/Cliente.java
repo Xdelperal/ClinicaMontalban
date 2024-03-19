@@ -7,13 +7,11 @@ public abstract class Cliente {
     /**
      * Constructor de la classe Persona.
      * @param idCliente DNI de la persona
-     * @param cuota Cuota pagada
 
      */
-    public Cliente(int idCliente, int cuota) {
+    public Cliente(int idCliente) {
 
         this.setIdCliente(idCliente);
-        this.setCuota(cuota);
     }
 
     public int getIdCliente() {
@@ -24,11 +22,5 @@ public abstract class Cliente {
         this.idCliente = idCliente;
     }
 
-    public int getCuota() {
-        return cuota;
-    }
 
-    public void setCuota(int cuota) {
-        this.cuota = cuota;
-    }
 }

@@ -13,6 +13,7 @@ module com.clinicamvm.clinicamontalban {
     requires java.sql;
     requires java.desktop;
 
+    opens business.entities to javafx.base;
     opens com.clinicamvm.controller to javafx.fxml;
     exports com.clinicamvm.controller;
     exports app;

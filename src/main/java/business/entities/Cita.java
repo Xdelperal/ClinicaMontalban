@@ -1,53 +1,53 @@
 package business.entities;
 
+import business.entities.Cliente;
+import javafx.beans.property.*;
+
 import java.sql.Date;
 import java.sql.Time;
 
-public abstract class Cita extends Cliente {
+public class Cita extends Cliente {
 
-    private int idCita;
-    private Date fecha;
-    private Time hora;
-    private String descripcion;
-    public Cita(int idCita, int idCliente, int cuota, Date fecha, Time hora, String descripcion) {
-        super(idCliente, cuota);
+    private final IntegerProperty idCita;
+    private final StringProperty nombre;
+    private final StringProperty estado;
+    private final ObjectProperty<Date> fecha;
+    private final ObjectProperty<Time> hora;
+    private final StringProperty descripcion;
 
-    this.setIdCita(idCita);
-    this.setFecha(fecha);
-    this.setHora(hora);
-    this.setDescripcion(descripcion);
-
+    public Cita(int idCita, int idCliente, String nombre, String estado, Date fecha, Time hora, String descripcion) {
+        super(idCliente);
+        this.idCita = new SimpleIntegerProperty(idCita);
+        this.nombre = new SimpleStringProperty(nombre);
+        this.estado = new SimpleStringProperty(estado);
+        this.fecha = new SimpleObjectProperty<>(fecha);
+        this.hora = new SimpleObjectProperty<>(hora);
+        this.descripcion = new SimpleStringProperty(descripcion);
     }
 
-    public int getIdCita() {
+    public IntegerProperty idCitaProperty() {
         return idCita;
     }
 
-    public void setIdCita(int idCita) {
-        this.idCita = idCita;
+    public StringProperty nombreProperty() {
+        return nombre;
     }
 
-    public Date getFecha() {
+    public StringProperty estadoProperty() {
+        return estado;
+    }
+
+    public ObjectProperty<Date> fechaProperty() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public Time getHora() {
+    public ObjectProperty<Time> horaProperty() {
         return hora;
     }
 
-    public void setHora(Time hora) {
-        this.hora = hora;
-    }
-
-    public String getDescripcion() {
+    public StringProperty descripcionProperty() {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+    // Otros métodos, getters y setters
 }

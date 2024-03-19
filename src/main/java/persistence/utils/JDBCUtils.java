@@ -6,9 +6,9 @@ import java.sql.DriverManager;
 
 public class JDBCUtils {
 
-    public Connection dbLink;
+    public static Connection dbLink;
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         String databaseName = "adminmontalban_clinica";
         String databaseUser = "329292_admin";
         String databasePassword = "adminmontalban!";
