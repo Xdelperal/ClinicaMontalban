@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import business.entities.Cita;
@@ -41,6 +42,23 @@ public class MainPanelController implements Initializable {
 
     @FXML
     private TableView pendientes;
+    @FXML
+    private TableColumn<?,?> colCita;
+
+    @FXML
+    private TableColumn<?,?> colDNI;
+
+    @FXML
+    private TableColumn<?,?> colNombre;
+    @FXML
+    private TableColumn<?,?> colFecha;
+
+    @FXML
+    private TableColumn<?,?> colHora;
+
+    @FXML
+    private TableColumn<?,?> colMotivo;
+
 
     @FXML
     private AnchorPane anchorPane;
@@ -69,6 +87,9 @@ public class MainPanelController implements Initializable {
     private int seconds = 0;
     private int minutes = 0;
     private int hours = 0;
+
+    //Columnas de la tabla pendiente
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
