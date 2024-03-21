@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.clinicamvm.controller.CitaController"
+            prefHeight="400.0" prefWidth="600.0">
+
+
+    <TableView fx:id="tablaPendientes" visible="false">
+        <columns>
+            <TableColumn fx:id="colCita" text="Numero Cita" />
+            <TableColumn fx:id="colDNI" text="DNI" />
+            <TableColumn fx:id="colNombre" text="Nombre" />
+            <TableColumn fx:id="colFecha" text="Fecha" />
+            <TableColumn fx:id="colHora" text="Hora" />
+            <TableColumn fx:id="colMotivo" text="Motivo" />
+        </columns>
+        <!-- Configurar la alineación automática de las columnas -->
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+    </TableView>
+
+</AnchorPane>
