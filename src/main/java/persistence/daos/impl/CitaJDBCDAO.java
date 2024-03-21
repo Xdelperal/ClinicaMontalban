@@ -15,14 +15,13 @@ import java.util.Date;
 
 public class CitaJDBCDAO implements CitaDAO {
 
-    @FXML
-    private Label userNameLabel;
+    /* @FXML
+    private Label userNameLabel; */
+    String userNameLabel = "10101010Z";
 
-    @FXML
-    private TableView pendientes;
+    ObservableList<Cita> citas = FXCollections.observableArrayList();
 
-    ObservableList<Cita> citas = FXCollections.emptyObservableList();
-
+    private final Connection connection;
 
     @Override
     public ObservableList<Cita> obtenerLista() {
@@ -37,7 +36,8 @@ public class CitaJDBCDAO implements CitaDAO {
             try {
                 // Preparar la declaración SQL
                 PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setString(1, userNameLabel.getText());
+                //statement.setString(1, userNameLabel.getText());
+                statement.setString(1, userNameLabel);
 
                 // Ejecutar la consulta
                 ResultSet resultSet = statement.executeQuery();
@@ -55,15 +55,13 @@ public class CitaJDBCDAO implements CitaDAO {
 
                     // Preparar la declaración SQL para la segunda consulta
                     PreparedStatement statementCitas = connection.prepareStatement(sqlCitas);
-                    statementCitas.setString(1, userNameLabel.getText());
+                    // statementCitas.setString(1, userNameLabel.getText());
+                    statementCitas.setString(1, userNameLabel);
 
                     // Ejecutar la segunda consulta
                     ResultSet resultSetCitas = statementCitas.executeQuery();
 
-                    // Procesar el resultado
 
-                    // Hacer lo que necesites con los datos de la cita
-                    pendientes.getItems().clear();
 
                     // Recorrer el resultado de la consulta
                     while (resultSetCitas.next()) {
@@ -80,9 +78,6 @@ public class CitaJDBCDAO implements CitaDAO {
                         Cita nuevaCita = new Cita(idCita, idCliente, nombre, estado, (java.sql.Date) fecha, hora, descripcion);
                         citas.add(nuevaCita);
                         // Añadir la cita a la tabla
-                        pendientes.getItems().add(nuevaCita);
-
-
 
                     }
                 }
@@ -100,5 +95,16 @@ public class CitaJDBCDAO implements CitaDAO {
         }
 
         return citas;
+    }
+
+
+    public CitaJDBCDAO(Connection connection ) {
+
+
+        // Modifica el constructor para recibir la conexión JDBC
+
+            this.connection = connection;
+
+
     }
 }

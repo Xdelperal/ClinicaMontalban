@@ -19,8 +19,12 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import com.clinicamvm.controller.CitaController;
+
 
 public class MainPanelController implements Initializable {
+
+    private CitaController citaController;
 
     @FXML
     private Label userNameLabel;
@@ -52,8 +56,10 @@ public class MainPanelController implements Initializable {
     @FXML
     private Button webClinica;
 
+    /*
     @FXML
     private Label userNameLabel;
+    */
 
     private int seconds = 0;
     private int minutes = 0;
@@ -62,19 +68,11 @@ public class MainPanelController implements Initializable {
     //Columnas de la tabla pendiente
 
 
-
-    // Constructor
-    public MainPanelController(CitaController citaController) {
-        this.citaController = citaController;
-    }
-    public MainPanelController() {
-        // Puedes dejar este constructor vacío o inicializar atributos si es necesario
-    }
-
-    CitaController citaController = new CitaController();
+    public MainPanelController(){}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        citaController = new CitaController();
         // Inicialización del controlador
         pendientes.setVisible(true);
         realizadas.setVisible(false);
@@ -148,7 +146,7 @@ public class MainPanelController implements Initializable {
         // Establecer la clase seleccionada en pendingButton
         pendingButton.getStyleClass().add("selected");
         madeButton.getStyleClass().remove("selected");
-        citaController.setUserName(userNameLabel.getText());
+        //citaController.setUserName(userNameLabel.getText());
         citaController.getPendiente();
     }
 

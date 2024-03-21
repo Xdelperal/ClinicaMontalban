@@ -3,53 +3,67 @@ package com.clinicamvm.controller;
 import business.entities.Cita;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import persistence.daos.impl.CitaJDBCDAO;
 import persistence.utils.JDBCUtils;
-import java.sql.*;
 
-public class CitaController {
+import java.net.URL;
+import java.sql.*;
+import java.util.ResourceBundle;
+
+public class CitaController implements Initializable {
     @FXML
     private TableView<Cita> tablaPendientes;
 
     @FXML
-    private TableColumn<?,?> colCita;
+    private TableColumn<Cita, Integer> colCita;
 
     @FXML
-    private TableColumn<?,?> colCliente;
+    private TableColumn<Cita, String> colCliente;
 
     @FXML
-    private TableColumn<?,?> colNombre;
+    private TableColumn<Cita, String> colNombre;
     @FXML
-    private TableColumn<?,?> colFecha;
-
-    @FXML
-    private TableColumn<?,?> colHora;
+    private TableColumn<Cita, Date> colFecha;
 
     @FXML
-    private TableColumn<?,?> colMotivo;
+    private TableColumn<Cita, Time> colHora;
 
+    @FXML
+    private TableColumn<Cita, String> colMotivo;
 
-    private CitaJDBCDAO listaCitas;
+    private CitaJDBCDAO citaJDBCDAO;
 
     ObservableList<Cita> citas;
 
+
     public void getPendiente() {
 
-        citas = listaCitas.obtenerLista();
+        Connection connection = JDBCUtils.getConnection();
 
-        for(Cita todaCita : citas) {
+        // Crear una instancia de CitaJDBCDAO con la conexión JDBC
+        citaJDBCDAO = new CitaJDBCDAO(connection);
 
-            colCita.setCellValueFactory(new PropertyValueFactory<>(String.valueOf(todaCita.getIdCita())));
-            colNombre.setCellValueFactory(new PropertyValueFactory<>(todaCita.getNombre()));
-            colCliente.setCellValueFactory(new PropertyValueFactory<>(String.valueOf(todaCita.getIdCliente())));
-            colFecha.setCellValueFactory(new PropertyValueFactory<>(String.valueOf(todaCita.getFecha())));
-            colHora.setCellValueFactory(new PropertyValueFactory<>(String.valueOf(todaCita.getHora())));
-            colMotivo.setCellValueFactory(new PropertyValueFactory<>(todaCita.getDescripcion()));
-        }
+        citas = citaJDBCDAO.obtenerLista();
+
+        tablaPendientes.setItems(citas);
+
+        // No necesitas un bucle para configurar las celdas, PropertyValueFactory lo hará automáticamente.
+        colCita.setCellValueFactory(new PropertyValueFactory<Cita, Integer>("idCita"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<Cita, String>("nombre"));
+        colCliente.setCellValueFactory(new PropertyValueFactory<Cita, String>("idCliente"));
+        colFecha.setCellValueFactory(new PropertyValueFactory<Cita, Date>("fecha"));
+        colHora.setCellValueFactory(new PropertyValueFactory<Cita, Time>("hora"));
+        colMotivo.setCellValueFactory(new PropertyValueFactory<Cita, String>("descripcion"));
 
 
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        getPendiente();
     }
 }
