@@ -82,18 +82,10 @@ public class CitaJDBCDAO implements CitaDAO {
                         // Añadir la cita a la tabla
                         pendientes.getItems().add(nuevaCita);
 
-                        /*
-                        colCita.setCellValueFactory(new PropertyValueFactory<>("idCita"));
-                        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-                        colDNI.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
-                        colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-                        colHora.setCellValueFactory(new PropertyValueFactory<>("hora"));
-                        colMotivo.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-                         */
+
+
                     }
                 }
-
-
 
                 // Cerrar recursos
                 resultSet.close();
@@ -106,7 +98,6 @@ public class CitaJDBCDAO implements CitaDAO {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
 
         return citas;
     }

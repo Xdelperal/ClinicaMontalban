@@ -27,23 +27,6 @@ public class MainPanelController implements Initializable {
 
     @FXML
     private Pane pendientes;
-    @FXML
-    private TableColumn<?,?> colCita;
-
-    @FXML
-    private TableColumn<?,?> colDNI;
-
-    @FXML
-    private TableColumn<?,?> colNombre;
-    @FXML
-    private TableColumn<?,?> colFecha;
-
-    @FXML
-    private TableColumn<?,?> colHora;
-
-    @FXML
-    private TableColumn<?,?> colMotivo;
-
 
     @FXML
     private AnchorPane anchorPane;
@@ -68,6 +51,9 @@ public class MainPanelController implements Initializable {
 
     @FXML
     private Button webClinica;
+
+    @FXML
+    private Label userNameLabel;
 
     private int seconds = 0;
     private int minutes = 0;

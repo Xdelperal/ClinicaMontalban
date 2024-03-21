@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.clinicamvm.controller.CitaController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.CitaController">
 
 
-    <TableView fx:id="tablaPendientes" visible="false">
+    <TableView fx:id="tablaPendientes" prefHeight="400.0" prefWidth="600.0" visible="false">
         <columns>
             <TableColumn fx:id="colCita" text="Numero Cita" />
-            <TableColumn fx:id="colDNI" text="DNI" />
+            <TableColumn fx:id="colCliente" text="id Cliente" />
             <TableColumn fx:id="colNombre" text="Nombre" />
             <TableColumn fx:id="colFecha" text="Fecha" />
             <TableColumn fx:id="colHora" text="Hora" />
