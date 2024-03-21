@@ -249,7 +249,7 @@
          <children>
             <Pane fx:id="pendientes" prefHeight="200.0" prefWidth="200.0">
                <children>
-                   <fx:include source="cita.fxml" />
+                   <fx:include source="pendientes.fxml" />
                </children>
             </Pane>
             <Pane fx:id="realizadas" prefHeight="1009.0" prefWidth="1611.0">
