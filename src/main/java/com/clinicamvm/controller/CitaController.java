@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 public class CitaController implements Initializable {
     @FXML
-    private TableView<Cita> tablaPendientes;
+    private TableView<Cita> tablaPendientes, tablaRealizadas;
 
     @FXML
     private TableColumn<Cita, Integer> colCita;
@@ -37,7 +37,8 @@ public class CitaController implements Initializable {
 
     private CitaJDBCDAO citaJDBCDAO;
 
-    ObservableList<Cita> citas;
+    ObservableList<Cita> citasPendientes;
+    ObservableList<Cita> citasRealizadas;
 
 
     public void getPendiente() {
@@ -47,9 +48,31 @@ public class CitaController implements Initializable {
         // Crear una instancia de CitaJDBCDAO con la conexión JDBC
         citaJDBCDAO = new CitaJDBCDAO(connection);
 
-        citas = citaJDBCDAO.obtenerLista();
+        citasPendientes = citaJDBCDAO.obtenerLista();
 
-        tablaPendientes.setItems(citas);
+        tablaPendientes.setItems(citasPendientes);
+
+        // No necesitas un bucle para configurar las celdas, PropertyValueFactory lo hará automáticamente.
+        colCita.setCellValueFactory(new PropertyValueFactory<Cita, Integer>("idCita"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<Cita, String>("nombre"));
+        colCliente.setCellValueFactory(new PropertyValueFactory<Cita, String>("idCliente"));
+        colFecha.setCellValueFactory(new PropertyValueFactory<Cita, Date>("fecha"));
+        colHora.setCellValueFactory(new PropertyValueFactory<Cita, Time>("hora"));
+        colMotivo.setCellValueFactory(new PropertyValueFactory<Cita, String>("descripcion"));
+
+
+    }
+
+    public void getRealizada() {
+
+        Connection connection = JDBCUtils.getConnection();
+
+        // Crear una instancia de CitaJDBCDAO con la conexión JDBC
+        citaJDBCDAO = new CitaJDBCDAO(connection);
+
+        citasRealizadas = citaJDBCDAO.obtenerLista();
+
+        tablaRealizadas.setItems(citasRealizadas);
 
         // No necesitas un bucle para configurar las celdas, PropertyValueFactory lo hará automáticamente.
         colCita.setCellValueFactory(new PropertyValueFactory<Cita, Integer>("idCita"));
@@ -65,5 +88,6 @@ public class CitaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getPendiente();
+        getRealizada();
     }
 }

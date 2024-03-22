@@ -247,24 +247,15 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Pane fx:id="pendientes" prefHeight="200.0" prefWidth="200.0">
+            <Pane fx:id="pendientes" prefHeight="1008.0" prefWidth="1610.0">
                <children>
                    <fx:include source="pendientes.fxml" />
                </children>
             </Pane>
             <Pane fx:id="realizadas" prefHeight="1009.0" prefWidth="1611.0">
-               <children>
-                      <TableView visible="false">
-                          <columns>
-                              <TableColumn fx:id="nombre" text="Nombre" />
-                              <TableColumn fx:id="apellidos" text="Apellidos" />
-                          </columns>
-                          <!-- Configurar la alineación automática de las columnas -->
-                          <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                          </columnResizePolicy>
-                      </TableView>
-               </children>
+                <children>
+                    <fx:include source="realizadas.fxml" />
+                </children>
             </Pane>
          </children>
       </Pane>
