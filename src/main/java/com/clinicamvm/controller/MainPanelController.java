@@ -75,7 +75,7 @@ public class MainPanelController implements Initializable {
         citaController = new CitaController();
         // Inicialización del controlador
         pendientes.setVisible(true);
-        realizadas.setVisible(false);
+        //realizadas.setVisible(false);
 
         closeButton.setOnAction(event -> cerrarVentana());
         pendingButton.setOnAction(event -> mostrarPendientes());

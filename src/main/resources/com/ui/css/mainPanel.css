@@ -18,7 +18,13 @@
 .button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
+    -fx-graphic-text-gap: 20px;
 }
+
+.button .text {
+    -fx-padding: 0 10px;
+}
+
 
 .button:hover {
     -fx-background-color: #F3F3F3;
@@ -30,10 +36,6 @@
 
 .button:armed {
     -fx-background-color: #a4ffd9;
-}
-
-.button .graphic {
-    -fx-content-display: graphic-only;
 }
 
 .button:pressed {

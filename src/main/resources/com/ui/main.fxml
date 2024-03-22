@@ -252,11 +252,12 @@
                    <fx:include source="pendientes.fxml" />
                </children>
             </Pane>
-            <Pane fx:id="realizadas" prefHeight="1009.0" prefWidth="1611.0">
+            <!-- <Pane fx:id="realizadas" prefHeight="1009.0" prefWidth="1611.0">
                 <children>
                     <fx:include source="realizadas.fxml" />
                 </children>
             </Pane>
+            -->
          </children>
       </Pane>
    </center>
