@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 public class CitaController {
     @FXML
-    private TableView<Cita> tablaPendientes, tablaRealizadas;
+    private TableView<Cita> tablaPendientes;
 
     @FXML
     private TableColumn<Cita, Integer> colCita;
@@ -50,10 +50,7 @@ public class CitaController {
 
     private CitaJDBCDAO citaJDBCDAO;
 
-    //private final CitaJDBCDAO citaDAO;
-
     ObservableList<Cita> citasPendientes;
-    ObservableList<Cita> citasRealizadas;
 
 
     public void getPendiente(String userName) {
