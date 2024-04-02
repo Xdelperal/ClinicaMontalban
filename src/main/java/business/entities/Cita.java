@@ -63,9 +63,7 @@ public class Cita extends Cliente {
         return nombre.get();
     }
 
-    public void setNombre(String nombre) {
-        this.nombre.set(nombre);
-    }
+    public void setNombre(String nombre){ this.nombre.set(nombre); }
 
     public String getEstado() {
         return estado.get();
