@@ -56,10 +56,6 @@ public class MainPanelController implements Initializable {
     @FXML
     private Button webClinica;
 
-    /*
-    @FXML
-    private Label userNameLabel;
-    */
 
     private int seconds = 0;
     private int minutes = 0;
@@ -141,13 +137,15 @@ public class MainPanelController implements Initializable {
     private void mostrarPendientes() {
         // Mostrar pendientes y ocultar realizadas
         pendientes.setVisible(true);
-        realizadas.setVisible(false);
-
-        // Establecer la clase seleccionada en pendingButton
+        //realizadas.setVisible(false);
         pendingButton.getStyleClass().add("selected");
         madeButton.getStyleClass().remove("selected");
-        //citaController.setUserName(userNameLabel.getText());
-        citaController.getPendiente();
+
+        // Obtener el contenido de userNameLabel
+        String userName = userNameLabel.getText();
+
+        // Llamar a la función getPendiente() de citaController pasando el nombre de usuario
+        citaController.getPendiente(userName);
     }
 
     @FXML
