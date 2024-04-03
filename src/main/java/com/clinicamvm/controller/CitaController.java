@@ -24,6 +24,7 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class CitaController implements Initializable {
+    private String nombreMedico= "10101010Z";
     @FXML
     private TableView<Cita> tablaPendientes, tablaRealizadas;
 
@@ -53,13 +54,17 @@ public class CitaController implements Initializable {
     ObservableList<Cita> citasPendientes;
     ObservableList<Cita> citasRealizadas;
 
-
+    public void setUserNameController(String username){
+        this.nombreMedico=username;
+    }
     public void getPendiente() {
 
         Connection connection = JDBCUtils.getConnection();
 
         // Crear una instancia de CitaJDBCDAO con la conexión JDBC
         citaJDBCDAO = new CitaJDBCDAO(connection);
+
+        citaJDBCDAO.setUserName(nombreMedico);
 
         citasPendientes = citaJDBCDAO.obtenerLista();
 

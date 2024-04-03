@@ -14,9 +14,14 @@ import java.sql.*;
 import java.util.Date;
 
 public class CitaJDBCDAO implements CitaDAO {
-
+/*
     @FXML
-    private Label userNameLabel;
+    private Label userNameLabel;*/
+    private String userNameLabel = "";
+
+    public void setUserName(String userName){
+        this.userNameLabel=userName;
+    }
 
     ObservableList<Cita> citas = FXCollections.observableArrayList();
 
@@ -54,7 +59,9 @@ public class CitaJDBCDAO implements CitaDAO {
 
                     // Preparar la declaración SQL para la segunda consulta
                     PreparedStatement statementCitas = connection.prepareStatement(sqlCitas);
-                    statementCitas.setString(1, userNameLabel.getText());
+                    //statementCitas.setString(1, userNameLabel.getText());
+                    statementCitas.setString(1, userNameLabel);
+
 
                     // Ejecutar la segunda consulta
                     ResultSet resultSetCitas = statementCitas.executeQuery();

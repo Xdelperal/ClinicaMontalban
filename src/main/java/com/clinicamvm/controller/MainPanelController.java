@@ -12,6 +12,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -78,7 +80,13 @@ public class MainPanelController implements Initializable {
         //realizadas.setVisible(false);
 
         closeButton.setOnAction(event -> cerrarVentana());
-        pendingButton.setOnAction(event -> mostrarPendientes());
+        pendingButton.setOnAction(event -> {
+            try {
+                mostrarPendientes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         madeButton.setOnAction(event -> mostrarRealizadas());
 
         // Iniciar el timeline para actualizar el tiempo actual y el tiempo transcurrido
@@ -138,16 +146,30 @@ public class MainPanelController implements Initializable {
     }
 
     @FXML
-    private void mostrarPendientes() {
+    private void mostrarPendientes() throws IOException {
+
         // Mostrar pendientes y ocultar realizadas
         pendientes.setVisible(true);
-        realizadas.setVisible(false);
+        //realizadas.setVisible(false);
 
         // Establecer la clase seleccionada en pendingButton
         pendingButton.getStyleClass().add("selected");
         madeButton.getStyleClass().remove("selected");
         //citaController.setUserName(userNameLabel.getText());
-        citaController.getPendiente();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/com/ui/pendientes.fxml"));
+        loader.load();
+
+        CitaController document = loader.getController();
+        citaController.setUserNameController(userNameLabel.getText());
+
+        Parent p = loader.getRoot();
+        Stage s = new Stage();
+        s.setScene(new Scene(p));
+        s.show();
+
+        //citaController.getPendiente();
+       // citaController.setUserNameController(userNameLabel.getText());
     }
 
     @FXML
