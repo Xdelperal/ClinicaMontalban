@@ -66,7 +66,7 @@ public class CitaController {
 
         colCita.setCellValueFactory(new PropertyValueFactory<Cita, Integer>("idCita"));
         colNombre.setCellValueFactory(new PropertyValueFactory<Cita, String>("nombre"));
-        colCliente.setCellValueFactory(new PropertyValueFactory<Cita, String>("idCliente"));
+        colCliente.setCellValueFactory(new PropertyValueFactory<Cita, String>("estado"));
         colFecha.setCellValueFactory(new PropertyValueFactory<Cita, Date>("fecha"));
         colHora.setCellValueFactory(new PropertyValueFactory<Cita, Time>("hora"));
         colMotivo.setCellValueFactory(new PropertyValueFactory<Cita, String>("descripcion"));
@@ -75,7 +75,6 @@ public class CitaController {
             public TableCell<Cita, Void> call(TableColumn<Cita, Void> param) {
                 return new TableCell<>() {
                     private final Button button = new Button("Abrir");
-                    //button.getStyleClass().add("button-style");
                     {
                         button.setOnAction(event -> {
                             Cita cita = getTableView().getItems().get(getIndex());
