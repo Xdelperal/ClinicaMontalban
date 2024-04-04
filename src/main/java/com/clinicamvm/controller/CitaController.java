@@ -23,9 +23,10 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-public class CitaController {
+public class CitaController implements Initializable {
+    private String nombreMedico= "10101010Z";
     @FXML
-    private TableView<Cita> tablaPendientes;
+    private TableView<Cita> tablaPendientes, tablaRealizadas;
 
     @FXML
     private TableColumn<Cita, Integer> colCita;
@@ -51,19 +52,25 @@ public class CitaController {
     private CitaJDBCDAO citaJDBCDAO;
 
     ObservableList<Cita> citasPendientes;
+    ObservableList<Cita> citasRealizadas;
 
-
-    public void getPendiente(String userName) {
+    public void setUserNameController(String username){
+        this.nombreMedico=username;
+    }
+    public void getPendiente() {
 
         Connection connection = JDBCUtils.getConnection();
 
         // Crear una instancia de CitaJDBCDAO con la conexión JDBC
-        citaJDBCDAO = new CitaJDBCDAO(connection, userName);
+        citaJDBCDAO = new CitaJDBCDAO(connection);
+
+        citaJDBCDAO.setUserName(nombreMedico);
 
         citasPendientes = citaJDBCDAO.obtenerLista();
 
         tablaPendientes.setItems(citasPendientes);
 
+        // No necesitas un bucle para configurar las celdas, PropertyValueFactory lo hará automáticamente.
         colCita.setCellValueFactory(new PropertyValueFactory<Cita, Integer>("idCita"));
         colNombre.setCellValueFactory(new PropertyValueFactory<Cita, String>("nombre"));
         colCliente.setCellValueFactory(new PropertyValueFactory<Cita, String>("estado"));
@@ -117,5 +124,33 @@ public class CitaController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    /*
+    public void getRealizada() {
+
+        Connection connection = JDBCUtils.getConnection();
+
+        // Crear una instancia de CitaJDBCDAO con la conexión JDBC
+        citaJDBCDAO = new CitaJDBCDAO(connection);
+
+        citasRealizadas = citaJDBCDAO.obtenerLista();
+
+        tablaRealizadas.setItems(citasRealizadas);
+
+        // No necesitas un bucle para configurar las celdas, PropertyValueFactory lo hará automáticamente.
+        colCita.setCellValueFactory(new PropertyValueFactory<Cita, Integer>("idCita"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<Cita, String>("nombre"));
+        colCliente.setCellValueFactory(new PropertyValueFactory<Cita, String>("idCliente"));
+        colFecha.setCellValueFactory(new PropertyValueFactory<Cita, Date>("fecha"));
+        colHora.setCellValueFactory(new PropertyValueFactory<Cita, Time>("hora"));
+        colMotivo.setCellValueFactory(new PropertyValueFactory<Cita, String>("descripcion"));
+
+
+    }
+    */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        getPendiente();
+        //getRealizada();
     }
 }

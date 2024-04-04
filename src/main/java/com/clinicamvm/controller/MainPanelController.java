@@ -33,6 +33,9 @@ public class MainPanelController implements Initializable {
     private Pane pendientes;
 
     @FXML
+    private AnchorPane anchorPane;
+
+    @FXML
     private Pane realizadas;
 
     @FXML
@@ -50,6 +53,10 @@ public class MainPanelController implements Initializable {
     @FXML
     private Label countTime;
 
+    @FXML
+    private Button webClinica;
+
+
     private int seconds = 0;
     private int minutes = 0;
     private int hours = 0;
@@ -61,12 +68,10 @@ public class MainPanelController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         citaController = new CitaController();
         // Inicialización del controlador
-
         pendientes.setVisible(true);
-        realizadas.setVisible(false);
+        //realizadas.setVisible(false);
 
         closeButton.setOnAction(event -> cerrarVentana());
         pendingButton.setOnAction(event -> mostrarPendientes());
@@ -132,7 +137,7 @@ public class MainPanelController implements Initializable {
     private void mostrarPendientes() {
         // Mostrar pendientes y ocultar realizadas
         pendientes.setVisible(true);
-        realizadas.setVisible(false);
+        //realizadas.setVisible(false);
         pendingButton.getStyleClass().add("selected");
         madeButton.getStyleClass().remove("selected");
 
