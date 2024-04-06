@@ -2,6 +2,7 @@ package business.entities;
 
 public abstract class Cliente {
     private int idCliente, cuota;
+    private String nombre;
 
 
     /**
