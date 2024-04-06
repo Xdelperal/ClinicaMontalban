@@ -7,6 +7,6 @@ import javafx.collections.ObservableList;
 import persistence.exceptions.DAOException;
 
 public interface CitaDAO {
-    ObservableList<Cita> obtenerLista();
+    ObservableList<Cita> obtenerLista(String estadoCita, String userNameLabel);
 
 }

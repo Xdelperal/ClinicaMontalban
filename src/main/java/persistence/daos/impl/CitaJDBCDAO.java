@@ -4,32 +4,34 @@ import business.entities.Cita;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import persistence.daos.contracts.CitaDAO;
-import persistence.utils.JDBCUtils;
-
+import persistence.utils.*;
 import java.sql.*;
 import java.util.Date;
 
 public class CitaJDBCDAO implements CitaDAO {
-/*
-    @FXML
-    private Label userNameLabel;*/
+
     private String userNameLabel = "";
 
-    public void setUserName(String userName){
-        this.userNameLabel=userName;
+    @FXML
+    private TableView pendientes;
+
+    private SQLQueries sqlQueries;
+
+    ObservableList<Cita> citas = FXCollections.emptyObservableList();
+
+    public CitaJDBCDAO(Connection connection) {
+
+        this.sqlQueries = new SQLQueries();
+        this.citas = FXCollections.observableArrayList(); // Inicializa citas como una nueva ObservableList
+
     }
 
-    ObservableList<Cita> citas = FXCollections.observableArrayList();
-
-    private final Connection connection;
 
     @Override
-    public ObservableList<Cita> obtenerLista() {
-
+    public ObservableList<Cita> obtenerLista(String estadoCita, String userName) {
+        System.out.println(userName);
         try {
             // Establecer la conexión a la base de datos
             Connection connection = JDBCUtils.getConnection();
@@ -40,8 +42,7 @@ public class CitaJDBCDAO implements CitaDAO {
             try {
                 // Preparar la declaración SQL
                 PreparedStatement statement = connection.prepareStatement(sql);
-                //statement.setString(1, userNameLabel.getText());
-                statement.setString(1, userNameLabel);
+                statement.setString(1, userName);
 
                 // Ejecutar la consulta
                 ResultSet resultSet = statement.executeQuery();
@@ -49,24 +50,16 @@ public class CitaJDBCDAO implements CitaDAO {
                 if (resultSet.next()) {
 
                     // Consulta SQL para obtener las citas pendientes con el nombre del cliente
-                    String sqlCitas = "SELECT cita.idCita, cita.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
-                            "FROM cita " +
-                            "INNER JOIN cliente ON cita.idCliente = cliente.idCliente " +
-                            "INNER JOIN persona ON cliente.DNI = persona.DNI " +
-                            "INNER JOIN personal ON personal.idTrabajador = cita.idTrabajador " +
-                            "WHERE personal.DNI = ?";
+                    String sqlCitas = sqlQueries.getCitas();
 
 
                     // Preparar la declaración SQL para la segunda consulta
                     PreparedStatement statementCitas = connection.prepareStatement(sqlCitas);
-                    //statementCitas.setString(1, userNameLabel.getText());
-                    statementCitas.setString(1, userNameLabel);
-
+                    statementCitas.setString(1, userName);
+                    statementCitas.setString(2,estadoCita);
 
                     // Ejecutar la segunda consulta
                     ResultSet resultSetCitas = statementCitas.executeQuery();
-
-
 
                     // Recorrer el resultado de la consulta
                     while (resultSetCitas.next()) {
@@ -82,10 +75,9 @@ public class CitaJDBCDAO implements CitaDAO {
                         // Crear un objeto Cita con los datos obtenidos
                         Cita nuevaCita = new Cita(idCita, idCliente, nombre, estado, (java.sql.Date) fecha, hora, descripcion);
                         citas.add(nuevaCita);
-                        // Añadir la cita a la tabla
-
                     }
                 }
+
 
                 // Cerrar recursos
                 resultSet.close();
@@ -99,17 +91,7 @@ public class CitaJDBCDAO implements CitaDAO {
             throw new RuntimeException(e);
         }
 
+
         return citas;
-    }
-
-
-    public CitaJDBCDAO(Connection connection ) {
-
-
-        // Modifica el constructor para recibir la conexión JDBC
-
-            this.connection = connection;
-
-
     }
 }
