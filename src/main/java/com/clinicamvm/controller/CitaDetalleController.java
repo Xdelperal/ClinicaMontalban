@@ -12,8 +12,7 @@ public class CitaDetalleController {
 
     public void setIdCita(int idCita) {
         // Aquí puedes usar el ID de la cita para cargar y mostrar la información correspondiente en la ventana
-        lblIdCita.setText("ID de la cita: " + idCita);
+        lblIdCita.setText("Cita numero " + idCita);
     }
 
-    // Otros métodos de inicialización y lógica de la ventana
 }
