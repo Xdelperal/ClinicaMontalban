@@ -64,11 +64,10 @@ public class MainPanelController implements Initializable {
     //Columnas de la tabla pendiente
 
 
-    public MainPanelController(){}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        citaController = new CitaController();
+
         // Inicialización del controlador
         pendientes.setVisible(true);
         //realizadas.setVisible(false);
