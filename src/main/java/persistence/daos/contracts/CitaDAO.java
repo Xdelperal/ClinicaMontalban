@@ -8,6 +8,7 @@ import persistence.exceptions.DAOException;
 
 public interface CitaDAO {
     ObservableList<Cita> obtenerLista(String estadoCita, String userNameLabel);
+    ObservableList<Cita> buscar( String dni);
 
     ObservableList<Cita> buscar(String dni);
 }
