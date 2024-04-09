@@ -116,38 +116,16 @@ public class MainPanelController implements Initializable {
 
     @FXML
     private void buscar() {
-        try (Connection connection = JDBCUtils.getConnection();
-             PreparedStatement statementCitas = connection.prepareStatement("SELECT cita.idCita, cita.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
-                     "FROM cita " +
-                     "INNER JOIN cliente ON cita.idCliente = cliente.idCliente " +
-                     "INNER JOIN persona ON cliente.DNI = persona.DNI " +
-                     "WHERE cliente.DNI = ?")) {
+        ObservableList<Cita> buscarLista=citaJDBCDAO.buscar(aqui va el label);
 
-            statementCitas.setString(1, pacienteDNI.getText());
-            ResultSet resultSetCitas = statementCitas.executeQuery();
-
-            while (resultSetCitas.next()) {
-                int idCita = resultSetCitas.getInt("idCita");
-                int idCliente = resultSetCitas.getInt("idCliente");
-                String nombre = resultSetCitas.getString("nombre");
-                String estado = resultSetCitas.getString("estado");
-                Date fecha = resultSetCitas.getDate("fecha");
-                java.sql.Time hora = resultSetCitas.getTime("hora");
-                String descripcion = resultSetCitas.getString("descripcion");
-                Cita nuevaCita = new Cita(idCita, idCliente, nombre, estado, (java.sql.Date) fecha, hora, descripcion);
-               // System.out.println(nuevaCita.getDatos());
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML
     private void getPendiente() {
+        pendientes.getItems().clear();
+
         ObservableList<Cita> listaPendiente = citaJDBCDAO.obtenerLista("Pendiente", userNameLabel.getText());
 
-        // Limpiar los elementos existentes en la TableView
-        pendientes.getItems().clear();
 
         // Agregar los elementos obtenidos a la TableView
         pendientes.setItems(listaPendiente);
