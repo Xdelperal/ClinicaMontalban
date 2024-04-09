@@ -94,4 +94,48 @@ public class CitaJDBCDAO implements CitaDAO {
 
         return citas;
     }
+
+    @Override
+    public ObservableList<Cita> buscar(String dni) {
+
+        if (citas.size()>0){
+            citas.clear();
+        }
+
+        try (Connection connection = JDBCUtils.getConnection();
+             PreparedStatement statementCitas = connection.prepareStatement("SELECT cita.idCita, cita.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
+                     "FROM cita " +
+                     "INNER JOIN cliente ON cita.idCliente = cliente.idCliente " +
+                     "INNER JOIN persona ON cliente.DNI = persona.DNI " +
+                     "WHERE cliente.DNI = ?")) {
+
+            statementCitas.setString(1, dni);
+            ResultSet resultSetCitas = statementCitas.executeQuery();
+
+            while (resultSetCitas.next()) {
+                int idCita = resultSetCitas.getInt("idCita");
+                int idCliente = resultSetCitas.getInt("idCliente");
+                String nombre = resultSetCitas.getString("nombre");
+                String estado = resultSetCitas.getString("estado");
+                Date fecha = resultSetCitas.getDate("fecha");
+                java.sql.Time hora = resultSetCitas.getTime("hora");
+                String descripcion = resultSetCitas.getString("descripcion");
+                Cita nuevaCita = new Cita(idCita, idCliente, nombre, estado, (java.sql.Date) fecha, hora, descripcion);
+                citas.add(nuevaCita);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return  citas;
+    }
+
+
+
+
+
+
+
+
+
 }

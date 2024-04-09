@@ -33,9 +33,9 @@ public class MainPanelController implements Initializable {
     @FXML
     private Label userNameLabel, currentTime, countTime;
     @FXML
-    private TableView<Cita> pendientes, realizadas;
+    private TableView<Cita> pendientes, realizadas,datosPaciente;
     @FXML
-    private Button pendingButton, madeButton, closeButton, webClinica, testBuscar;
+    private Button pendingButton, madeButton, closeButton, webClinica, searchButton,presearch;
     @FXML
     private TextField pacienteDNI;
     private CitaJDBCDAO citaJDBCDAO;
@@ -50,12 +50,19 @@ public class MainPanelController implements Initializable {
 
         pendientes.setVisible(true);
         realizadas.setVisible(false);
+        searchButton.setVisible(false);
+        datosPaciente.setVisible(false);
 
         closeButton.setOnAction(event -> cerrarVentana());
         pendingButton.setOnAction(event -> mostrarPendientes());
         madeButton.setOnAction(event -> mostrarRealizadas());
-    //  testBuscar.setOnAction(event -> buscar());
+        searchButton.setOnAction(event -> getBusqueda());
 
+        presearch.setOnAction(event -> buscar());
+
+
+        pacienteDNI.setVisible(true);
+        searchButton.setVisible(true);
         Timeline timeline = new Timeline(new KeyFrame(javafx.util.Duration.seconds(1), event -> {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy  -  HH:mm:ss");
             String formattedDate = dateFormat.format(new Date());
@@ -99,68 +106,81 @@ public class MainPanelController implements Initializable {
     private void mostrarPendientes() {
         pendientes.setVisible(true);
         realizadas.setVisible(false);
+        pacienteDNI.setVisible(false);
+        searchButton.setVisible(false);
+        datosPaciente.setVisible(false);
+
+
         pendingButton.getStyleClass().add("selected");
         madeButton.getStyleClass().remove("selected");
+        searchButton.getStyleClass().remove("selected");
         getPendiente();
-       // buscar();
     }
 
     @FXML
     private void mostrarRealizadas() {
         realizadas.setVisible(true);
         pendientes.setVisible(false);
+        pacienteDNI.setVisible(false);
+        searchButton.setVisible(false);
+        datosPaciente.setVisible(false);
+
+
         madeButton.getStyleClass().add("selected");
         pendingButton.getStyleClass().remove("selected");
-       getRealizadas();
+        searchButton.getStyleClass().remove("selected");
+        getRealizadas();
     }
 
     @FXML
     private void buscar() {
-        try (Connection connection = JDBCUtils.getConnection();
-             PreparedStatement statementCitas = connection.prepareStatement("SELECT cita.idCita, cita.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
-                     "FROM cita " +
-                     "INNER JOIN cliente ON cita.idCliente = cliente.idCliente " +
-                     "INNER JOIN persona ON cliente.DNI = persona.DNI " +
-                     "WHERE cliente.DNI = ?")) {
-
-            statementCitas.setString(1, pacienteDNI.getText());
-            ResultSet resultSetCitas = statementCitas.executeQuery();
-
-            while (resultSetCitas.next()) {
-                int idCita = resultSetCitas.getInt("idCita");
-                int idCliente = resultSetCitas.getInt("idCliente");
-                String nombre = resultSetCitas.getString("nombre");
-                String estado = resultSetCitas.getString("estado");
-                Date fecha = resultSetCitas.getDate("fecha");
-                java.sql.Time hora = resultSetCitas.getTime("hora");
-                String descripcion = resultSetCitas.getString("descripcion");
-                Cita nuevaCita = new Cita(idCita, idCliente, nombre, estado, (java.sql.Date) fecha, hora, descripcion);
-               // System.out.println(nuevaCita.getDatos());
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        pacienteDNI.setText("");
+        realizadas.setVisible(false);
+        pendientes.setVisible(false);
+        datosPaciente.setVisible(true);
+        pacienteDNI.setVisible(true);
+        searchButton.setVisible(true);
+        madeButton.getStyleClass().remove("selected");
+        pendingButton.getStyleClass().remove("selected");
+        presearch.getStyleClass().add("selected");
     }
 
     @FXML
+     private void getBusqueda(){
+
+         datosPaciente.getItems().clear();
+
+         ObservableList<Cita> buscarLista =citaJDBCDAO.buscar(pacienteDNI.getText());
+
+         datosPaciente.setItems(buscarLista);
+
+
+     }
+
+
+    @FXML
     private void getPendiente() {
+
+        pendientes.getItems().clear();
+
         ObservableList<Cita> listaPendiente = citaJDBCDAO.obtenerLista("Pendiente", userNameLabel.getText());
 
-        // Limpiar los elementos existentes en la TableView
-        pendientes.getItems().clear();
 
         // Agregar los elementos obtenidos a la TableView
         pendientes.setItems(listaPendiente);
-}
+    }
 
-
+    @FXML
     private void getRealizadas() {
+
+        // Limpiar los elementos existentes en la TableView
+        realizadas.getItems().clear();
+
 
         ObservableList<Cita> listaRealizadas = citaJDBCDAO.obtenerLista("Realizada", userNameLabel.getText());
 
 
-        // Limpiar los elementos existentes en la TableView
-        realizadas.getItems().clear();
+
 
         // Agregar los elementos obtenidos a la TableView
         realizadas.setItems(listaRealizadas);
