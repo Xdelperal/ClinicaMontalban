@@ -58,3 +58,9 @@
     -fx-border-color: rgb(218, 238, 255);
     -fx-border-width: 2px;
 }
+
+.buttonPendiente {
+    -fx-background-color: #4CAF50; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+    -fx-font-size: 16px; /* Tamaño de fuente */
+}

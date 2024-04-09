@@ -11,21 +11,15 @@ import persistence.daos.contracts.CitaDAO;
 import persistence.utils.JDBCUtils;
 
 import java.sql.*;
-import java.util.Date;
+
 
 public class CitaJDBCDAO implements CitaDAO {
-/*
-    @FXML
-    private Label userNameLabel;*/
-    private String userNameLabel = "";
 
-    public void setUserName(String userName){
-        this.userNameLabel=userName;
-    }
 
     ObservableList<Cita> citas = FXCollections.observableArrayList();
 
     private final Connection connection;
+    private final String userNameLabel;
 
     @Override
     public ObservableList<Cita> obtenerLista() {
@@ -46,10 +40,13 @@ public class CitaJDBCDAO implements CitaDAO {
                 // Ejecutar la consulta
                 ResultSet resultSet = statement.executeQuery();
 
+                Date dia = new Date(2003,12,13);
+                citas.add(new Cita(1, 1, "seku", "Pendiente", dia, Time.valueOf("15:00:00"), "Hola que tal"));
+
                 if (resultSet.next()) {
 
                     // Consulta SQL para obtener las citas pendientes con el nombre del cliente
-                    String sqlCitas = "SELECT cita.idCita, cita.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
+                    String sqlCitas = "SELECT cita.idCita, personal.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
                             "FROM cita " +
                             "INNER JOIN cliente ON cita.idCliente = cliente.idCliente " +
                             "INNER JOIN persona ON cliente.DNI = persona.DNI " +
@@ -59,9 +56,7 @@ public class CitaJDBCDAO implements CitaDAO {
 
                     // Preparar la declaración SQL para la segunda consulta
                     PreparedStatement statementCitas = connection.prepareStatement(sqlCitas);
-                    //statementCitas.setString(1, userNameLabel.getText());
                     statementCitas.setString(1, userNameLabel);
-
 
                     // Ejecutar la segunda consulta
                     ResultSet resultSetCitas = statementCitas.executeQuery();
@@ -103,13 +98,9 @@ public class CitaJDBCDAO implements CitaDAO {
     }
 
 
-    public CitaJDBCDAO(Connection connection ) {
-
-
-        // Modifica el constructor para recibir la conexión JDBC
+    public CitaJDBCDAO(Connection connection, String userName) {
 
             this.connection = connection;
-
-
+            this.userNameLabel = userName;
     }
 }
