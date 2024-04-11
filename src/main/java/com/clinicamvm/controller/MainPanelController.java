@@ -32,101 +32,49 @@ import persistence.utils.JDBCUtils;
 public class MainPanelController implements Initializable {
 
     @FXML
-    private Label userNameLabel;
+    private Label userNameLabel, currentTime, countTime;
 
     @FXML
-    private Pane pendientes;
-
-    @FXML
-    private AnchorPane anchorPane;
-
-    @FXML
-    private Pane realizadas;
-
-    @FXML
-    private Button pendingButton;
-
-    @FXML
-    private Button madeButton;
-
-    @FXML
-    private Button closeButton;
-
-    @FXML
-    private Label currentTime;
-
-    @FXML
-    private Label countTime;
-
-    @FXML
-    private Button webClinica;
-
-    @FXML
-    private TableView<Cita> tablaPendientes;
-
-    @FXML
-    private TableColumn<Cita, Integer> colCita;
-
-    @FXML
-    private TableColumn<Cita, String> colCliente;
-
-    @FXML
-    private TableColumn<Cita, String> colNombre;
-
-    @FXML
-    private TableColumn<Cita, java.sql.Date> colFecha;
-
-    @FXML
-    private TableColumn<Cita, Time> colHora;
-
-    @FXML
-    private TableColumn<Cita, String> colMotivo;
+    private TableView<Cita> pendientes, realizadas, datosPaciente;
 
     @FXML
     private TableColumn<Cita, Void> colButton;
 
+    @FXML
+    private Button pendingButton, madeButton, closeButton, webClinica, searchButton, presearch;
+
+    @FXML
+    private Pane PanelBuscador;
+    @FXML
+    private TextField pacienteDNI;
+
     private CitaJDBCDAO citaJDBCDAO;
 
-    ObservableList<Cita> citasPendientes;
-
-
-    private int seconds = 0;
-    private int minutes = 0;
-    private int hours = 0;
-
-    public MainPanelController(){}
-
+    private int seconds = 0, minutes = 0, hours = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        getPendientes();
-        // Inicialización del controlador
+        Connection connection = JDBCUtils.getConnection();
+        citaJDBCDAO = new CitaJDBCDAO(connection);
+
         pendientes.setVisible(true);
+        datosPaciente.setVisible(true);
         realizadas.setVisible(false);
+        PanelBuscador.setVisible(false);
 
         closeButton.setOnAction(event -> cerrarVentana());
-        pendingButton.setOnAction(event -> {
-            try {
-                mostrarPendientes();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        pendingButton.setOnAction(event -> mostrarPendientes());
         madeButton.setOnAction(event -> mostrarRealizadas());
+        searchButton.setOnAction(event -> getBusqueda());
+
+        presearch.setOnAction(event -> mostrarBuscar());
 
 
-        // Iniciar el timeline para actualizar el tiempo actual y el tiempo transcurrido
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            // Obtener la hora actual y formatearla como deseado
+        Timeline timeline = new Timeline(new KeyFrame(javafx.util.Duration.seconds(1), event -> {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy  -  HH:mm:ss");
             String formattedDate = dateFormat.format(new Date());
-
-            // Actualizar el texto del Label con el tiempo actual
             currentTime.setText(formattedDate);
-
-            // Incrementar los segundos del contador
             seconds++;
-            // Ajustar los minutos y los segundos si es necesario
             if (seconds >= 60) {
                 seconds = 0;
                 minutes++;
@@ -135,35 +83,36 @@ public class MainPanelController implements Initializable {
                     hours++;
                 }
             }
-            // Actualizar el texto del Label con el tiempo transcurrido
             String formattedTime = String.format("%d:%02d:%02d", hours, minutes, seconds);
             countTime.setText(formattedTime);
         }));
-        timeline.setCycleCount(Animation.INDEFINITE); // Ejecutar continuamente
-        timeline.play(); // Iniciar la animación
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+
+        iniciar();
+    }
+    public void iniciar() {
+        pendientes.setVisible(true);
+        realizadas.setVisible(false);
+        PanelBuscador.setVisible(false);
+
+        pendingButton.getStyleClass().add("selected");
+        madeButton.getStyleClass().remove("selected");
+        searchButton.getStyleClass().remove("selected");
+        getPendiente();
     }
 
-
-    // Método para actualizar el Label con el nombre de usuario
     public void updateUserNameLabel(String userName) {
         userNameLabel.setText(userName);
     }
 
     public void cerrarVentana() {
-        // Obtener la instancia de la ventana actual
         Stage stage = (Stage) closeButton.getScene().getWindow();
-        // Cerrar la ventana actual
         stage.close();
-
         try {
-            // Cargar el archivo FXML de la ventana de inicio de sesión
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ui/login.fxml"));
             Parent root = loader.load();
-
-            // Crear una nueva escena
             Scene scene = new Scene(root);
-
-            // Crear un nuevo escenario (ventana)
             Stage loginStage = new Stage();
             loginStage.setScene(scene);
             loginStage.show();
@@ -173,28 +122,28 @@ public class MainPanelController implements Initializable {
     }
 
     @FXML
-    private void mostrarPendientes() throws IOException {
-
-        // Mostrar pendientes y ocultar realizadas
+    private void mostrarPendientes() {
         pendientes.setVisible(true);
         realizadas.setVisible(false);
+        PanelBuscador.setVisible(false);
 
-        // Establecer la clase seleccionada en pendingButton
         pendingButton.getStyleClass().add("selected");
         madeButton.getStyleClass().remove("selected");
+        searchButton.getStyleClass().remove("selected");
+        getPendiente();
     }
-
 
     @FXML
     private void mostrarRealizadas() {
-        // Mostrar realizadas y ocultar pendientes
         realizadas.setVisible(true);
         pendientes.setVisible(false);
-        // Establecer la clase seleccionada en madeButton
+        PanelBuscador.setVisible(false);
+
         madeButton.getStyleClass().add("selected");
         pendingButton.getStyleClass().remove("selected");
+        searchButton.getStyleClass().remove("selected");
+        getRealizadas();
     }
-
     @FXML
     private void abrirPaginaWeb() {
         // Abrir la página web en el navegador por defecto
@@ -227,25 +176,48 @@ public class MainPanelController implements Initializable {
         }
     }
 
+    @FXML
+    private void getRealizadas() {
+
+        // Limpiar los elementos existentes en la TableView
+        realizadas.getItems().clear();
+
+        ObservableList<Cita> listaRealizadas = citaJDBCDAO.obtenerLista("Realizada", userNameLabel.getText());
+
+        // Agregar los elementos obtenidos a la TableView
+        realizadas.setItems(listaRealizadas);
+    }
+
+    @FXML
+    private void getBusqueda(){
+
+        datosPaciente.getItems().clear();
+        ObservableList<Cita> buscarLista = citaJDBCDAO.buscar(pacienteDNI.getText());
+        datosPaciente.setItems(buscarLista);
+
+    }
+
+    @FXML
+    private void mostrarBuscar() {
+        pacienteDNI.setText("");
+        realizadas.setVisible(false);
+        pendientes.setVisible(false);
+        PanelBuscador.setVisible(true);
+
+        madeButton.getStyleClass().remove("selected");
+        pendingButton.getStyleClass().remove("selected");
+        presearch.getStyleClass().add("selected");
+    }
 
 
-    public void getPendientes() {
+    public void getPendiente() {
 
-        Connection connection = JDBCUtils.getConnection();
+        pendientes.getItems().clear();
+        ObservableList<Cita> listaPendiente = citaJDBCDAO.obtenerLista("Pendiente", userNameLabel.getText());
 
-        // Crear una instancia de CitaJDBCDAO con la conexión JDBC
-        citaJDBCDAO = new CitaJDBCDAO(connection, userNameLabel.getText());
+        colButton.setCellFactory(null);
+        pendientes.setItems(listaPendiente);
 
-        citasPendientes = citaJDBCDAO.obtenerLista();
-
-        tablaPendientes.setItems(citasPendientes);
-
-        colCita.setCellValueFactory(new PropertyValueFactory<Cita, Integer>("idCita"));
-        colCliente.setCellValueFactory(new PropertyValueFactory<Cita, String>("idCliente"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<Cita, String>("nombre"));
-        colFecha.setCellValueFactory(new PropertyValueFactory<Cita, java.sql.Date>("fecha"));
-        colHora.setCellValueFactory(new PropertyValueFactory<Cita, Time>("hora"));
-        colMotivo.setCellValueFactory(new PropertyValueFactory<Cita, String>("descripcion"));
         colButton.setCellFactory(new Callback<>() {
             @Override
             public TableCell<Cita, Void> call(TableColumn<Cita, Void> param) {
@@ -273,5 +245,6 @@ public class MainPanelController implements Initializable {
         });
 
     }
+
 
 }

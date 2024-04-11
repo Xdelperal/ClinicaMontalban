@@ -3,6 +3,7 @@ package business.entities;
 import business.entities.Cliente;
 import javafx.beans.property.*;
 
+import java.awt.*;
 import java.sql.Date;
 import java.sql.Time;
 
@@ -14,6 +15,7 @@ public class Cita extends Cliente {
     private final ObjectProperty<Date> fecha;
     private final ObjectProperty<Time> hora;
     private final StringProperty descripcion;
+
 
     public Cita(int idCita, int idCliente, String nombre, String estado, Date fecha, Time hora, String descripcion) {
         super(idCliente);

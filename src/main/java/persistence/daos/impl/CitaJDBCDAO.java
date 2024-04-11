@@ -4,26 +4,31 @@ import business.entities.Cita;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import persistence.daos.contracts.CitaDAO;
-import persistence.utils.JDBCUtils;
-
+import persistence.utils.*;
 import java.sql.*;
-
+import java.util.Date;
 
 public class CitaJDBCDAO implements CitaDAO {
 
+    @FXML
+    private TableView pendientes;
 
-    ObservableList<Cita> citas = FXCollections.observableArrayList();
+    private SQLQueries sqlQueries;
 
-    private final Connection connection;
-    private final String userNameLabel;
+    ObservableList<Cita> citas = FXCollections.emptyObservableList();
+
+    public CitaJDBCDAO(Connection connection) {
+
+        this.sqlQueries = new SQLQueries();
+        this.citas = FXCollections.observableArrayList(); // Inicializa citas como una nueva ObservableList
+
+    }
+
 
     @Override
-    public ObservableList<Cita> obtenerLista() {
-
+    public ObservableList<Cita> obtenerLista(String estadoCita, String userName) {
         try {
             // Establecer la conexión a la base de datos
             Connection connection = JDBCUtils.getConnection();
@@ -34,34 +39,24 @@ public class CitaJDBCDAO implements CitaDAO {
             try {
                 // Preparar la declaración SQL
                 PreparedStatement statement = connection.prepareStatement(sql);
-                //statement.setString(1, userNameLabel.getText());
-                statement.setString(1, userNameLabel);
+                statement.setString(1, userName);
 
                 // Ejecutar la consulta
                 ResultSet resultSet = statement.executeQuery();
 
-                Date dia = new Date(2003,12,13);
-                citas.add(new Cita(1, 1, "seku", "Pendiente", dia, Time.valueOf("15:00:00"), "Hola que tal"));
-
                 if (resultSet.next()) {
 
                     // Consulta SQL para obtener las citas pendientes con el nombre del cliente
-                    String sqlCitas = "SELECT cita.idCita, personal.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
-                            "FROM cita " +
-                            "INNER JOIN cliente ON cita.idCliente = cliente.idCliente " +
-                            "INNER JOIN persona ON cliente.DNI = persona.DNI " +
-                            "INNER JOIN personal ON personal.idTrabajador = cita.idTrabajador " +
-                            "WHERE personal.DNI = ?";
+                    String sqlCitas = sqlQueries.getCitas();
 
 
                     // Preparar la declaración SQL para la segunda consulta
                     PreparedStatement statementCitas = connection.prepareStatement(sqlCitas);
-                    statementCitas.setString(1, userNameLabel);
+                    statementCitas.setString(1, userName);
+                    statementCitas.setString(2,estadoCita);
 
                     // Ejecutar la segunda consulta
                     ResultSet resultSetCitas = statementCitas.executeQuery();
-
-
 
                     // Recorrer el resultado de la consulta
                     while (resultSetCitas.next()) {
@@ -77,10 +72,9 @@ public class CitaJDBCDAO implements CitaDAO {
                         // Crear un objeto Cita con los datos obtenidos
                         Cita nuevaCita = new Cita(idCita, idCliente, nombre, estado, (java.sql.Date) fecha, hora, descripcion);
                         citas.add(nuevaCita);
-                        // Añadir la cita a la tabla
-
                     }
                 }
+
 
                 // Cerrar recursos
                 resultSet.close();
@@ -94,13 +88,42 @@ public class CitaJDBCDAO implements CitaDAO {
             throw new RuntimeException(e);
         }
 
+
         return citas;
     }
 
+    @Override
+    public ObservableList<Cita> buscar(String dni) {
 
-    public CitaJDBCDAO(Connection connection, String userName) {
+        if (citas.size()>0){
+            citas.clear();
+        }
 
-            this.connection = connection;
-            this.userNameLabel = userName;
+        try (Connection connection = JDBCUtils.getConnection();
+             PreparedStatement statementCitas = connection.prepareStatement("SELECT cita.idCita, cita.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
+                     "FROM cita " +
+                     "INNER JOIN cliente ON cita.idCliente = cliente.idCliente " +
+                     "INNER JOIN persona ON cliente.DNI = persona.DNI " +
+                     "WHERE cliente.DNI = ?")) {
+
+            statementCitas.setString(1, dni);
+            ResultSet resultSetCitas = statementCitas.executeQuery();
+
+            while (resultSetCitas.next()) {
+                int idCita = resultSetCitas.getInt("idCita");
+                int idCliente = resultSetCitas.getInt("idCliente");
+                String nombre = resultSetCitas.getString("nombre");
+                String estado = resultSetCitas.getString("estado");
+                Date fecha = resultSetCitas.getDate("fecha");
+                java.sql.Time hora = resultSetCitas.getTime("hora");
+                String descripcion = resultSetCitas.getString("descripcion");
+                Cita nuevaCita = new Cita(idCita, idCliente, nombre, estado, (java.sql.Date) fecha, hora, descripcion);
+                citas.add(nuevaCita);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return  citas;
     }
 }
