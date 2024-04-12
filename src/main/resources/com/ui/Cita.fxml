@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.CitaDetalleController" stylesheets="/com/ui/css/cita.css">
+<AnchorPane prefHeight="900.0" prefWidth="1400.0" stylesheets="/com/ui/css/cita.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.CitaDetalleController">
 
 
     <children>
@@ -25,7 +25,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TableView layoutX="6.0" layoutY="59.0" prefHeight="690.0" prefWidth="353.0">
+                  <TableView fx:id="listaMedicamentos" layoutX="6.0" layoutY="59.0" prefHeight="690.0" prefWidth="353.0">
                     <columns>
                       <TableColumn prefWidth="75.0" text="C1" />
                       <TableColumn prefWidth="75.0" text="C2" />
@@ -48,7 +48,7 @@
          <center>
             <Pane prefHeight="753.0" prefWidth="499.0" BorderPane.alignment="CENTER">
                <children>
-                  <ListView layoutY="60.0" prefHeight="689.0" prefWidth="502.0" />
+                  <ListView fx:id="listaMedicamentosAñadidos" layoutY="60.0" prefHeight="689.0" prefWidth="502.0" />
                </children>
             </Pane>
          </center>
@@ -65,14 +65,14 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextArea layoutX="41.0" layoutY="241.0" prefHeight="200.0" prefWidth="464.0" />
-                  <TextArea layoutX="41.0" layoutY="504.0" prefHeight="213.0" prefWidth="463.0" />
+                  <TextArea fx:id="ObservacionCitaText" layoutX="41.0" layoutY="241.0" prefHeight="200.0" prefWidth="464.0" />
+                  <TextArea fx:id="ObservacionMedicoText" layoutX="41.0" layoutY="504.0" prefHeight="213.0" prefWidth="463.0" />
                   <Label layoutX="41.0" layoutY="31.0" text="Motivo Cita">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                   <TextArea editable="false" layoutX="41.0" layoutY="241.0" prefHeight="200.0" prefWidth="464.0" />
+                   <TextArea fx:id="motivoCitaText" editable="false" layoutX="43.0" layoutY="71.0" prefHeight="118.0" prefWidth="457.0" />
                </children>
                <opaqueInsets>
                   <Insets />
