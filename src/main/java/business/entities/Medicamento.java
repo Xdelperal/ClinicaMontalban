@@ -89,5 +89,12 @@ public class Medicamento {
         this.gId = gId;
     }
 
+    public Medicamento(String nombre, String dosisEstandar, String descripcion) {
+        this.nombre = nombre;
+        this.dosisEstandar = dosisEstandar;
+        this.descripcion = descripcion;
+
+    }
+
 
 }

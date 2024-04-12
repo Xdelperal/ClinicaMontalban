@@ -40,13 +40,17 @@ public class MainPanelController implements Initializable {
     private TableView<Cita> pendientes, realizadas, datosPaciente;
 
     @FXML
+    private TableView<Medicamento> tablaMedicamentos;
+
+    @FXML
     private TableColumn<Cita, Void> colButton;
 
     @FXML
     private Button pendingButton, madeButton, closeButton, webClinica, searchButton, presearch,tiposButton;
 
     @FXML
-    private Pane PanelBuscador;
+    private Pane PanelBuscador, panelMedicamentos;
+
     @FXML
     private TextField pacienteDNI;
 
@@ -60,11 +64,17 @@ public class MainPanelController implements Initializable {
         citaJDBCDAO = new CitaJDBCDAO(connection);
         medicamentoJDBCDAO = new MedicamentoJDBCDAO();
 
-        pendientes.setVisible(true);
+        // Inicialización de las tablas.
         datosPaciente.setVisible(true);
+        tablaMedicamentos.setVisible(true);
+
+        // Tratamiento de paneles.
+        pendientes.setVisible(true);
         realizadas.setVisible(false);
         PanelBuscador.setVisible(false);
+        panelMedicamentos.setVisible(false);
 
+        // Accionadores de los botones.
         closeButton.setOnAction(event -> cerrarVentana());
         pendingButton.setOnAction(event -> mostrarPendientes());
         madeButton.setOnAction(event -> mostrarRealizadas());
@@ -98,18 +108,13 @@ public class MainPanelController implements Initializable {
         pendientes.setVisible(true);
         realizadas.setVisible(false);
         PanelBuscador.setVisible(false);
+        panelMedicamentos.setVisible(false);
 
         pendingButton.getStyleClass().add("selected");
         madeButton.getStyleClass().remove("selected");
         searchButton.getStyleClass().remove("selected");
+        tiposButton.getStyleClass().remove("selected");
         getPendiente();
-    }
-
-    private void dropDownTipos(){
-        ObservableList<Medicamento> listadoTipos= medicamentoJDBCDAO.getTipoMedicamento();
-        for(Medicamento tipo: listadoTipos){
-            System.out.println(tipo.gettNombre());
-        }
     }
 
     public void updateUserNameLabel(String userName) {
@@ -136,10 +141,12 @@ public class MainPanelController implements Initializable {
         pendientes.setVisible(true);
         realizadas.setVisible(false);
         PanelBuscador.setVisible(false);
+        panelMedicamentos.setVisible(false);
 
         pendingButton.getStyleClass().add("selected");
         madeButton.getStyleClass().remove("selected");
-        searchButton.getStyleClass().remove("selected");
+        presearch.getStyleClass().remove("selected");
+        tiposButton.getStyleClass().remove("selected");
         getPendiente();
     }
 
@@ -148,12 +155,57 @@ public class MainPanelController implements Initializable {
         realizadas.setVisible(true);
         pendientes.setVisible(false);
         PanelBuscador.setVisible(false);
+        panelMedicamentos.setVisible(false);
 
-        madeButton.getStyleClass().add("selected");
         pendingButton.getStyleClass().remove("selected");
         searchButton.getStyleClass().remove("selected");
+        tiposButton.getStyleClass().remove("selected");
+        madeButton.getStyleClass().add("selected");
         getRealizadas();
     }
+
+
+    @FXML
+    private void mostrarBuscar() {
+        pacienteDNI.setText("");
+        realizadas.setVisible(false);
+        pendientes.setVisible(false);
+        panelMedicamentos.setVisible(false);
+        PanelBuscador.setVisible(true);
+
+        madeButton.getStyleClass().remove("selected");
+        pendingButton.getStyleClass().remove("selected");
+        tiposButton.getStyleClass().remove("selected");
+        presearch.getStyleClass().add("selected");
+    }
+
+    private void dropDownTipos(){
+        panelMedicamentos.setVisible(true);
+        pendientes.setVisible(false);
+        realizadas.setVisible(false);
+        PanelBuscador.setVisible(false);
+
+        pendingButton.getStyleClass().remove("selected");
+        madeButton.getStyleClass().remove("selected");
+        presearch.getStyleClass().remove("selected");
+        tiposButton.getStyleClass().add("selected");
+
+        ObservableList<Medicamento> listadoTipos = medicamentoJDBCDAO.getTipoMedicamento();
+        for(Medicamento tipo: listadoTipos){
+            System.out.println(tipo.gettNombre());
+        }
+        getMedicamentos();
+    }
+
+    @FXML
+    private void getMedicamentos(){
+
+        tablaMedicamentos.getItems().clear();
+        ObservableList<Medicamento> listadoTipos = medicamentoJDBCDAO.getTipoMedicamento();
+        tablaMedicamentos.setItems(listadoTipos);
+
+    }
+
     @FXML
     private void abrirPaginaWeb() {
         // Abrir la página web en el navegador por defecto
@@ -205,18 +257,6 @@ public class MainPanelController implements Initializable {
         ObservableList<Cita> buscarLista = citaJDBCDAO.buscar(pacienteDNI.getText());
         datosPaciente.setItems(buscarLista);
 
-    }
-
-    @FXML
-    private void mostrarBuscar() {
-        pacienteDNI.setText("");
-        realizadas.setVisible(false);
-        pendientes.setVisible(false);
-        PanelBuscador.setVisible(true);
-
-        madeButton.getStyleClass().remove("selected");
-        pendingButton.getStyleClass().remove("selected");
-        presearch.getStyleClass().add("selected");
     }
 
 
