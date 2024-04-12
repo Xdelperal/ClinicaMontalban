@@ -159,7 +159,7 @@
                         <Insets bottom="10.0" left="10.0" top="10.0" />
                      </VBox.margin>
                   </Label>
-                  <Button alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Tipos medicamentos">
+                  <Button fx:id="tiposButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Tipos medicamentos">
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
                            <image>

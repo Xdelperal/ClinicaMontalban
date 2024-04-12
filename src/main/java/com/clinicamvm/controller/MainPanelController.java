@@ -1,6 +1,7 @@
 package com.clinicamvm.controller;
 
 import business.entities.Cita;
+import business.entities.Medicamento;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -26,6 +27,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import persistence.daos.impl.CitaJDBCDAO;
+import persistence.daos.impl.MedicamentoJDBCDAO;
 import persistence.utils.JDBCUtils;
 
 
@@ -41,7 +43,7 @@ public class MainPanelController implements Initializable {
     private TableColumn<Cita, Void> colButton;
 
     @FXML
-    private Button pendingButton, madeButton, closeButton, webClinica, searchButton, presearch;
+    private Button pendingButton, madeButton, closeButton, webClinica, searchButton, presearch,tiposButton;
 
     @FXML
     private Pane PanelBuscador;
@@ -49,13 +51,14 @@ public class MainPanelController implements Initializable {
     private TextField pacienteDNI;
 
     private CitaJDBCDAO citaJDBCDAO;
-
+    private MedicamentoJDBCDAO medicamentoJDBCDAO;
     private int seconds = 0, minutes = 0, hours = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Connection connection = JDBCUtils.getConnection();
         citaJDBCDAO = new CitaJDBCDAO(connection);
+        medicamentoJDBCDAO = new MedicamentoJDBCDAO();
 
         pendientes.setVisible(true);
         datosPaciente.setVisible(true);
@@ -66,7 +69,7 @@ public class MainPanelController implements Initializable {
         pendingButton.setOnAction(event -> mostrarPendientes());
         madeButton.setOnAction(event -> mostrarRealizadas());
         searchButton.setOnAction(event -> getBusqueda());
-
+        tiposButton.setOnAction(event -> dropDownTipos());
         presearch.setOnAction(event -> mostrarBuscar());
 
 
@@ -100,6 +103,13 @@ public class MainPanelController implements Initializable {
         madeButton.getStyleClass().remove("selected");
         searchButton.getStyleClass().remove("selected");
         getPendiente();
+    }
+
+    private void dropDownTipos(){
+        ObservableList<Medicamento> listadoTipos= medicamentoJDBCDAO.getTipoMedicamento();
+        for(Medicamento tipo: listadoTipos){
+            System.out.println(tipo.gettNombre());
+        }
     }
 
     public void updateUserNameLabel(String userName) {
