@@ -54,6 +54,9 @@ public class MainPanelController implements Initializable {
     @FXML
     private TextField pacienteDNI;
 
+    @FXML
+    private ChoiceBox<String> tiposMedicamento;
+
     private CitaJDBCDAO citaJDBCDAO;
     private MedicamentoJDBCDAO medicamentoJDBCDAO;
     private int seconds = 0, minutes = 0, hours = 0;
@@ -191,8 +194,8 @@ public class MainPanelController implements Initializable {
         tiposButton.getStyleClass().add("selected");
 
         ObservableList<Medicamento> listadoTipos = medicamentoJDBCDAO.getTipoMedicamento();
-        for(Medicamento tipo: listadoTipos){
-            System.out.println(tipo.gettNombre());
+        for (Medicamento medicamento : listadoTipos) {
+            tiposMedicamento.getItems().add(medicamento.gettNombre());
         }
         getMedicamentos();
     }
