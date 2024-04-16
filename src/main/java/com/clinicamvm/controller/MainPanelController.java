@@ -9,6 +9,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.AnchorPane;
@@ -16,9 +19,12 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.SQLOutput;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -84,6 +90,7 @@ public class MainPanelController implements Initializable {
         searchButton.setOnAction(event -> getBusqueda());
         tiposButton.setOnAction(event -> dropDownTipos());
         presearch.setOnAction(event -> mostrarBuscar());
+        tiposMedicamento.setOnAction(this::showMedicamentos);
 
 
         Timeline timeline = new Timeline(new KeyFrame(javafx.util.Duration.seconds(1), event -> {
@@ -107,6 +114,20 @@ public class MainPanelController implements Initializable {
 
         iniciar();
     }
+
+    private void showMedicamentos(javafx.event.ActionEvent actionEvent) {
+        System.out.println("Cada vez que le das clcik aparezco");
+        tablaMedicamentos.getItems().clear();
+        String grupoMedicamento = tiposMedicamento.getValue();
+        System.out.println("El grupo seleccionado es:"+grupoMedicamento);
+        ObservableList<Medicamento> listaMedicamentos = medicamentoJDBCDAO.getMedicamentos(grupoMedicamento);
+        System.out.println("Me ha devuelto medicamento con :"+ listaMedicamentos.size()+" valores");
+        // Agregar los elementos obtenidos a la TableView
+        tablaMedicamentos.setItems(listaMedicamentos);
+
+
+    }
+
     public void iniciar() {
         pendientes.setVisible(true);
         realizadas.setVisible(false);
@@ -197,17 +218,10 @@ public class MainPanelController implements Initializable {
         for (Medicamento medicamento : listadoTipos) {
             tiposMedicamento.getItems().add(medicamento.gettNombre());
         }
-        getMedicamentos();
-    }
-
-    @FXML
-    private void getMedicamentos(){
-
-        tablaMedicamentos.getItems().clear();
-        ObservableList<Medicamento> listadoTipos = medicamentoJDBCDAO.getTipoMedicamento();
-        tablaMedicamentos.setItems(listadoTipos);
 
     }
+
+
 
     @FXML
     private void abrirPaginaWeb() {
