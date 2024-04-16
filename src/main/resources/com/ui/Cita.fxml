@@ -12,20 +12,20 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1400.0" stylesheets="/com/ui/css/cita.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.CitaDetalleController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" stylesheets="/com/ui/css/cita.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.CitaDetalleController">
 
 
     <children>
-      <BorderPane prefHeight="900.0" prefWidth="1400.0">
+      <BorderPane prefHeight="700.0" prefWidth="1200.0">
          <left>
             <Pane prefHeight="757.0" prefWidth="365.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="14.0" layoutY="15.0" text="Lista de Medicamentos">
+                  <Label layoutX="24.0" layoutY="14.0" text="Lista de Medicamentos">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="listaMedicamentos" layoutX="6.0" layoutY="59.0" prefHeight="690.0" prefWidth="353.0">
+                  <TableView fx:id="listaMedicamentos" layoutX="14.0" layoutY="62.0" prefHeight="491.0" prefWidth="353.0">
                     <columns>
                       <TableColumn prefWidth="75.0" text="C1" />
                       <TableColumn prefWidth="75.0" text="C2" />
@@ -48,31 +48,31 @@
          <center>
             <Pane prefHeight="753.0" prefWidth="499.0" BorderPane.alignment="CENTER">
                <children>
-                  <ListView fx:id="listaMedicamentosAñadidos" layoutY="60.0" prefHeight="689.0" prefWidth="502.0" />
+                  <ListView fx:id="listaMedicamentosAñadidos" layoutX="14.0" layoutY="62.0" prefHeight="494.0" prefWidth="355.0" />
                </children>
             </Pane>
          </center>
          <right>
-            <Pane prefHeight="757.0" prefWidth="536.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="508.0" prefWidth="444.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="41.0" layoutY="199.0" text="Observacion Cita">
+                  <Label layoutX="33.0" layoutY="176.0" text="Observacion Cita">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label layoutX="41.0" layoutY="457.0" text="Observacion Medico">
+                  <Label layoutX="33.0" layoutY="341.0" prefHeight="25.0" prefWidth="204.0" text="Observacion Medico">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="ObservacionCitaText" layoutX="41.0" layoutY="241.0" prefHeight="200.0" prefWidth="464.0" />
-                  <TextArea fx:id="ObservacionMedicoText" layoutX="41.0" layoutY="504.0" prefHeight="213.0" prefWidth="463.0" />
-                  <Label layoutX="41.0" layoutY="31.0" text="Motivo Cita">
+                  <TextArea fx:id="ObservacionCitaText" layoutX="33.0" layoutY="219.0" prefHeight="110.0" prefWidth="388.0" />
+                  <TextArea fx:id="ObservacionMedicoText" layoutX="33.0" layoutY="373.0" prefHeight="122.0" prefWidth="386.0" />
+                  <Label layoutX="36.0" layoutY="36.0" text="Motivo Cita">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                   <TextArea fx:id="motivoCitaText" editable="false" layoutX="43.0" layoutY="71.0" prefHeight="118.0" prefWidth="457.0" />
+                   <TextArea fx:id="motivoCitaText" editable="false" layoutX="37.0" layoutY="73.0" prefHeight="87.0" prefWidth="386.0" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -82,8 +82,8 @@
          <bottom>
             <Pane prefHeight="77.0" prefWidth="1400.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button layoutX="1112.0" layoutY="27.0" mnemonicParsing="false" text="Crear Informe" />
-                  <Button layoutX="1249.0" layoutY="27.0" mnemonicParsing="false" text="Crear Receta" />
+                  <Button fx:id="crearInforme" layoutX="998.0" layoutY="27.0" mnemonicParsing="false" text="Crear Informe" />
+                  <Button fx:id="crerReceta" layoutX="808.0" layoutY="27.0" mnemonicParsing="false" text="Crear Receta" />
                </children></Pane>
          </bottom>
       </BorderPane>
