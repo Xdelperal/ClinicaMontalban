@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1080.0" maxWidth="1920.0" minHeight="1920.0" minWidth="1920.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.MainPanelController">
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.MainPanelController">
 
 
     <top>
@@ -251,7 +251,7 @@
         </VBox>
     </left>
     <center>
-        <AnchorPane fx:id="anchorpane" prefHeight="200.0" prefWidth="200.0" stylesheets="@css/cita.css" BorderPane.alignment="CENTER">
+        <AnchorPane fx:id="anchorpane" stylesheets="@css/cita.css" BorderPane.alignment="CENTER">
             <children>
                 <TableView fx:id="pendientes" layoutX="17.0" layoutY="14.0" prefHeight="870.0" prefWidth="1545.0" visible="false" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="14.0">
                     <columns>
@@ -336,7 +336,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-      
+
                       <Button fx:id="searchButton" layoutX="424.0" layoutY="63.0" mnemonicParsing="false" onAction="#getBusqueda" text="Buscar" />
                       <TextField fx:id="pacienteDNI" layoutX="226.0" layoutY="66.0" />
                       <TableView fx:id="datosPaciente" layoutX="48.0" layoutY="122.0" prefHeight="699.0" prefWidth="1400.0" visible="false">
@@ -378,7 +378,7 @@
                       </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="panelMedicamentos" prefHeight="1008.0" prefWidth="1610.0">
+            <AnchorPane fx:id="panelMedicamentos" prefHeight="1008.0" prefWidth="1494.0">
                <children>
                   <ChoiceBox fx:id="tiposMedicamento" layoutX="297.0" layoutY="63.0" prefHeight="29.0" prefWidth="172.0" />
                   <Label layoutX="59.0" layoutY="65.0" text="Tipo de Medicamento">
