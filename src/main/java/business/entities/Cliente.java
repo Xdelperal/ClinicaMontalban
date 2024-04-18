@@ -15,6 +15,10 @@ public abstract class Cliente {
         this.setIdCliente(idCliente);
     }
 
+    public Cliente() {
+
+    }
+
     public int getIdCliente() {
         return idCliente;
     }
