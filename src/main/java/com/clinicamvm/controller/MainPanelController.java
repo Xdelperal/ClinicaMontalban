@@ -120,7 +120,13 @@ public class MainPanelController implements Initializable {
         tablaMedicamentos.getItems().clear();
         String grupoMedicamento = tiposMedicamento.getValue();
         System.out.println("El grupo seleccionado es:"+grupoMedicamento);
-        ObservableList<Medicamento> listaMedicamentos = medicamentoJDBCDAO.getMedicamentos(grupoMedicamento);
+        ObservableList<Medicamento> listaMedicamentos;
+        if (grupoMedicamento!="Todos") {
+             listaMedicamentos = medicamentoJDBCDAO.getMedicamentos(grupoMedicamento);
+        }else{
+            listaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
+
+        }
         System.out.println("Me ha devuelto medicamento con :"+ listaMedicamentos.size()+" valores");
         // Agregar los elementos obtenidos a la TableView
         tablaMedicamentos.setItems(listaMedicamentos);
@@ -218,6 +224,7 @@ public class MainPanelController implements Initializable {
         for (Medicamento medicamento : listadoTipos) {
             tiposMedicamento.getItems().add(medicamento.gettNombre());
         }
+        tiposMedicamento.getItems().add("Todos");
 
     }
 

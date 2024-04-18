@@ -75,19 +75,14 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
         try {
             String sql;
             Connection connection = JDBCUtils.getConnection();
-            if(grupoMedicamento!="Todos") {
                  sql = "SELECT id FROM TiposMedicamentos where nombre=?";
-            }else{
-                 sql = "SELECT id FROM TiposMedicamentos";
-            }
+
 
             try {
-                System.out.println("la query que se ejecuta es :"+sql);
                 // Preparar la declaración SQL
                 PreparedStatement statement = connection.prepareStatement(sql);
-                if(grupoMedicamento!="Todos") {
                     statement.setString(1, grupoMedicamento);
-                }
+
                 // Ejecutar la consulta
                 ResultSet resultSet = statement.executeQuery();
 
