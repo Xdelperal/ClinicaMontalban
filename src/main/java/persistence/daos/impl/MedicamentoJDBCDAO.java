@@ -71,27 +71,34 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
 
     @Override
     public ObservableList<Medicamento> getMedicamentos(String grupoMedicamento) {
-        System.out.println("entra en el getMedicamentos");
+        System.out.println("El parametro que entra es "+grupoMedicamento);
         try {
+            String sql;
             Connection connection = JDBCUtils.getConnection();
-
-            String sql = "SELECT id FROM TiposMedicamentos where nombre=?";
-
+            if(grupoMedicamento!="Todos") {
+                 sql = "SELECT id FROM TiposMedicamentos where nombre=?";
+            }else{
+                 sql = "SELECT id FROM TiposMedicamentos";
+            }
 
             try {
+                System.out.println("la query que se ejecuta es :"+sql);
                 // Preparar la declaración SQL
                 PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setString(1,grupoMedicamento);
-
+                if(grupoMedicamento!="Todos") {
+                    statement.setString(1, grupoMedicamento);
+                }
                 // Ejecutar la consulta
                 ResultSet resultSet = statement.executeQuery();
 
                 if (resultSet.next()) {
 
                     int idGrupo = resultSet.getInt("id");
-                    System.out.println("El id del tipo de medicamento en cuestion es: "+idGrupo);
+                    String sqlCitas;
                     // Consulta SQL para obtener las citas pendientes con el nombre del cliente
-                    String sqlCitas ="SELECT nombre, dosis_estandar, descripcion FROM Medicamentos WHERE grupoid=? ";
+
+                         sqlCitas = "SELECT nombre, dosis_estandar, descripcion FROM Medicamentos WHERE grupoid=? ";
+
 
                     // Preparar la declaración SQL para la segunda consulta
                     PreparedStatement statementCitas = connection.prepareStatement(sqlCitas);
@@ -108,7 +115,6 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
                         String dosis_estandar = resultSet1.getString("dosis_estandar");
 
                         String descripcion = resultSet1.getString("descripcion");
-                        System.out.println("la info frl  medicamento a añadir es: "+nombre + " "+ dosis_estandar + " " + descripcion);
 
                         // Crear un objeto Cita con los datos obtenidos
                         Medicamento nuevoMedicamento = new Medicamento(nombre, dosis_estandar, descripcion);
@@ -116,7 +122,6 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
                     }
                 }
 
-                System.out.println("la lista mide:"+Medicamentos.size());
                 // Cerrar recursos
                 resultSet.close();
                 statement.close();
@@ -132,4 +137,48 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
 
         return Medicamentos;
     }
+
+    @Override
+    public ObservableList<Medicamento> getMedicamentos() {
+        try {
+            String sql;
+            Connection connection = JDBCUtils.getConnection();
+
+            // Consulta SQL para obtener todos los medicamentos
+            sql = "SELECT nombre, dosis_estandar, descripcion FROM Medicamentos";
+
+            try {
+                // Preparar la declaración SQL
+                PreparedStatement statement = connection.prepareStatement(sql);
+
+                // Ejecutar la consulta
+                ResultSet resultSet = statement.executeQuery();
+
+                // Recorrer el resultado de la consulta
+                while (resultSet.next()) {
+                    // Obtener los valores de las columnas
+                    String nombre = resultSet.getString("nombre");
+                    String dosis_estandar = resultSet.getString("dosis_estandar");
+                    String descripcion = resultSet.getString("descripcion");
+
+                    // Crear un objeto Medicamento con los datos obtenidos
+                    Medicamento nuevoMedicamento = new Medicamento(nombre, dosis_estandar, descripcion);
+                    Medicamentos.add(nuevoMedicamento);
+                }
+
+                // Cerrar recursos
+                resultSet.close();
+                statement.close();
+                connection.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return Medicamentos;
+    }
+
 }
