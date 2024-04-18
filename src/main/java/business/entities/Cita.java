@@ -27,29 +27,7 @@ public class Cita extends Cliente {
         this.descripcion = new SimpleStringProperty(descripcion);
     }
 
-    public IntegerProperty idCitaProperty() {
-        return idCita;
-    }
 
-    public StringProperty nombreProperty() {
-        return nombre;
-    }
-
-    public StringProperty estadoProperty() {
-        return estado;
-    }
-
-    public ObjectProperty<Date> fechaProperty() {
-        return fecha;
-    }
-
-    public ObjectProperty<Time> horaProperty() {
-        return hora;
-    }
-
-    public StringProperty descripcionProperty() {
-        return descripcion;
-    }
 
     // Otros métodos, getters y setters
 

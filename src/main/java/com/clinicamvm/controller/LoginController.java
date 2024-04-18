@@ -102,44 +102,38 @@ public class LoginController implements Initializable {
  *
  *
  */
-    @FXML
-    private void cargarMainPanel() {
-        try {
-            // Cargar la vista del panel principal y obtener su controlador
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ui/main.fxml"));
-            BorderPane root = loader.load();
-            MainPanelController mainPanelController = loader.getController();
+@FXML
+private void cargarMainPanel() {
+    try {
+        // Cargar la vista del panel principal y obtener su controlador
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ui/main.fxml"));
+        BorderPane root = loader.load();
+        MainPanelController mainPanelController = loader.getController();
 
-            // Actualizar el texto del Label en el MainPanelController
-            mainPanelController.updateUserNameLabel(fieldDNI.getText());
+        // Actualizar el texto del Label en el MainPanelController
+        mainPanelController.updateUserNameLabel(fieldDNI.getText());
 
-            // Obtener el Stage actual y configurar la nueva escena
-            Stage stage = (Stage) fieldDNI.getScene().getWindow();
-            Scene scene = new Scene(root);
+        // Obtener el Stage actual y configurar la nueva escena
+        Stage stage = (Stage) fieldDNI.getScene().getWindow();
+        Scene scene = new Scene(root);
 
-            // Obtener la resolución de la pantalla
-            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        // Establecer la escena en la ventana
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("Panel Principal");
 
-            // Establecer el tamaño de la ventana para que ocupe toda la pantalla
-            stage.setX(primaryScreenBounds.getMinX());
-            stage.setY(primaryScreenBounds.getMinY());
-            stage.setWidth(primaryScreenBounds.getWidth());
-            stage.setHeight(primaryScreenBounds.getHeight());
+        Image icono = new Image(getClass().getResourceAsStream("/com/ui/img/logo.png"), 200, 200, true, true);
+        stage.getIcons().add(icono);
 
-            // Establecer la escena en la ventana
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.setTitle("Panel Principal");
+        // Establecer la ventana en modo de pantalla completa
+        stage.setFullScreen(true);
 
-            Image icono = new Image(getClass().getResourceAsStream("/com/ui/img/logo.png"), 200, 200, true, true);
-            stage.getIcons().add(icono);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
 
-/**
+    /**
  * Este metodo es el encargado de hashear las contraseñas introducido
  * en el campo de contraseña para que despues coincida con del de la base de datos
  */
