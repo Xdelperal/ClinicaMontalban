@@ -115,25 +115,20 @@ public class MainPanelController implements Initializable {
         iniciar();
     }
 
+    /*
     private void showMedicamentos(javafx.event.ActionEvent actionEvent) {
         System.out.println("Cada vez que le das clcik aparezco");
         tablaMedicamentos.getItems().clear();
         String grupoMedicamento = tiposMedicamento.getValue();
         System.out.println("El grupo seleccionado es:"+grupoMedicamento);
-        ObservableList<Medicamento> listaMedicamentos;
-        if (grupoMedicamento!="Todos") {
-             listaMedicamentos = medicamentoJDBCDAO.getMedicamentos(grupoMedicamento);
-        }else{
-            listaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
-
-        }
+        ObservableList<Medicamento> listaMedicamentos = medicamentoJDBCDAO.getMedicamentos(grupoMedicamento);
         System.out.println("Me ha devuelto medicamento con :"+ listaMedicamentos.size()+" valores");
         // Agregar los elementos obtenidos a la TableView
         tablaMedicamentos.setItems(listaMedicamentos);
 
 
     }
-
+*/
     public void iniciar() {
         pendientes.setVisible(true);
         realizadas.setVisible(false);
@@ -224,7 +219,6 @@ public class MainPanelController implements Initializable {
         for (Medicamento medicamento : listadoTipos) {
             tiposMedicamento.getItems().add(medicamento.gettNombre());
         }
-        tiposMedicamento.getItems().add("Todos");
 
     }
 
@@ -250,7 +244,7 @@ public class MainPanelController implements Initializable {
 
             // Configurando el ID de la cita en el controlador del detalle de la cita
             controller.setIdCita(idCita);
-
+            controller.setMotivo(idCita);
             // Creando la escena y mostrando la ventana
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -319,6 +313,39 @@ public class MainPanelController implements Initializable {
         });
 
     }
+
+
+
+    JDBCUtils recursos = new JDBCUtils();
+
+    private void showMedicamentos(javafx.event.ActionEvent actionEvent) {
+        System.out.println("Cada vez que le das clcik aparezco");
+        tablaMedicamentos.getItems().clear();
+        String grupoMedicamento = tiposMedicamento.getValue();
+        System.out.println("El grupo seleccionado es:"+grupoMedicamento);
+        ObservableList<Medicamento> listaMedicamentos;
+        if (grupoMedicamento!="Todos") {
+            listaMedicamentos = medicamentoJDBCDAO.getMedicamentos(grupoMedicamento);
+        }else{
+            listaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
+            ObservableList<Medicamento> medicamentosIbu =  recursos.buscarTextoEnMedicamentos("diabetes",listaMedicamentos);
+            System.out.println("La cantidad de medicamentos con ibu son:"+medicamentosIbu.size());
+        }
+        // Agregar los elementos obtenidos a la TableView
+        tablaMedicamentos.setItems(listaMedicamentos);
+
+
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 }

@@ -17,6 +17,8 @@ public class CitaJDBCDAO implements CitaDAO {
 
     private SQLQueries sqlQueries;
 
+    private String descripcion;
+
     ObservableList<Cita> citas = FXCollections.emptyObservableList();
 
     public CitaJDBCDAO(Connection connection) {
@@ -53,7 +55,7 @@ public class CitaJDBCDAO implements CitaDAO {
                     // Preparar la declaración SQL para la segunda consulta
                     PreparedStatement statementCitas = connection.prepareStatement(sqlCitas);
                     statementCitas.setString(1, userName);
-                    statementCitas.setString(2,estadoCita);
+                    statementCitas.setString(2, estadoCita);
 
                     // Ejecutar la segunda consulta
                     ResultSet resultSetCitas = statementCitas.executeQuery();
@@ -95,7 +97,7 @@ public class CitaJDBCDAO implements CitaDAO {
     @Override
     public ObservableList<Cita> buscar(String dni) {
 
-        if (citas.size()>0){
+        if (citas.size() > 0) {
             citas.clear();
         }
 
@@ -124,9 +126,8 @@ public class CitaJDBCDAO implements CitaDAO {
             e.printStackTrace();
         }
 
-        return  citas;
+        return citas;
     }
-
 
 
     @Override
@@ -164,5 +165,35 @@ public class CitaJDBCDAO implements CitaDAO {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    public String getMotivo(int idCita) {
+        try {
+            // Establecer la conexión a la base de datos
+            Connection connection = JDBCUtils.getConnection();
+
+            PreparedStatement statementMotivo = connection.prepareStatement(sqlQueries.getMotivo());
+            statementMotivo.setString(1, String.valueOf(idCita));
+
+            // Ejecutar la consulta
+            ResultSet resultSetCitas = statementMotivo.executeQuery();
+
+            // Verificar si hay resultados
+            if (resultSetCitas.next()) {
+                this.descripcion = resultSetCitas.getString("descripcion");
+            }
+
+            // Cerrar recursos
+            resultSetCitas.close();
+            statementMotivo.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar la excepción o lanzarla nuevamente si es necesario
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return descripcion;
     }
 }

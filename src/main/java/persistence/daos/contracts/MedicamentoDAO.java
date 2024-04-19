@@ -11,4 +11,5 @@ public interface MedicamentoDAO {
     ObservableList<Medicamento> getMedicamentos();
 
 
+    ObservableList<Medicamento> buscar(String nombreMed);
 }

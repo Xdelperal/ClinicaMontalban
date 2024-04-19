@@ -1,6 +1,10 @@
 package persistence.utils;
 
 
+import business.entities.Medicamento;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -29,6 +33,35 @@ public class JDBCUtils {
         return dbLink;
 
     }
+
+
+    public ObservableList<Medicamento> buscarTextoEnMedicamentos(String texto, ObservableList<Medicamento> listaMedicamentos) {
+        ObservableList<Medicamento> medicamentosCoincidentes = FXCollections.observableArrayList();
+
+        for (Medicamento medicamento : listaMedicamentos) {
+            if (medicamento.getNombre().toLowerCase().contains(texto.toLowerCase()) ||
+                    medicamento.getDescripcion().toLowerCase().contains(texto.toLowerCase())) {
+                medicamentosCoincidentes.add(medicamento);
+            }
+        }
+
+        return medicamentosCoincidentes;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
