@@ -39,6 +39,8 @@ public class CitaDetalleController implements Initializable {
     private SQLQueries sqlQueries;
     private CitaJDBCDAO citaJDBCDAO;
 
+    private ObservableList<Medicamento> tablaMedicamentos;
+
     // Otros elementos de la ventana y métodos necesarios
 
 
@@ -50,9 +52,11 @@ public class CitaDetalleController implements Initializable {
         citaJDBCDAO = new CitaJDBCDAO(connection);
         informeButton.setOnAction(event -> crearInforme());
         buttonSearchMedicamentos.setOnAction(event -> busquedaMedicamentos());
+        tablaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
         showMedicamentos();
 
     }
+
 
     @FXML
     private void getBusqueda(){
@@ -81,24 +85,18 @@ public class CitaDetalleController implements Initializable {
     }
 
 
-
     @FXML
     private void showMedicamentos() {
-        listaMedicamentos.getItems().clear();
-        ObservableList<Medicamento> tablaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
-        listaMedicamentos.setItems(tablaMedicamentos);
+        listaMedicamentos.setItems(tablaMedicamentos); // Utilizar la lista almacenada
     }
 
     JDBCUtils recursos = new JDBCUtils();
 
     @FXML
     private void busquedaMedicamentos() {
-        listaMedicamentos.getItems().clear();
-        ObservableList<Medicamento> tablaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
-        ObservableList<Medicamento> medicamentosBusqueda =  recursos.buscarTextoEnMedicamentos(textMedicamento.getText(),tablaMedicamentos);
+        ObservableList<Medicamento> medicamentosBusqueda = recursos.buscarTextoEnMedicamentos(textMedicamento.getText(), tablaMedicamentos);
         // Agregar los elementos obtenidos a la TableView
         listaMedicamentos.setItems(medicamentosBusqueda);
-
     }
 
 }

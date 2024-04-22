@@ -39,8 +39,7 @@ public class JDBCUtils {
         ObservableList<Medicamento> medicamentosCoincidentes = FXCollections.observableArrayList();
 
         for (Medicamento medicamento : listaMedicamentos) {
-            if (medicamento.getNombre().toLowerCase().contains(texto.toLowerCase()) ||
-                    medicamento.getDescripcion().toLowerCase().contains(texto.toLowerCase())) {
+            if (medicamento.getNombre().toLowerCase().contains(texto.toLowerCase())) {
                 medicamentosCoincidentes.add(medicamento);
             }
         }

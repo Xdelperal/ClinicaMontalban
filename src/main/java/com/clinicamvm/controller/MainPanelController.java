@@ -216,6 +216,7 @@ public class MainPanelController implements Initializable {
         tiposButton.getStyleClass().add("selected");
 
         ObservableList<Medicamento> listadoTipos = medicamentoJDBCDAO.getTipoMedicamento();
+        tiposMedicamento.getItems().add("Todos");
         for (Medicamento medicamento : listadoTipos) {
             tiposMedicamento.getItems().add(medicamento.gettNombre());
         }
