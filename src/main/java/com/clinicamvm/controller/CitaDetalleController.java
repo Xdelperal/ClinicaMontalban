@@ -2,7 +2,6 @@ package com.clinicamvm.controller;
 
 import business.entities.Cita;
 import business.entities.Medicamento;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,8 +12,6 @@ import persistence.utils.*;
 import javax.swing.*;
 import java.net.URL;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class CitaDetalleController implements Initializable {
@@ -22,8 +19,6 @@ public class CitaDetalleController implements Initializable {
     @FXML
     private TableView<Medicamento> listaMedicamentos;
 
-    @FXML
-    private ListView<Medicamento> listaMedicamentosAñadidos;
     @FXML
     private Label lblIdCita;
     private MedicamentoJDBCDAO medicamentoJDBCDAO;
@@ -57,26 +52,15 @@ public class CitaDetalleController implements Initializable {
         buttonSearchMedicamentos.setOnAction(event -> busquedaMedicamentos());
         showMedicamentos();
 
-        listaMedicamentos.setRowFactory(tv -> {
-            TableRow<Medicamento> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && !row.isEmpty()) {
-                    Medicamento medicamentoSeleccionado = row.getItem();
-                    añadirMedicamento(medicamentoSeleccionado);
-                }
-            });
-            return row;
-        });
-
-
-
-
-
-
-
     }
 
+    @FXML
+    private void getBusqueda(){
+        listaMedicamentos.getItems().clear();
+        ObservableList<Medicamento> buscarLista = medicamentoJDBCDAO.buscar(textMedicamento.getText());
+        listaMedicamentos.setItems(buscarLista);
 
+    }
 
 
 
@@ -109,50 +93,12 @@ public class CitaDetalleController implements Initializable {
 
     @FXML
     private void busquedaMedicamentos() {
-
-
-            listaMedicamentos.getItems().clear();
-            ObservableList<Medicamento> tablaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
-            ObservableList<Medicamento> medicamentosIbu = recursos.buscarTextoEnMedicamentos(textMedicamento.getText(), tablaMedicamentos);
-            listaMedicamentos.setItems(medicamentosIbu);
+        listaMedicamentos.getItems().clear();
+        ObservableList<Medicamento> tablaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
+        ObservableList<Medicamento> medicamentosBusqueda =  recursos.buscarTextoEnMedicamentos(textMedicamento.getText(),tablaMedicamentos);
+        // Agregar los elementos obtenidos a la TableView
+        listaMedicamentos.setItems(medicamentosBusqueda);
 
     }
-
-
-
-
-
-    private void añadirMedicamento(Medicamento medicamento) {
-        ObservableList<Medicamento> medicamentosAñadidos = FXCollections.observableArrayList();
-
-        // Asegúrate de inicializar la lista si aún no se ha hecho
-        if (listaMedicamentosAñadidos == null) {
-            listaMedicamentosAñadidos = new ListView<>();
-        }
-        // Agregar el medicamento seleccionado a la lista
-        medicamentosAñadidos.add(medicamento);
-        // Establecer la lista observable en la ListView
-     //   listaMedicamentosAñadidos.setItems();
-
-        // mostrarMensaje("Medicamento añadido correctamente: " + medicamento.getNombre());
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
