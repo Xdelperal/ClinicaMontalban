@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.ResourceBundle;
+import java.time.LocalDate;
 
 public class CitaDetalleController implements Initializable {
 
@@ -34,6 +35,9 @@ public class CitaDetalleController implements Initializable {
     @FXML
     private Button informeButton;
 
+    @FXML
+    private DatePicker fechaInicio;
+
     private int idCita;
 
     private SQLQueries sqlQueries;
@@ -53,6 +57,7 @@ public class CitaDetalleController implements Initializable {
         informeButton.setOnAction(event -> crearInforme());
         buttonSearchMedicamentos.setOnAction(event -> busquedaMedicamentos());
         tablaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
+        fechaInicio.setValue(LocalDate.now());
         showMedicamentos();
 
     }

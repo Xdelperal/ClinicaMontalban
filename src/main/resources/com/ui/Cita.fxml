@@ -2,13 +2,15 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
@@ -30,17 +32,17 @@
 
                   <TableView fx:id="listaMedicamentos" layoutX="24.0" layoutY="111.0" prefHeight="491.0" prefWidth="353.0">
                      <columns>
-                        <TableColumn fx:id="nombreMedicamento" prefWidth="100" text="Nombre">
+                        <TableColumn fx:id="nombreMedicamento" prefWidth="142.0" text="Nombre">
                            <cellValueFactory>
                               <PropertyValueFactory property="nombre" />
                            </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="dosisMedicamento" prefWidth="100" text="Dosis Estandar">
+                        <TableColumn fx:id="dosisMedicamento" prefWidth="124.0" text="Dosis Estandar">
                            <cellValueFactory>
                               <PropertyValueFactory property="dosisEstandar" />
                            </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="descripcionMedicamento" prefWidth="150" text="Descripcion">
+                        <TableColumn fx:id="añadirMedicamento" prefWidth="85.0" text="Añadir">
                            <cellValueFactory>
                               <PropertyValueFactory property="descripcion" />
                            </cellValueFactory>
@@ -68,33 +70,59 @@
             </Pane>
          </top>
          <center>
-            <Pane prefHeight="753.0" prefWidth="499.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="602.0" prefWidth="372.0" BorderPane.alignment="CENTER">
                <children>
-                  <ListView fx:id="listaMedicamentosAñadidos" layoutX="30.0" layoutY="112.0" prefHeight="490.0" prefWidth="355.0" />
+                  <TableView layoutX="60.0" layoutY="111.0" prefHeight="305.0" prefWidth="381.0">
+                    <columns>
+                      <TableColumn fx:id="nombreLista" prefWidth="114.0" text="Nombre" />
+                      <TableColumn prefWidth="94.0" text="cº Dosis" />
+                    </columns>
+                  </TableView>
+                  <Label layoutX="61.0" layoutY="53.0" prefHeight="45.0" prefWidth="268.0" text="Medicamentos Recetados">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="32.0" fitWidth="47.0" layoutX="20.0" layoutY="308.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/citaPane/flecha.jpg" />
+                     </image></ImageView>
+                  <DatePicker fx:id="fechaInicio" layoutX="61.0" layoutY="459.0" />
+                  <DatePicker fx:id="fechaFinal" layoutX="61.0" layoutY="525.0" />
+                  <Label layoutX="61.0" layoutY="431.0" text="Fecha Inicio">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="61.0" layoutY="499.0" text="Fecha Final">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
          </center>
          <right>
-            <Pane prefHeight="508.0" prefWidth="444.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="602.0" prefWidth="364.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="36.0" layoutY="276.0" text="Observacion Cita">
+                  <Label layoutX="22.0" layoutY="276.0" text="Comentarios">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label layoutX="37.0" layoutY="451.0" prefHeight="25.0" prefWidth="204.0" text="Observacion Medico">
+                  <Label layoutX="23.0" layoutY="441.0" prefHeight="25.0" prefWidth="204.0" text="Observacion Medico">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="ObservacionCitaText" layoutX="36.0" layoutY="316.0" prefHeight="110.0" prefWidth="388.0" />
-                  <TextArea fx:id="ObservacionMedicoText" layoutX="37.0" layoutY="485.0" prefHeight="109.0" prefWidth="386.0" />
-                  <Label layoutX="37.0" layoutY="112.0" text="Motivo Cita">
+                  <TextArea fx:id="ObservacionCitaText" layoutX="22.0" layoutY="312.0" prefHeight="98.0" prefWidth="322.0" />
+                  <TextArea fx:id="ObservacionMedicoText" layoutX="21.0" layoutY="473.0" prefHeight="109.0" prefWidth="323.0" />
+                  <Label layoutX="23.0" layoutY="129.0" text="Motivo Cita">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                   <TextArea fx:id="motivoCitaText" editable="false" layoutX="37.0" layoutY="163.0" prefHeight="87.0" prefWidth="386.0" />
+                   <TextArea fx:id="motivoCitaText" editable="false" layoutX="23.0" layoutY="165.0" prefHeight="87.0" prefWidth="320.0" />
                </children>
                <opaqueInsets>
                   <Insets />
