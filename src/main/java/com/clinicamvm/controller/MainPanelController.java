@@ -237,7 +237,20 @@ public class MainPanelController implements Initializable {
             // Creando la escena y mostrando la ventana
             Scene scene = new Scene(root);
             Stage stage = new Stage();
+            // Establecer la escena en la ventana
             stage.setScene(scene);
+            stage.setResizable(true); // Permitir redimensionar la ventana
+
+            // Calcular las dimensiones para mantener la relación de aspecto 16:9
+            double width = 1080 * (16.0 / 9.0); // Para mantener la relación de aspecto
+            double height = 1080;
+
+            // Establecer las dimensiones de la ventana
+            stage.setWidth(width);
+            stage.setHeight(height);
+
+            // Centrar la ventana en la pantalla
+            stage.centerOnScreen();
             stage.setTitle("Información Cita");
             stage.show();
         } catch (IOException e) {

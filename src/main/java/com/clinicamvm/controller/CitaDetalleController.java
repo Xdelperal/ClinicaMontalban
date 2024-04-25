@@ -33,7 +33,7 @@ public class CitaDetalleController implements Initializable {
     @FXML
     private TextArea motivoCitaText,ObservacionCitaText;
     @FXML
-    private Button informeButton;
+    private Button generar;
 
     @FXML
     private DatePicker fechaInicio;
@@ -54,10 +54,9 @@ public class CitaDetalleController implements Initializable {
         listaMedicamentos.setVisible(true);
         Connection connection = JDBCUtils.getConnection();
         citaJDBCDAO = new CitaJDBCDAO(connection);
-        informeButton.setOnAction(event -> crearInforme());
+        generar.setOnAction(event -> crearInforme());
         buttonSearchMedicamentos.setOnAction(event -> busquedaMedicamentos());
         tablaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
-        fechaInicio.setValue(LocalDate.now());
         showMedicamentos();
 
     }

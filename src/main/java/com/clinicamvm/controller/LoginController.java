@@ -8,6 +8,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -107,7 +108,7 @@ private void cargarMainPanel() {
     try {
         // Cargar la vista del panel principal y obtener su controlador
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ui/main.fxml"));
-        BorderPane root = loader.load();
+        ScrollPane root = loader.load();
         MainPanelController mainPanelController = loader.getController();
 
         // Actualizar el texto del Label en el MainPanelController
@@ -117,16 +118,26 @@ private void cargarMainPanel() {
         Stage stage = (Stage) fieldDNI.getScene().getWindow();
         Scene scene = new Scene(root);
 
-        // Establecer la escena en la ventana
+// Establecer la escena en la ventana
         stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setTitle("Panel Principal");
+        stage.setResizable(true); // Permitir redimensionar la ventana
+
+// Calcular las dimensiones para mantener la relación de aspecto 16:9
+        double width = 1080 * (16.0 / 9.0); // Para mantener la relación de aspecto
+        double height = 1080;
+
+// Establecer las dimensiones de la ventana
+        stage.setWidth(width);
+        stage.setHeight(height);
+
+// Centrar la ventana en la pantalla
+        stage.centerOnScreen();
 
         Image icono = new Image(getClass().getResourceAsStream("/com/ui/img/logo.png"), 200, 200, true, true);
         stage.getIcons().add(icono);
 
         // Establecer la ventana en modo de pantalla completa
-        stage.setFullScreen(true);
+        //stage.setFullScreen(true);
 
     } catch (IOException e) {
         e.printStackTrace();
