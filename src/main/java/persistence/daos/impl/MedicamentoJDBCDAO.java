@@ -141,7 +141,7 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
             Connection connection = JDBCUtils.getConnection();
 
             // Consulta SQL para obtener todos los medicamentos
-            sql = "SELECT id, nombre, dosis_estandar FROM Medicamentos";
+            sql = "SELECT id, nombre, dosis_estandar, descripcion FROM Medicamentos";
 
             try {
                 // Preparar la declaración SQL
@@ -156,9 +156,10 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
                     int id = resultSet.getInt("id");
                     String nombre = resultSet.getString("nombre");
                     String dosis_estandar = resultSet.getString("dosis_estandar");
+                    String descripcion = resultSet.getString("descripcion");
 
                     // Crear un objeto Medicamento con los datos obtenidos
-                    Medicamento nuevoMedicamento = new Medicamento(id, nombre, dosis_estandar);
+                    Medicamento nuevoMedicamento = new Medicamento(id, nombre, dosis_estandar, descripcion);
                     Medicamentos.add(nuevoMedicamento);
                 }
 

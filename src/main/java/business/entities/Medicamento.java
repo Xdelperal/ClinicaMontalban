@@ -89,15 +89,18 @@ public class Medicamento {
         this.gId = gId;
     }
 
+    public Medicamento(int id, String nombre, String dosisEstandar, String descripcion) {
+        this.id = id;
+        this.nombre = nombre;
+        this.dosisEstandar = dosisEstandar;
+        this.descripcion = descripcion;
+    }
+
+
     public Medicamento(String nombre, String dosisEstandar, String descripcion) {
         this.nombre = nombre;
         this.dosisEstandar = dosisEstandar;
         this.descripcion = descripcion;
     }
 
-    public Medicamento(int id, String nombre, String dosisEstandar) {
-        this.id = id;
-        this.nombre = nombre;
-        this.dosisEstandar = dosisEstandar;
-    }
 }
