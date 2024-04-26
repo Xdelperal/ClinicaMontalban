@@ -118,31 +118,31 @@ private void cargarMainPanel() {
         Stage stage = (Stage) fieldDNI.getScene().getWindow();
         Scene scene = new Scene(root);
 
-// Establecer la escena en la ventana
+        // Establecer la escena en la ventana
         stage.setScene(scene);
         stage.setResizable(true); // Permitir redimensionar la ventana
 
-// Calcular las dimensiones para mantener la relación de aspecto 16:9
-        double width = 1080 * (16.0 / 9.0); // Para mantener la relación de aspecto
-        double height = 1080;
+        // Obtener el tamaño de la pantalla
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        double screenWidth = primaryScreenBounds.getWidth();
+        double screenHeight = primaryScreenBounds.getHeight();
 
-// Establecer las dimensiones de la ventana
-        stage.setWidth(width);
-        stage.setHeight(height);
+        // Establecer el tamaño de la ventana para que ocupe toda la pantalla
+        stage.setWidth(screenWidth);
+        stage.setHeight(screenHeight);
 
-// Centrar la ventana en la pantalla
+        // Centrar la ventana en la pantalla
         stage.centerOnScreen();
 
         Image icono = new Image(getClass().getResourceAsStream("/com/ui/img/logo.png"), 200, 200, true, true);
         stage.getIcons().add(icono);
 
-        // Establecer la ventana en modo de pantalla completa
-        //stage.setFullScreen(true);
-
     } catch (IOException e) {
         e.printStackTrace();
     }
 }
+
+
 
     /**
  * Este metodo es el encargado de hashear las contraseñas introducido
