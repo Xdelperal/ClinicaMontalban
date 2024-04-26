@@ -8,11 +8,13 @@ import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -241,13 +243,15 @@ public class MainPanelController implements Initializable {
             stage.setScene(scene);
             stage.setResizable(true); // Permitir redimensionar la ventana
 
-            // Calcular las dimensiones para mantener la relación de aspecto 16:9
-            double width = 1080 * (16.0 / 9.0); // Para mantener la relación de aspecto
-            double height = 1080;
 
-            // Establecer las dimensiones de la ventana
-            stage.setWidth(width);
-            stage.setHeight(height);
+            // Obtener el tamaño de la pantalla
+            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+            double screenWidth = primaryScreenBounds.getWidth();
+            double screenHeight = primaryScreenBounds.getHeight();
+
+            // Establecer el tamaño de la ventana para que ocupe toda la pantalla
+            stage.setWidth(screenWidth);
+            stage.setHeight(screenHeight);
 
             // Centrar la ventana en la pantalla
             stage.centerOnScreen();
