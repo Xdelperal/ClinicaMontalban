@@ -1,26 +1,29 @@
 package com.clinicamvm.controller;
 
-import business.entities.Cita;
 import business.entities.Medicamento;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import persistence.daos.impl.CitaJDBCDAO;
 import persistence.daos.impl.MedicamentoJDBCDAO;
 import persistence.utils.*;
-import javax.swing.*;
+
 import java.net.URL;
 import java.sql.Connection;
 import java.util.ResourceBundle;
-import java.time.LocalDate;
 
 public class CitaDetalleController implements Initializable {
 
     @FXML
     private TableView<Medicamento> listaMedicamentos, listaReceta;
 
+    @FXML
+    private TableColumn<Medicamento, String> nombreMedicamento;
+    @FXML
+    private TableColumn<Medicamento, String> dosisMedicamento;
     @FXML
     private TableColumn<Medicamento, Void> añadirMedicamento;
 
@@ -97,7 +100,11 @@ public class CitaDetalleController implements Initializable {
 
     @FXML
     private void showMedicamentos() {
+
+        nombreMedicamento.setCellValueFactory(new PropertyValueFactory<Medicamento, String>("nombre"));
+        dosisMedicamento.setCellValueFactory(new PropertyValueFactory<Medicamento, String>("dosisEstandar"));
         listaMedicamentos.setItems(tablaMedicamentos);
+
         añadirMedicamento.setCellFactory(new Callback<>() {
             @Override
             public TableCell<Medicamento, Void> call(TableColumn<Medicamento, Void> param) {
@@ -108,7 +115,7 @@ public class CitaDetalleController implements Initializable {
                             Medicamento medicamento = getTableView().getItems().get(getIndex());
                             int medicamentoId = medicamento.getId();
 
-                            System.out.println("Medicamento nombre: " + medicamentoId);
+                            System.out.println("Medicamento id: " + medicamentoId);
                             //listaReceta.setItems(medicamentoId);
 
                         });
@@ -126,6 +133,7 @@ public class CitaDetalleController implements Initializable {
                 };
             }
         });
+
     }
 
     JDBCUtils recursos = new JDBCUtils();
