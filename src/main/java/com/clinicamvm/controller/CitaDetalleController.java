@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.util.Callback;
 import persistence.daos.impl.CitaJDBCDAO;
 import persistence.daos.impl.MedicamentoJDBCDAO;
 import persistence.utils.*;
@@ -18,7 +19,10 @@ import java.time.LocalDate;
 public class CitaDetalleController implements Initializable {
 
     @FXML
-    private TableView<Medicamento> listaMedicamentos;
+    private TableView<Medicamento> listaMedicamentos, listaReceta;
+
+    @FXML
+    private TableColumn<Medicamento, Void> añadirMedicamento;
 
     @FXML
     private Label lblIdCita;
@@ -34,6 +38,8 @@ public class CitaDetalleController implements Initializable {
     private TextArea motivoCitaText,ObservacionCitaText;
     @FXML
     private Button generar;
+
+
 
     @FXML
     private DatePicker fechaInicio;
@@ -91,7 +97,35 @@ public class CitaDetalleController implements Initializable {
 
     @FXML
     private void showMedicamentos() {
-        listaMedicamentos.setItems(tablaMedicamentos); // Utilizar la lista almacenada
+        listaMedicamentos.setItems(tablaMedicamentos);
+        añadirMedicamento.setCellFactory(new Callback<>() {
+            @Override
+            public TableCell<Medicamento, Void> call(TableColumn<Medicamento, Void> param) {
+                return new TableCell<>() {
+                    private final Button button = new Button("+");
+                    {
+                        button.setOnAction(event -> {
+                            Medicamento medicamento = getTableView().getItems().get(getIndex());
+                            int medicamentoId = medicamento.getId();
+
+                            System.out.println("Medicamento nombre: " + medicamentoId);
+                            //listaReceta.setItems(medicamentoId);
+
+                        });
+                    }
+
+                    @Override
+                    protected void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(button);
+                        }
+                    }
+                };
+            }
+        });
     }
 
     JDBCUtils recursos = new JDBCUtils();
