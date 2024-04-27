@@ -103,4 +103,9 @@ public class Medicamento {
         this.descripcion = descripcion;
     }
 
+    public Medicamento(String nombre, String dosisEstandar) {
+        this.nombre = nombre;
+        this.dosisEstandar = dosisEstandar;
+    }
+
 }
