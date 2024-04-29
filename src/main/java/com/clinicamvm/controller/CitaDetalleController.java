@@ -24,7 +24,7 @@ public class CitaDetalleController implements Initializable {
     private TableView<Medicamento> listaMedicamentos;
 
     @FXML
-    private TableView<Receta> listaReceta;
+    private TableView<Receta> tablaReceta;
 
     @FXML
     private TableColumn<Receta, String> nombreLista;
@@ -69,17 +69,21 @@ public class CitaDetalleController implements Initializable {
 
     private int idCita;
 
+    private int numeroReceta;
+
     private SQLQueries sqlQueries;
     private CitaJDBCDAO citaJDBCDAO;
 
    // private List<Receta> tablaReceta = new ArrayList<>();;
-    private ObservableList<Receta> tablaReceta = FXCollections.observableArrayList();
+    private ObservableList<Receta> listaReceta = FXCollections.observableArrayList();
     private ObservableList<Medicamento> tablaMedicamentos;
     JDBCUtils recursos = new JDBCUtils();
     // Otros elementos de la ventana y métodos necesarios
 
     // Mapa para mapear los medicamentos por su id
     private Map<Integer, Medicamento> mapaMedicamentos = new HashMap<>();
+    private Map<String, Receta> mapaRecetas = new HashMap<>();
+    private Map<Integer, Receta> mapaRecetasInt = new HashMap<>();
 
 
     @Override
@@ -167,10 +171,20 @@ public class CitaDetalleController implements Initializable {
         Medicamento medicamento = mapaMedicamentos.get(idMedicamento);
 
         // Crear un objeto Receta con el nombre y la dosis estándar del medicamento
-        tablaReceta.add(new Receta(medicamento.getNombre(), medicamento.getDosisEstandar(), null, null, null, null));
+        listaReceta.add(new Receta(numeroReceta++, medicamento.getNombre(), medicamento.getDosisEstandar(), null, null, null, null));
 
         nombreLista.setCellValueFactory(new PropertyValueFactory<Receta, String>("nombre"));
         dosisEstandar.setCellValueFactory(new PropertyValueFactory<Receta, String>("dosisEstandar"));
+
+        tablaReceta.setItems(listaReceta);
+
+        for (Receta receta : listaReceta) {
+            mapaRecetas.put(medicamento.getNombre(), receta);
+        }
+
+        Receta receta = mapaRecetas.get(medicamento.getNombre());
+
+        System.out.println("Receta encontrada: " + receta.toString());
 
         fechaInicial.setCellFactory(column -> {
             return new TableCell<Receta, Date>() {
@@ -280,6 +294,7 @@ public class CitaDetalleController implements Initializable {
             };
         });
 
+        // Primero conseguir actualizar campo de texto comentario.
         comentario.setCellFactory(column -> {
             return new TableCell<Receta, String>() {
                 private final TextField textField = new TextField();
@@ -287,11 +302,11 @@ public class CitaDetalleController implements Initializable {
                 {
                     // Configura el comportamiento del TextField
                     textField.setOnAction(event -> {
-                        Receta receta = getTableRow().getItem();
                         if (receta != null) {
                             receta.setComentario(textField.getText());
+                            //commitEdit(textField.getText());
+                            System.out.println("Receta actualizada: " + receta.toString());
                         }
-                        commitEdit(textField.getText());
                     });
                 }
 
@@ -309,6 +324,11 @@ public class CitaDetalleController implements Initializable {
                 @Override
                 public void startEdit() {
                     super.startEdit();
+                    // Obtén la receta actual
+                    Receta receta = getTableRow().getItem();
+                    if (receta != null) {
+                        System.out.println("Receta a editar: " + receta.toString());
+                    }
                     textField.setText(getItem());
                     setGraphic(textField);
                 }
@@ -321,6 +341,7 @@ public class CitaDetalleController implements Initializable {
             };
         });
 
+
         eliminar.setCellFactory(column -> {
             return new TableCell<Receta, Button>() {
                 private final Button deleteButton = new Button("-");
@@ -329,7 +350,7 @@ public class CitaDetalleController implements Initializable {
                     deleteButton.setOnAction(event -> {
                         Receta receta = getTableRow().getItem();
                         if (receta != null) {
-                            tablaReceta.remove(receta);
+                            listaReceta.remove(receta);
                         }
                     });
                 }
@@ -346,8 +367,11 @@ public class CitaDetalleController implements Initializable {
             };
         });
 
-        listaReceta.setItems(tablaReceta);
+        for (Receta receta2 : listaReceta) {
+            System.out.println("Lista de receta entera actualizada" + receta2.toString());
+        }
     }
+
 
     @FXML
     private void busquedaMedicamentos() {

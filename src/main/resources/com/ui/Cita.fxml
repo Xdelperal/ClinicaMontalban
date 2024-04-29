@@ -60,7 +60,7 @@
                <center>
                   <Pane prefHeight="798.0" prefWidth="1088.0" BorderPane.alignment="CENTER">
                      <children>
-                        <TableView fx:id="listaReceta" layoutX="54.0" layoutY="107.0" prefHeight="670.0" prefWidth="1029.0">
+                        <TableView fx:id="tablaReceta" layoutX="54.0" layoutY="107.0" prefHeight="670.0" prefWidth="1029.0">
                           <columns>
                             <TableColumn fx:id="nombreLista" prefWidth="114.0" text="Nombre" />
                             <TableColumn fx:id="dosisEstandar" prefWidth="113.0" text="Dosis Estandar" />

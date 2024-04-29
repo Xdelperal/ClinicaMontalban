@@ -10,6 +10,11 @@ public class Receta extends Medicamento{
     private String cantidadDosis, comentario;
 
     // Getters and Setters
+
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
+
     public String getComentario() {
         return comentario;
     }
@@ -43,12 +48,27 @@ public class Receta extends Medicamento{
     }
 
     //Contructor
-    public Receta(String nombre, String dosisEstandar, Date fechaInicial, Date fechaFinal, String cantidadDosis, String comentario) {
+    public Receta(int id, String nombre, String dosisEstandar,Date fechaInicial, Date fechaFinal, String cantidadDosis, String comentario) {
         super(nombre, dosisEstandar);
+        this.id = id;
         this.fechaInicial = fechaInicial;
         this.fechaFinal = fechaFinal;
         this.cantidadDosis = cantidadDosis;
         this.comentario = comentario;
+    }
+
+    //De momento para verificar los objetos printandolos por consola.
+    @Override
+    public String toString() {
+        return "Receta{" +
+                "id=" + id + '\'' +
+                "nombre='" + getNombre() + '\'' +
+                ", dosisEstandar='" + getDosisEstandar() + '\'' +
+                ", fechaInicial=" + fechaInicial +
+                ", fechaFinal=" + fechaFinal +
+                ", cantidadDosis='" + cantidadDosis + '\'' +
+                ", comentario='" + comentario + '\'' +
+                '}';
     }
 
 }
