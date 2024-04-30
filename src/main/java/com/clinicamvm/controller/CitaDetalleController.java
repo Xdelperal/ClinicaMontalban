@@ -18,6 +18,7 @@ import persistence.utils.JDBCUtils;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -155,23 +156,45 @@ public class CitaDetalleController implements Initializable {
         Medicamento medicamento = mapaMedicamentos.get(idMedicamento);
         Receta receta = new Receta(numeroReceta++, medicamento.getNombre(), medicamento.getDosisEstandar(), null, null, null, null);
 
-        // Imprimir el objeto por consola
-        System.out.println("Lista de Recetas:");
-        for (Receta r : listaReceta) {
-            System.out.println(r);
-        }
-
         listaReceta.add(receta);
 
         nombreLista.setCellValueFactory(new PropertyValueFactory<Receta, String>("nombre"));
         dosisEstandar.setCellValueFactory(new PropertyValueFactory<Receta, String>("dosisEstandar"));
         tablaReceta.setItems(listaReceta);
 
-        // Configurar celdas para fecha inicial y final
         setUpDatePickers();
-
-        // Configurar celdas para comentario
+        setUpDosisCell();
         setUpComentarioCell();
+
+        eliminar.setCellFactory(column -> {
+            return new TableCell<Receta, Button>() {
+                private final Button deleteButton = new Button("-");
+                {
+                    deleteButton.setOnAction(event -> {
+                        Receta receta = getTableRow().getItem();
+                        if (receta != null) {
+                            listaReceta.remove(receta);
+                        }
+                    });
+                }
+                @Override
+                protected void updateItem(Button button, boolean empty) {
+                    super.updateItem(button, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(deleteButton);
+                    }
+                }
+            };
+        });
+
+        // Imprimir el objeto por consola
+        System.out.println("Lista de Recetas:");
+        for (Receta r : listaReceta) {
+            System.out.println(r);
+        }
+
     }
 
     @FXML
@@ -196,11 +219,13 @@ public class CitaDetalleController implements Initializable {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    datePicker.setValue(date != null ? date.toLocalDate() : null);
+                    datePicker.setValue(date != null ? date.toLocalDate() : LocalDate.now()); // Establecer la fecha actual como valor predeterminado
                     setGraphic(datePicker);
                 }
             }
         });
+
+
 
         fechaFinal.setCellValueFactory(new PropertyValueFactory<>("fechaFinal"));
         fechaFinal.setCellFactory(col -> new TableCell<Receta, Date>() {
@@ -224,6 +249,35 @@ public class CitaDetalleController implements Initializable {
                 } else {
                     datePicker.setValue(date != null ? date.toLocalDate() : null);
                     setGraphic(datePicker);
+                }
+            }
+        });
+    }
+
+    @FXML
+    private void setUpDosisCell() {
+        cantidadDosis.setCellValueFactory(new PropertyValueFactory<>("cantidadDosis"));
+        cantidadDosis.setCellFactory(col -> new TableCell<Receta, String>() {
+            private final TextField textField = new TextField();
+
+            {
+                // Listener para actualizar el valor de comentario en la Receta cuando cambia el texto
+                textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                    if (getTableRow() != null) {
+                        Receta receta = getTableRow().getItem();
+                        receta.setCantidadDosis(newValue);
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(String comment, boolean empty) {
+                super.updateItem(comment, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    textField.setText(comment);
+                    setGraphic(textField);
                 }
             }
         });
