@@ -2,6 +2,8 @@ package com.clinicamvm.controller;
 
 import business.entities.Medicamento;
 import business.entities.Receta;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,12 +13,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import persistence.daos.impl.CitaJDBCDAO;
 import persistence.daos.impl.MedicamentoJDBCDAO;
-import persistence.utils.*;
-import java.time.LocalDate;
+import persistence.utils.JDBCUtils;
 
 import java.net.URL;
 import java.sql.Connection;
-import java.util.*;
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class CitaDetalleController implements Initializable {
 
@@ -41,7 +45,6 @@ public class CitaDetalleController implements Initializable {
     @FXML
     private TableColumn<Receta, Button> eliminar;
 
-
     @FXML
     private TableColumn<Medicamento, String> nombreMedicamento;
     @FXML
@@ -51,7 +54,6 @@ public class CitaDetalleController implements Initializable {
 
     @FXML
     private Label lblIdCita;
-    private MedicamentoJDBCDAO medicamentoJDBCDAO;
 
     @FXML
     private Button buttonSearchMedicamentos;
@@ -60,7 +62,8 @@ public class CitaDetalleController implements Initializable {
     private TextField textMedicamento;
 
     @FXML
-    private TextArea motivoCitaText,ObservacionCitaText;
+    private TextArea motivoCitaText, ObservacionCitaText;
+
     @FXML
     private Button generar;
 
@@ -68,28 +71,18 @@ public class CitaDetalleController implements Initializable {
     private DatePicker fechaInicio;
 
     private int idCita;
-
     private int numeroReceta;
 
-    private SQLQueries sqlQueries;
     private CitaJDBCDAO citaJDBCDAO;
+    private MedicamentoJDBCDAO medicamentoJDBCDAO;
 
-   // private List<Receta> tablaReceta = new ArrayList<>();;
     private ObservableList<Receta> listaReceta = FXCollections.observableArrayList();
     private ObservableList<Medicamento> tablaMedicamentos;
-    JDBCUtils recursos = new JDBCUtils();
-    // Otros elementos de la ventana y métodos necesarios
-
-    // Mapa para mapear los medicamentos por su id
     private Map<Integer, Medicamento> mapaMedicamentos = new HashMap<>();
-    private Map<String, Receta> mapaRecetas = new HashMap<>();
-    private Map<Integer, Receta> mapaRecetasInt = new HashMap<>();
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         medicamentoJDBCDAO = new MedicamentoJDBCDAO();
-        listaMedicamentos.setVisible(true);
         Connection connection = JDBCUtils.getConnection();
         citaJDBCDAO = new CitaJDBCDAO(connection);
         generar.setOnAction(event -> crearInforme());
@@ -97,41 +90,34 @@ public class CitaDetalleController implements Initializable {
         tablaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
         showMedicamentos();
 
-        // Llenar el mapa con los medicamentos
         for (Medicamento medicamento : tablaMedicamentos) {
             mapaMedicamentos.put(medicamento.getId(), medicamento);
         }
-
     }
 
     @FXML
-    private void getBusqueda(){
+    private void getBusqueda() {
         listaMedicamentos.getItems().clear();
         ObservableList<Medicamento> buscarLista = medicamentoJDBCDAO.buscar(textMedicamento.getText());
         listaMedicamentos.setItems(buscarLista);
-
     }
 
-
     public void setIdCita(int idCita) {
-        // Aquí puedes usar el ID de la cita para cargar y mostrar la información correspondiente en la ventana
         lblIdCita.setText("Cita numero " + idCita);
         this.idCita = idCita;
     }
+
     public void setMotivo(int idCita) {
-        // Aquí puedes usar el ID de la cita para cargar y mostrar la información correspondiente en la ventana
         motivoCitaText.setText(citaJDBCDAO.getMotivo(idCita));
     }
 
     @FXML
-    public void crearInforme(){
-        citaJDBCDAO.crearInforme(this.idCita,ObservacionCitaText.getText());
+    public void crearInforme() {
+        citaJDBCDAO.crearInforme(this.idCita, ObservacionCitaText.getText());
     }
-
 
     @FXML
     private void showMedicamentos() {
-
         nombreMedicamento.setCellValueFactory(new PropertyValueFactory<Medicamento, String>("nombre"));
         dosisMedicamento.setCellValueFactory(new PropertyValueFactory<Medicamento, String>("dosisEstandar"));
         listaMedicamentos.setItems(tablaMedicamentos);
@@ -141,6 +127,7 @@ public class CitaDetalleController implements Initializable {
             public TableCell<Medicamento, Void> call(TableColumn<Medicamento, Void> param) {
                 return new TableCell<>() {
                     private final Button button = new Button("+");
+
                     {
                         button.setOnAction(event -> {
                             Medicamento medicamento = getTableView().getItems().get(getIndex());
@@ -161,223 +148,119 @@ public class CitaDetalleController implements Initializable {
                 };
             }
         });
-
     }
 
     @FXML
     private void addMedicamentoReceta(int idMedicamento) {
-
-        // Buscar el medicamento en el mapa utilizando su id como clave
         Medicamento medicamento = mapaMedicamentos.get(idMedicamento);
+        Receta receta = new Receta(numeroReceta++, medicamento.getNombre(), medicamento.getDosisEstandar(), null, null, null, null);
 
-        // Crear un objeto Receta con el nombre y la dosis estándar del medicamento
-        listaReceta.add(new Receta(numeroReceta++, medicamento.getNombre(), medicamento.getDosisEstandar(), null, null, null, null));
+        // Imprimir el objeto por consola
+        System.out.println("Lista de Recetas:");
+        for (Receta r : listaReceta) {
+            System.out.println(r);
+        }
+
+        listaReceta.add(receta);
 
         nombreLista.setCellValueFactory(new PropertyValueFactory<Receta, String>("nombre"));
         dosisEstandar.setCellValueFactory(new PropertyValueFactory<Receta, String>("dosisEstandar"));
-
         tablaReceta.setItems(listaReceta);
 
-        for (Receta receta : listaReceta) {
-            mapaRecetas.put(medicamento.getNombre(), receta);
-        }
+        // Configurar celdas para fecha inicial y final
+        setUpDatePickers();
 
-        Receta receta = mapaRecetas.get(medicamento.getNombre());
-
-        System.out.println("Receta encontrada: " + receta.toString());
-
-        fechaInicial.setCellFactory(column -> {
-            return new TableCell<Receta, Date>() {
-                private final DatePicker datePicker = new DatePicker();
-
-                {
-                    // Configura el comportamiento del DatePicker
-                    datePicker.setOnAction(event -> {
-                        commitEdit(java.sql.Date.valueOf(datePicker.getValue()));
-                    });
-                }
-
-                @Override
-                protected void updateItem(Date fecha, boolean empty) {
-                    super.updateItem(fecha, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        datePicker.setValue(LocalDate.now());
-                        setGraphic(datePicker);
-                    }
-                }
-
-                @Override
-                public void startEdit() {
-                    super.startEdit();
-                    datePicker.setValue(LocalDate.now());
-                    setGraphic(datePicker);
-                }
-
-                @Override
-                public void cancelEdit() {
-                    super.cancelEdit();
-                    setGraphic(null);
-                }
-            };
-        });
-
-        fechaFinal.setCellFactory(column -> {
-            return new TableCell<Receta, Date>() {
-                private final DatePicker datePicker = new DatePicker();
-
-                {
-                    // Configura el comportamiento del DatePicker
-                    datePicker.setOnAction(event -> {
-                        commitEdit(java.sql.Date.valueOf(datePicker.getValue()));
-                    });
-                }
-
-                @Override
-                protected void updateItem(Date fecha, boolean empty) {
-                    super.updateItem(fecha, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        setGraphic(datePicker);
-                    }
-                }
-
-                @Override
-                public void startEdit() {
-                    super.startEdit();
-                    setGraphic(datePicker);
-                }
-
-                @Override
-                public void cancelEdit() {
-                    super.cancelEdit();
-                    setGraphic(null);
-                }
-            };
-        });
-
-        cantidadDosis.setCellFactory(column -> {
-            return new TableCell<Receta, String>() {
-                private final TextField textField = new TextField();
-
-                {
-                    textField.setOnAction(event -> {
-                        commitEdit(textField.getText());
-                    });
-                }
-
-                @Override
-                protected void updateItem(String cantidad, boolean empty) {
-                    super.updateItem(cantidad, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        textField.setText(cantidad);
-                        setGraphic(textField);
-                    }
-                }
-
-                @Override
-                public void startEdit() {
-                    super.startEdit();
-                    textField.setText(getItem());
-                    setGraphic(textField);
-                }
-
-                @Override
-                public void cancelEdit() {
-                    super.cancelEdit();
-                    setGraphic(null);
-                }
-            };
-        });
-
-        // Primero conseguir actualizar campo de texto comentario.
-        comentario.setCellFactory(column -> {
-            return new TableCell<Receta, String>() {
-                private final TextField textField = new TextField();
-
-                {
-                    // Configura el comportamiento del TextField
-                    textField.setOnAction(event -> {
-                        if (receta != null) {
-                            receta.setComentario(textField.getText());
-                            //commitEdit(textField.getText());
-                            System.out.println("Receta actualizada: " + receta.toString());
-                        }
-                    });
-                }
-
-                @Override
-                protected void updateItem(String comentario, boolean empty) {
-                    super.updateItem(comentario, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        textField.setText(comentario);
-                        setGraphic(textField);
-                    }
-                }
-
-                @Override
-                public void startEdit() {
-                    super.startEdit();
-                    // Obtén la receta actual
-                    Receta receta = getTableRow().getItem();
-                    if (receta != null) {
-                        System.out.println("Receta a editar: " + receta.toString());
-                    }
-                    textField.setText(getItem());
-                    setGraphic(textField);
-                }
-
-                @Override
-                public void cancelEdit() {
-                    super.cancelEdit();
-                    setGraphic(null);
-                }
-            };
-        });
-
-
-        eliminar.setCellFactory(column -> {
-            return new TableCell<Receta, Button>() {
-                private final Button deleteButton = new Button("-");
-
-                {
-                    deleteButton.setOnAction(event -> {
-                        Receta receta = getTableRow().getItem();
-                        if (receta != null) {
-                            listaReceta.remove(receta);
-                        }
-                    });
-                }
-
-                @Override
-                protected void updateItem(Button button, boolean empty) {
-                    super.updateItem(button, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        setGraphic(deleteButton);
-                    }
-                }
-            };
-        });
-
-        for (Receta receta2 : listaReceta) {
-            System.out.println("Lista de receta entera actualizada" + receta2.toString());
-        }
+        // Configurar celdas para comentario
+        setUpComentarioCell();
     }
 
+    @FXML
+    private void setUpDatePickers() {
+        fechaInicial.setCellValueFactory(new PropertyValueFactory<>("fechaInicial"));
+        fechaInicial.setCellFactory(col -> new TableCell<Receta, Date>() {
+            private final DatePicker datePicker = new DatePicker();
+
+            {
+                // Listener para actualizar el valor de fechaInicio en la Receta cuando cambia la fecha seleccionada
+                datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    if (getTableRow() != null) {
+                        Receta receta = getTableRow().getItem();
+                        receta.setFechaInicial(Date.valueOf(newValue));
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Date date, boolean empty) {
+                super.updateItem(date, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    datePicker.setValue(date != null ? date.toLocalDate() : null);
+                    setGraphic(datePicker);
+                }
+            }
+        });
+
+        fechaFinal.setCellValueFactory(new PropertyValueFactory<>("fechaFinal"));
+        fechaFinal.setCellFactory(col -> new TableCell<Receta, Date>() {
+            private final DatePicker datePicker = new DatePicker();
+
+            {
+                // Listener para actualizar el valor de fechaFin en la Receta cuando cambia la fecha seleccionada
+                datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    if (getTableRow() != null) {
+                        Receta receta = getTableRow().getItem();
+                        receta.setFechaFinal(Date.valueOf(newValue));
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Date date, boolean empty) {
+                super.updateItem(date, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    datePicker.setValue(date != null ? date.toLocalDate() : null);
+                    setGraphic(datePicker);
+                }
+            }
+        });
+    }
+
+    @FXML
+    private void setUpComentarioCell() {
+        comentario.setCellValueFactory(new PropertyValueFactory<>("comentario"));
+        comentario.setCellFactory(col -> new TableCell<Receta, String>() {
+            private final TextField textField = new TextField();
+
+            {
+                // Listener para actualizar el valor de comentario en la Receta cuando cambia el texto
+                textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                    if (getTableRow() != null) {
+                        Receta receta = getTableRow().getItem();
+                        receta.setComentario(newValue);
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(String comment, boolean empty) {
+                super.updateItem(comment, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    textField.setText(comment);
+                    setGraphic(textField);
+                }
+            }
+        });
+    }
 
     @FXML
     private void busquedaMedicamentos() {
-        ObservableList<Medicamento> medicamentosBusqueda = recursos.buscarTextoEnMedicamentos(textMedicamento.getText(), tablaMedicamentos);
-        // Agregar los elementos obtenidos a la TableView
+        ObservableList<Medicamento> medicamentosBusqueda = medicamentoJDBCDAO.buscar(textMedicamento.getText());
         listaMedicamentos.setItems(medicamentosBusqueda);
     }
-
 }
