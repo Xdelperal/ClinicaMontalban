@@ -1,5 +1,6 @@
 package com.clinicamvm.controller;
 
+import business.entities.Persona;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import persistence.utils.JDBCUtils;
+import persistence.utils.SQLQueries;
 
 import java.io.IOException;
 import java.net.URI;
@@ -42,6 +44,8 @@ public class LoginController implements Initializable {
 
     // Declarar la variable stage
     private Stage stage;
+    private SQLQueries sqlQueries;
+    private Persona persona;
 
 
 /**
@@ -110,9 +114,11 @@ private void cargarMainPanel() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ui/main.fxml"));
         ScrollPane root = loader.load();
         MainPanelController mainPanelController = loader.getController();
-
+        Persona persona = new Persona(fieldDNI.getText());
         // Actualizar el texto del Label en el MainPanelController
-        mainPanelController.updateUserNameLabel(fieldDNI.getText());
+        mainPanelController.updateUserNameLabel(persona.getPersona(persona.getDni()));
+        mainPanelController.setUserDni(fieldDNI.getText());
+
 
         // Obtener el Stage actual y configurar la nueva escena
         Stage stage = (Stage) fieldDNI.getScene().getWindow();

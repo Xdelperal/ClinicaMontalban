@@ -60,7 +60,7 @@ public class MainPanelController implements Initializable {
 
     private CitaJDBCDAO citaJDBCDAO;
 
-    private String todos = "Todos";
+    private String todos = "Todos", userDni;
 
     private MedicamentoJDBCDAO medicamentoJDBCDAO;
 
@@ -132,7 +132,11 @@ public class MainPanelController implements Initializable {
     public void updateUserNameLabel(String userName) {
         userNameLabel.setText(userName);
     }
+    public void setUserDni(String dni){
 
+        this.userDni = dni;
+
+    }
     public void cerrarVentana() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
@@ -268,7 +272,7 @@ public class MainPanelController implements Initializable {
         // Limpiar los elementos existentes en la TableView
         realizadas.getItems().clear();
 
-        ObservableList<Cita> listaRealizadas = citaJDBCDAO.obtenerLista("Realizada", userNameLabel.getText());
+        ObservableList<Cita> listaRealizadas = citaJDBCDAO.obtenerLista("Realizada", userDni);
 
         // Agregar los elementos obtenidos a la TableView
         realizadas.setItems(listaRealizadas);
@@ -287,7 +291,7 @@ public class MainPanelController implements Initializable {
     public void getPendiente() {
 
         pendientes.getItems().clear();
-        ObservableList<Cita> listaPendiente = citaJDBCDAO.obtenerLista("Pendiente", userNameLabel.getText());
+        ObservableList<Cita> listaPendiente = citaJDBCDAO.obtenerLista("Pendiente", userDni);
 
         colButton.setCellFactory(null);
         pendientes.setItems(listaPendiente);

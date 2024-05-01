@@ -24,8 +24,10 @@ public class SQLQueries {
                     "INNER JOIN persona ON cliente.DNI = persona.DNI " +
                     "WHERE cita.idCita = ?";
 
-        String crearInforme = "UPDATE consulta set obs = ? WHERE id_cita = ?  ";
+    String crearInforme = "UPDATE consulta set obs = ? WHERE id_cita = ?  ";
 
+
+    String nombrePersonal = "SELECT nombre FROM persona JOIN personal WHERE persona.DNI  = ?  ";
 
     public String getCitas() {
         return citas;
@@ -37,6 +39,10 @@ public class SQLQueries {
 
     public String getMotivo() {
         return recogerMotivo;
+    }
+
+    public String getPersonal() {
+        return nombrePersonal;
     }
 
 

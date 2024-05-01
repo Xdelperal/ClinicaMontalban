@@ -1,5 +1,12 @@
 package business.entities;
 
+import persistence.utils.JDBCUtils;
+import persistence.utils.SQLQueries;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -24,6 +31,11 @@ public class Persona {
         this.setFechaNacimiento(fechaNacimiento);
     }
 
+    public Persona(String dni) {
+        this.setDni(dni);
+    }
+
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Getters">
@@ -44,7 +56,7 @@ public class Persona {
         return fechaNacimiento;
     }
 
-
+    private SQLQueries sqlQueries;
 
     public void setDni(String dni) {
         this.dni = dni;
@@ -77,10 +89,37 @@ public class Persona {
 
     /**
      * Converteix un enter en una cadena de text.
-     * @param integer Enter apellidos convertir
+     * @param dni Enter apellidos convertir
      * @return Cadena de text que representa l'enter
      */
 
+    public String getPersona(String dni) {
+        try {
+            // Establecer la conexión a la base de datos
+            Connection connection = JDBCUtils.getConnection();
+            SQLQueries sqlQueries1 = new SQLQueries();
+            PreparedStatement statementMotivo = connection.prepareStatement(sqlQueries1.getPersonal());
+            statementMotivo.setString(1, String.valueOf(dni));
 
+            // Ejecutar la consulta
+            ResultSet resultSetCitas = statementMotivo.executeQuery();
+
+            // Verificar si hay resultados
+            if (resultSetCitas.next()) {
+                this.nombre = resultSetCitas.getString("nombre");
+            }
+
+            // Cerrar recursos
+            resultSetCitas.close();
+            statementMotivo.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar la excepción o lanzarla nuevamente si es necesario
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return nombre;
+    }
 
 }
