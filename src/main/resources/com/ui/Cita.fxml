@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -60,7 +61,7 @@
                <center>
                   <Pane prefHeight="798.0" prefWidth="1088.0" BorderPane.alignment="CENTER">
                      <children>
-                        <TableView fx:id="tablaReceta" layoutX="54.0" layoutY="107.0" prefHeight="670.0" prefWidth="1029.0">
+                        <TableView fx:id="tablaReceta" layoutX="61.0" layoutY="106.0" prefHeight="670.0" prefWidth="1029.0">
                           <columns>
                             <TableColumn fx:id="nombreLista" prefWidth="114.0" text="Nombre" />
                             <TableColumn fx:id="dosisEstandar" prefWidth="113.0" text="Dosis Estandar" />
@@ -104,6 +105,7 @@
                            </font>
                         </Label>
                          <TextArea fx:id="motivoCitaText" editable="false" layoutX="30.0" layoutY="161.0" prefHeight="87.0" prefWidth="294.0" />
+                        <ChoiceBox layoutX="30.0" layoutY="723.0" prefWidth="150.0" />
                      </children>
                      <opaqueInsets>
                         <Insets />

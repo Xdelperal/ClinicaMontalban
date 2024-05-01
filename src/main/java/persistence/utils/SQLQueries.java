@@ -26,12 +26,17 @@ public class SQLQueries {
 
     String crearInforme = "UPDATE consulta set obs = ? WHERE id_cita = ?  ";
 
+    String crearReceta = "INSERT INTO detalle_consulta (id_consulta, id_medicamento, fecha_inicio, fecha_fin, obs, dosis) " +
+            "VALUES (?,?,?,?,?,?)";
+
+    String crearConsulta ="INSERT INTO consulta (id_cita, tipo_tratamiento) VALUES (?,?)";
 
     String nombrePersonal = "SELECT nombre FROM persona JOIN personal WHERE persona.DNI  = ?  ";
 
     public String getCitas() {
         return citas;
     }
+
 
     public String getCrearInforme() {
         return crearInforme;
@@ -45,7 +50,13 @@ public class SQLQueries {
         return nombrePersonal;
     }
 
+    public String setReceta() {
+        return crearReceta;
+    }
 
+    public String setConsulta() {
+        return crearConsulta;
+    }
 
     public String getRecogerDatosPaciente() {
         return recogerDatosPaciente ;

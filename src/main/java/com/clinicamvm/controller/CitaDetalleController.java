@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import persistence.daos.impl.CitaJDBCDAO;
 import persistence.daos.impl.MedicamentoJDBCDAO;
+import persistence.daos.impl.RecetaJDBCDAO;
 import persistence.utils.JDBCUtils;
 
 import java.net.URL;
@@ -32,24 +33,15 @@ public class CitaDetalleController implements Initializable {
     private TableView<Receta> tablaReceta;
 
     @FXML
-    private TableColumn<Receta, String> nombreLista;
+    private TableColumn<Receta, String> dosisEstandar,nombreLista,cantidadDosis,comentario;
     @FXML
-    private TableColumn<Receta, String> dosisEstandar;
-    @FXML
-    private TableColumn<Receta, Date> fechaInicial;
-    @FXML
-    private TableColumn<Receta, Date> fechaFinal;
-    @FXML
-    private TableColumn<Receta, String> cantidadDosis;
-    @FXML
-    private TableColumn<Receta, String> comentario;
+    private TableColumn<Receta, Date> fechaInicial, fechaFinal;
+
     @FXML
     private TableColumn<Receta, Button> eliminar;
 
     @FXML
-    private TableColumn<Medicamento, String> nombreMedicamento;
-    @FXML
-    private TableColumn<Medicamento, String> dosisMedicamento;
+    private TableColumn<Medicamento, String> nombreMedicamento,dosisMedicamento;
     @FXML
     private TableColumn<Medicamento, Void> añadirMedicamento;
 
@@ -68,14 +60,13 @@ public class CitaDetalleController implements Initializable {
     @FXML
     private Button generar;
 
-    @FXML
-    private DatePicker fechaInicio;
-
     private int idCita;
     private int numeroReceta;
 
     private CitaJDBCDAO citaJDBCDAO;
     private MedicamentoJDBCDAO medicamentoJDBCDAO;
+
+    private RecetaJDBCDAO recetaJDBCDAO;
 
     private ObservableList<Receta> listaReceta = FXCollections.observableArrayList();
     private ObservableList<Medicamento> tablaMedicamentos;
@@ -91,17 +82,13 @@ public class CitaDetalleController implements Initializable {
         tablaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
         showMedicamentos();
 
+
         for (Medicamento medicamento : tablaMedicamentos) {
             mapaMedicamentos.put(medicamento.getId(), medicamento);
         }
     }
 
-    @FXML
-    private void getBusqueda() {
-        listaMedicamentos.getItems().clear();
-        ObservableList<Medicamento> buscarLista = medicamentoJDBCDAO.buscar(textMedicamento.getText());
-        listaMedicamentos.setItems(buscarLista);
-    }
+
 
     public void setIdCita(int idCita) {
         lblIdCita.setText("Cita numero " + idCita);
@@ -114,7 +101,15 @@ public class CitaDetalleController implements Initializable {
 
     @FXML
     public void crearInforme() {
-        citaJDBCDAO.crearInforme(this.idCita, ObservacionCitaText.getText());
+        String observacion = ObservacionCitaText.getText();
+       // citaJDBCDAO.crearInforme(this.idCita, observacion);
+
+        // Suponiendo que listaReceta es una lista de objetos Receta
+        for (Receta receta : listaReceta) {
+            // Suponiendo que tienes un método en tu DAO para insertar una receta
+            RecetaJDBCDAO recetaJDBCDAO1 = new RecetaJDBCDAO();
+            recetaJDBCDAO1.insertarReceta(receta,this.idCita);
+        }
     }
 
     @FXML
@@ -154,7 +149,7 @@ public class CitaDetalleController implements Initializable {
     @FXML
     private void addMedicamentoReceta(int idMedicamento) {
         Medicamento medicamento = mapaMedicamentos.get(idMedicamento);
-        Receta receta = new Receta(numeroReceta++, medicamento.getNombre(), medicamento.getDosisEstandar(), null, null, null, null);
+        Receta receta = new Receta(numeroReceta++,medicamento.getId(), medicamento.getNombre(), medicamento.getDosisEstandar(), null, null, null, null);
 
         listaReceta.add(receta);
 
@@ -317,4 +312,11 @@ public class CitaDetalleController implements Initializable {
         ObservableList<Medicamento> medicamentosBusqueda = medicamentoJDBCDAO.buscar(textMedicamento.getText());
         listaMedicamentos.setItems(medicamentosBusqueda);
     }
+
+
+
+
+
+
+
 }

@@ -168,6 +168,51 @@ public class CitaJDBCDAO implements CitaDAO {
     }
 
 
+
+
+    public void registrarConsulta(int idCita, String durada){
+
+        try {
+            // Establecer la conexión a la base de datos
+            Connection connection = JDBCUtils.getConnection();
+            {
+
+                // Consulta SQL para obtener las citas pendientes con el nombre del cliente
+                String sqlInforme = sqlQueries.getCrearInforme();
+
+
+                // Preparar la declaración SQL para la segunda consulta
+                PreparedStatement statementInforme = connection.prepareStatement(sqlInforme);
+
+                statementInforme.setInt(1, idCita);
+
+                statementInforme.setString(2, durada);
+
+                // Ejecutar la segunda consulta
+                statementInforme.execute();
+
+                // Recorrer el resultado de la consulta
+
+            }
+
+
+            // Cerrar recursos
+
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+
+
+    }
+
+
     public String getMotivo(int idCita) {
         try {
             // Establecer la conexión a la base de datos
