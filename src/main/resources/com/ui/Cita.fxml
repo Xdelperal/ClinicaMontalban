@@ -72,7 +72,7 @@
                               <TableColumn fx:id="eliminar" minWidth="0.0" prefWidth="77.0" text="Eliminar" />
                           </columns>
                         </TableView>
-                        <Label layoutX="61.0" layoutY="53.0" prefHeight="45.0" prefWidth="268.0" text="Medicamentos Recetados">
+                        <Label layoutX="61.0" layoutY="53.0" prefHeight="45.0" prefWidth="242.0" text="Medicamentos Recetados">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -81,6 +81,11 @@
                            <image>
                               <Image url="@img/citaPane/flecha.png" />
                            </image></ImageView>
+                        <Label fx:id="errorTextFecha" layoutX="333.0" layoutY="61.0" prefHeight="29.0" prefWidth="379.0" textFill="RED">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
                      </children>
                   </Pane>
                </center>
@@ -116,6 +121,11 @@
                   <Pane prefHeight="116.0" prefWidth="1840.0" BorderPane.alignment="CENTER">
                      <children>
                         <Button fx:id="generar" layoutX="1548.0" layoutY="33.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="171.0" text="Generar" />
+                        <Label fx:id="errorText" layoutX="1232.0" layoutY="32.0" prefHeight="53.0" prefWidth="300.0" text="" textFill="RED">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
                      </children></Pane>
                </bottom>
             </BorderPane>
