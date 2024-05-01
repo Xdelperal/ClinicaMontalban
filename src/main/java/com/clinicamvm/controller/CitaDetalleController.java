@@ -19,7 +19,9 @@ import persistence.utils.JDBCUtils;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -46,6 +48,9 @@ public class CitaDetalleController implements Initializable {
     private TableColumn<Medicamento, Void> añadirMedicamento;
 
     @FXML
+    private Label errorText;
+
+    @FXML
     private Label lblIdCita;
 
     @FXML
@@ -59,6 +64,9 @@ public class CitaDetalleController implements Initializable {
 
     @FXML
     private Button generar;
+
+    @FXML
+    private Label errorTextFecha;
 
     private int idCita;
     private int numeroReceta;
@@ -89,7 +97,6 @@ public class CitaDetalleController implements Initializable {
     }
 
 
-
     public void setIdCita(int idCita) {
         lblIdCita.setText("Cita numero " + idCita);
         this.idCita = idCita;
@@ -101,14 +108,33 @@ public class CitaDetalleController implements Initializable {
 
     @FXML
     public void crearInforme() {
-        String observacion = ObservacionCitaText.getText();
-       // citaJDBCDAO.crearInforme(this.idCita, observacion);
+        // Imprimir el objeto por consola
+        System.out.println("Lista de Recetas:");
+        for (Receta r : listaReceta) {
+            System.out.println(r);
+        }
 
-        // Suponiendo que listaReceta es una lista de objetos Receta
-        for (Receta receta : listaReceta) {
-            // Suponiendo que tienes un método en tu DAO para insertar una receta
-            RecetaJDBCDAO recetaJDBCDAO1 = new RecetaJDBCDAO();
-            recetaJDBCDAO1.insertarReceta(receta,this.idCita);
+        boolean algunAtributoEsNull = listaReceta.stream()
+                .anyMatch(receta -> receta.getNombre() == null
+                        || receta.getDosisEstandar() == null
+                        || receta.getFechaInicial() == null
+                        || receta.getFechaFinal() == null
+                        || receta.getCantidadDosis() == null
+                        || receta.getComentario() == null);
+
+        if (algunAtributoEsNull) {
+            errorText.setText("Completa los campos restantes.");
+        } else {
+            errorText.setText("Receta creada exitosamente.");
+            errorText.setStyle("-fx-text-fill: green;");
+
+            String observacion = ObservacionCitaText.getText();
+            // Suponiendo que listaReceta es una lista de objetos Receta
+            for (Receta receta : listaReceta) {
+                // Suponiendo que tienes un método en tu DAO para insertar una receta
+                RecetaJDBCDAO recetaJDBCDAO1 = new RecetaJDBCDAO();
+                recetaJDBCDAO1.insertarReceta(receta,this.idCita);
+            }
         }
     }
 
@@ -183,13 +209,6 @@ public class CitaDetalleController implements Initializable {
                 }
             };
         });
-
-        // Imprimir el objeto por consola
-        System.out.println("Lista de Recetas:");
-        for (Receta r : listaReceta) {
-            System.out.println(r);
-        }
-
     }
 
     @FXML
@@ -203,7 +222,7 @@ public class CitaDetalleController implements Initializable {
                 datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
                     if (getTableRow() != null) {
                         Receta receta = getTableRow().getItem();
-                        receta.setFechaInicial(Date.valueOf(newValue));
+                        receta.setFechaInicial(Date.valueOf(newValue)); // Convertir LocalDate a Date
                     }
                 });
             }
@@ -220,8 +239,6 @@ public class CitaDetalleController implements Initializable {
             }
         });
 
-
-
         fechaFinal.setCellValueFactory(new PropertyValueFactory<>("fechaFinal"));
         fechaFinal.setCellFactory(col -> new TableCell<Receta, Date>() {
             private final DatePicker datePicker = new DatePicker();
@@ -231,7 +248,25 @@ public class CitaDetalleController implements Initializable {
                 datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
                     if (getTableRow() != null) {
                         Receta receta = getTableRow().getItem();
-                        receta.setFechaFinal(Date.valueOf(newValue));
+
+                        // Verificar si la fecha final es anterior a la fecha inicial
+                        if (receta.getFechaInicial() != null && newValue != null) {
+                            // Convertir java.sql.Date a LocalDate
+                            LocalDate fechaInicialLocalDate = Instant.ofEpochMilli(receta.getFechaInicial().getTime())
+                                    .atZone(ZoneId.systemDefault())
+                                    .toLocalDate();
+                            LocalDate newValueLocalDate = newValue;
+
+                            if (newValueLocalDate.isBefore(fechaInicialLocalDate)) {
+                                // La fecha final es anterior a la fecha inicial, tomar alguna acción apropiada
+                                errorTextFecha.setText("La fecha final no puede ser anterior a la fecha inicial.");
+                                errorTextFecha.setStyle("-fx-text-fill: red;");
+                            } else {
+                                errorTextFecha.setText("");
+                                receta.setFechaFinal(Date.valueOf(newValueLocalDate)); // Convertir LocalDate a Date
+                            }
+
+                        }
                     }
                 });
             }
