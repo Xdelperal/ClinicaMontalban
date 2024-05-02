@@ -48,10 +48,7 @@ public class CitaDetalleController implements Initializable {
     private TableColumn<Medicamento, Void> añadirMedicamento;
 
     @FXML
-    private Label errorText;
-
-    @FXML
-    private Label lblIdCita;
+    private Label errorText, errorTextFecha, lblIdCita, errorTextChoice;
 
     @FXML
     private Button buttonSearchMedicamentos;
@@ -66,7 +63,7 @@ public class CitaDetalleController implements Initializable {
     private Button generar;
 
     @FXML
-    private Label errorTextFecha;
+    private ChoiceBox duracion;
 
     private int idCita;
     private int numeroReceta;
@@ -89,7 +86,7 @@ public class CitaDetalleController implements Initializable {
         buttonSearchMedicamentos.setOnAction(event -> busquedaMedicamentos());
         tablaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
         showMedicamentos();
-
+        errorTextChoice.setVisible(false);
 
         for (Medicamento medicamento : tablaMedicamentos) {
             mapaMedicamentos.put(medicamento.getId(), medicamento);
@@ -124,10 +121,14 @@ public class CitaDetalleController implements Initializable {
 
         if (algunAtributoEsNull) {
             errorText.setText("Completa los campos restantes.");
-        } else {
+            errorText.setStyle("-fx-text-fill: red;");
+        } else if (!"CORTA".equals(duracion.getValue()) && !"LARGA".equals(duracion.getValue())) {
+            errorTextChoice.setVisible(true);
+        }else {
+            errorTextChoice.setVisible(false);
             errorText.setText("Receta creada exitosamente.");
             errorText.setStyle("-fx-text-fill: green;");
-
+            duracion.getValue();
             String observacion = ObservacionCitaText.getText();
             // Suponiendo que listaReceta es una lista de objetos Receta
             for (Receta receta : listaReceta) {
@@ -347,11 +348,4 @@ public class CitaDetalleController implements Initializable {
         ObservableList<Medicamento> medicamentosBusqueda = medicamentoJDBCDAO.buscar(textMedicamento.getText());
         listaMedicamentos.setItems(medicamentosBusqueda);
     }
-
-
-
-
-
-
-
 }
