@@ -62,10 +62,14 @@ public class CitaDetalleController implements Initializable {
     @FXML
     private Button generar;
 
+
+
     @FXML
     private ChoiceBox duracion;
 
     private int idCita;
+    private boolean informeCreado = false;
+
     private int numeroReceta;
 
     private CitaJDBCDAO citaJDBCDAO;
@@ -129,18 +133,29 @@ public class CitaDetalleController implements Initializable {
             errorText.setText("Receta creada exitosamente.");
             errorText.setStyle("-fx-text-fill: green;");
 
+            informeCreado = citaJDBCDAO.crearConsulta(idCita, String.valueOf(duracion.getValue()));
 
-            duracion.getValue();
 
 
 
             String observacion = ObservacionCitaText.getText();
-            // Suponiendo que listaReceta es una lista de objetos Receta
-            for (Receta receta : listaReceta) {
-                // Suponiendo que tienes un método en tu DAO para insertar una receta
-                RecetaJDBCDAO recetaJDBCDAO1 = new RecetaJDBCDAO();
-                recetaJDBCDAO1.insertarReceta(receta,this.idCita);
+
+
+            if (informeCreado == true){
+
+                for (Receta receta : listaReceta) {
+
+                RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
+
+                recetaJDBCDAO.insertarReceta(receta,this.idCita);
+
+
+                }
+
+                citaJDBCDAO.actualizarEstado("Realizada",observacion,idCita);
+
             }
+
         }
     }
 

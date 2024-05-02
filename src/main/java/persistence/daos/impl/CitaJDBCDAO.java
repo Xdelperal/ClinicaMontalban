@@ -132,42 +132,7 @@ public class CitaJDBCDAO implements CitaDAO {
     }
 
 
-    @Override
-    public void crearInforme(int idCita, String obv) {
-        try {
-            // Establecer la conexión a la base de datos
-            Connection connection = JDBCUtils.getConnection();
-            {
 
-                // Consulta SQL para obtener las citas pendientes con el nombre del cliente
-                String sqlInforme = sqlQueries.getCrearInforme();
-
-
-                // Preparar la declaración SQL para la segunda consulta
-                PreparedStatement statementInforme = connection.prepareStatement(sqlInforme);
-
-                statementInforme.setString(1, obv);
-
-                statementInforme.setString(2, String.valueOf(idCita));
-
-                // Ejecutar la segunda consulta
-                statementInforme.executeUpdate();
-
-                // Recorrer el resultado de la consulta
-
-            }
-
-
-            // Cerrar recursos
-
-            connection.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public boolean crearConsulta(int idCita, String duracion) {
@@ -232,6 +197,7 @@ public class CitaJDBCDAO implements CitaDAO {
 
 
     public String getMotivo(int idCita) {
+
         try {
             // Establecer la conexión a la base de datos
             Connection connection = JDBCUtils.getConnection();
@@ -259,4 +225,56 @@ public class CitaJDBCDAO implements CitaDAO {
         }
         return descripcion;
     }
+
+
+    public void actualizarEstado(String estado , String obv, int idCita){
+
+        try {
+            // Establecer la conexión a la base de datos
+            Connection connection = JDBCUtils.getConnection();
+            {
+
+                // Consulta SQL para obtener las citas pendientes con el nombre del cliente
+                String sqlInforme = sqlQueries.updateEstado();
+
+
+                // Preparar la declaración SQL para la segunda consulta
+                PreparedStatement statementInforme = connection.prepareStatement(sqlInforme);
+
+                statementInforme.setString(1, estado);
+
+                statementInforme.setString(2, obv);
+
+                statementInforme.setString(3, String.valueOf(idCita));
+
+                // Ejecutar la segunda consulta
+                statementInforme.executeUpdate();
+
+
+            }
+
+
+            // Cerrar recursos
+
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 }

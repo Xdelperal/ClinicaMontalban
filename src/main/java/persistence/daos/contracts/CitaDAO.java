@@ -8,7 +8,6 @@ public interface CitaDAO {
 
     ObservableList<Cita> buscar(String dni);
 
-    void crearInforme(int idCita, String obv);
 
     boolean crearConsulta(int idCita, String duracion);
 
