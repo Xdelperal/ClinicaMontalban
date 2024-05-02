@@ -128,7 +128,12 @@ public class CitaDetalleController implements Initializable {
             errorTextChoice.setVisible(false);
             errorText.setText("Receta creada exitosamente.");
             errorText.setStyle("-fx-text-fill: green;");
+
+
             duracion.getValue();
+
+
+
             String observacion = ObservacionCitaText.getText();
             // Suponiendo que listaReceta es una lista de objetos Receta
             for (Receta receta : listaReceta) {

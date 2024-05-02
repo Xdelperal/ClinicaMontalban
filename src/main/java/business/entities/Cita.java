@@ -76,4 +76,5 @@ public class Cita extends Cliente {
     public void setDescripcion(String descripcion) {
         this.descripcion.set(descripcion);
     }
+
 }

@@ -8,6 +8,7 @@ import javafx.scene.control.TableView;
 import persistence.daos.contracts.CitaDAO;
 import persistence.utils.*;
 import java.sql.*;
+import java.time.Instant;
 import java.util.Date;
 
 public class CitaJDBCDAO implements CitaDAO {
@@ -17,8 +18,9 @@ public class CitaJDBCDAO implements CitaDAO {
 
     private SQLQueries sqlQueries;
 
-    private String descripcion;
+    private String descripcion, TSI;
 
+    private Date fechaActual;
     ObservableList<Cita> citas = FXCollections.emptyObservableList();
 
     public CitaJDBCDAO(Connection connection) {
@@ -167,47 +169,63 @@ public class CitaJDBCDAO implements CitaDAO {
         }
     }
 
+    @Override
+    public boolean crearConsulta(int idCita, String duracion) {
 
+        Connection connection = JDBCUtils.getConnection();
 
-
-    public void registrarConsulta(int idCita, String durada){
 
         try {
-            // Establecer la conexión a la base de datos
-            Connection connection = JDBCUtils.getConnection();
-            {
 
-                // Consulta SQL para obtener las citas pendientes con el nombre del cliente
-                String sqlInforme = sqlQueries.getCrearInforme();
+            SQLQueries sqlQueries = new SQLQueries();
 
 
-                // Preparar la declaración SQL para la segunda consulta
-                PreparedStatement statementInforme = connection.prepareStatement(sqlInforme);
+            String sqlConsulta = sqlQueries.getConsulta();
 
-                statementInforme.setInt(1, idCita);
+            PreparedStatement statementGetConsulta = connection.prepareStatement(sqlConsulta);
 
-                statementInforme.setString(2, durada);
-
-                // Ejecutar la segunda consulta
-                statementInforme.execute();
-
-                // Recorrer el resultado de la consulta
-
-            }
+            statementGetConsulta.setInt(1, idCita);
 
 
-            // Cerrar recursos
 
-            connection.close();
+            ResultSet resultSetCitas = statementGetConsulta.executeQuery();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+ if (resultSetCitas.next()){
+
+     return true;
+
+ } else{
+
+     fechaActual = Date.from(Instant.now());
+
+     ClienteJDBCDAO clienteJDBCDAO= new ClienteJDBCDAO();
+
+     TSI = clienteJDBCDAO.getTsiByIdcita(idCita);
+
+     String codigoBarras = fechaActual + TSI  + idCita;
+
+
+
+     sqlConsulta = sqlQueries.setConsulta();
+
+     PreparedStatement statementConsulta = connection.prepareStatement(sqlConsulta);
+
+     statementConsulta.setInt(1, idCita);
+     statementConsulta.setString(2, duracion);
+     statementConsulta.setString(3,codigoBarras);
+
+
+     statementConsulta.execute();
+     return true;
+ }
+
+
+
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-
 
 
     }

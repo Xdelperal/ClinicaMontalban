@@ -31,7 +31,13 @@ public class SQLQueries {
 
     String crearConsulta ="INSERT INTO consulta (id_cita, tipo_tratamiento) VALUES (?,?)";
 
+    String recogerConsulta ="SELECT * FROM consulta WHERE id_cita = ?";
+
+
     String nombrePersonal = "SELECT nombre FROM persona JOIN personal WHERE persona.DNI  = ?  ";
+
+
+    String recogerTsi = "SELECT c.TSI FROM cliente c JOIN cita ci ON(c.idCliente = ci.idCliente)WHERE ci.idCita= ? ";
 
     public String getCitas() {
         return citas;
@@ -54,9 +60,15 @@ public class SQLQueries {
         return crearReceta;
     }
 
+    public String getConsulta() {
+        return recogerConsulta;
+    }
+
     public String setConsulta() {
         return crearConsulta;
     }
+
+    public String setTsi(){return recogerTsi;}
 
     public String getRecogerDatosPaciente() {
         return recogerDatosPaciente ;

@@ -28,17 +28,6 @@ public class RecetaJDBCDAO implements RecetaDAO {
                 SQLQueries sqlQueries = new SQLQueries();
 
 
-                String sqlConsulta = sqlQueries.setConsulta();
-
-                PreparedStatement statementConsulta = connection.prepareStatement(sqlConsulta);
-
-                statementConsulta.setInt(1, idCita);
-
-
-
-
-                statementConsulta.execute();
-
                 // Consulta SQL para obtener las citas pendientes con el nombre del cliente
                 String sqlReceta = sqlQueries.setReceta();
 
