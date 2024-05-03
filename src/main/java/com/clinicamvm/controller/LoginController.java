@@ -1,6 +1,7 @@
 package com.clinicamvm.controller;
 
 import business.entities.Persona;
+import business.entities.Personal;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import persistence.daos.impl.PersonalJDBCDAO;
+import persistence.exceptions.DAOException;
 import persistence.utils.JDBCUtils;
 import persistence.utils.SQLQueries;
 
@@ -45,7 +48,7 @@ public class LoginController implements Initializable {
     // Declarar la variable stage
     private Stage stage;
     private SQLQueries sqlQueries;
-    private Persona persona;
+    private Personal medico;
 
 
 /**
@@ -110,14 +113,22 @@ public class LoginController implements Initializable {
 @FXML
 private void cargarMainPanel() {
     try {
+        Connection connection = JDBCUtils.getConnection();
         // Cargar la vista del panel principal y obtener su controlador
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ui/main.fxml"));
         ScrollPane root = loader.load();
         MainPanelController mainPanelController = loader.getController();
-        Persona persona = new Persona(fieldDNI.getText());
+
+
+        Personal medico = new Personal();
+        PersonalJDBCDAO personalJDBCDAO = new PersonalJDBCDAO(connection);
+        medico = personalJDBCDAO.getPersonalByDni(fieldDNI.getText());
+
+
+        System.out.println(medico);
         // Actualizar el texto del Label en el MainPanelController
-        mainPanelController.updateUserNameLabel(persona.getPersona(persona.getDni()));
-        mainPanelController.setUserDni(fieldDNI.getText());
+        mainPanelController.setMedico(medico);
+        mainPanelController.updateUserNameLabel(medico);
 
 
         // Obtener el Stage actual y configurar la nueva escena
@@ -145,6 +156,8 @@ private void cargarMainPanel() {
 
     } catch (IOException e) {
         e.printStackTrace();
+    } catch (DAOException e) {
+        throw new RuntimeException(e);
     }
 }
 

@@ -27,12 +27,15 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
     }
     @Override
     public ObservableList<Medicamento> getTipoMedicamento() {
+
         try {
+            String sql;
+
             // Establecer la conexión a la base de datos
             Connection connection = JDBCUtils.getConnection();
 
             // Consulta SQL para obtener el ID del trabajador
-            String sql = "Select nombre from TiposMedicamentos";
+            sql = sqlQueries.getNombreMedicamento();
 
             try {
                 // Preparar la declaración SQL
@@ -72,11 +75,11 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
 
     @Override
     public ObservableList<Medicamento> getMedicamentos(String grupoMedicamento) {
-        System.out.println("El parametro que entra es "+grupoMedicamento);
+
         try {
             String sql;
             Connection connection = JDBCUtils.getConnection();
-                 sql = "SELECT id FROM TiposMedicamentos where nombre=?";
+                 sql = sqlQueries.getIdTipo();
 
 
             try {
@@ -93,7 +96,7 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
                     String sqlCitas;
                     // Consulta SQL para obtener las citas pendientes con el nombre del cliente
 
-                         sqlCitas = "SELECT nombre, dosis_estandar, descripcion FROM Medicamentos WHERE grupoid=? ";
+                         sqlCitas = "SELECT nombre, dosis_estandar, descripcion FROM Medicamentos WHERE grupoid = ? ";
 
 
                     // Preparar la declaración SQL para la segunda consulta
@@ -141,7 +144,7 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
             Connection connection = JDBCUtils.getConnection();
 
             // Consulta SQL para obtener todos los medicamentos
-            sql = "SELECT id, nombre, dosis_estandar, descripcion FROM Medicamentos";
+            sql = sqlQueries.getMedicamentos();
 
             try {
                 // Preparar la declaración SQL
@@ -182,8 +185,14 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
     @Override
     public ObservableList<Medicamento> buscar(String nombreMed) {
 
-        try (Connection connection = JDBCUtils.getConnection();
-             PreparedStatement statementCitas = connection.prepareStatement("SELECT * FROM Medicamentos WHERE nombre = ?")) {
+        try{
+            Connection connection = JDBCUtils.getConnection();
+
+             String sql ;
+
+             sql = sqlQueries.getMedicamento();
+
+             PreparedStatement statementCitas = connection.prepareStatement(sql);
 
             statementCitas.setString(1, nombreMed);
             ResultSet resultSetCitas = statementCitas.executeQuery();
@@ -201,10 +210,9 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
         }
 
         return Medicamentos;
+
+
+
     }
-
-
-
-
 
 }

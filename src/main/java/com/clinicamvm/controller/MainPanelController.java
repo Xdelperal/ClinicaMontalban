@@ -2,6 +2,7 @@ package com.clinicamvm.controller;
 
 import business.entities.Cita;
 import business.entities.Medicamento;
+import business.entities.Personal;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -47,7 +48,7 @@ public class MainPanelController implements Initializable {
     private TableColumn<Cita, Void> colButton;
 
     @FXML
-    private Button pendingButton, madeButton, closeButton, webClinica, searchButton, presearch,tiposButton;
+    private Button pendingButton, madeButton, closeButton, searchButton, presearch,tiposButton;
 
     @FXML
     private Pane PanelBuscador, panelMedicamentos;
@@ -59,6 +60,8 @@ public class MainPanelController implements Initializable {
     private ChoiceBox<String> tiposMedicamento;
 
     private CitaJDBCDAO citaJDBCDAO;
+
+    private Personal medico;
 
     private String todos = "Todos", userDni;
 
@@ -72,6 +75,7 @@ public class MainPanelController implements Initializable {
         Connection connection = JDBCUtils.getConnection();
         citaJDBCDAO = new CitaJDBCDAO(connection);
         medicamentoJDBCDAO = new MedicamentoJDBCDAO();
+
 
         // Inicialización de las tablas.
         datosPaciente.setVisible(true);
@@ -127,16 +131,19 @@ public class MainPanelController implements Initializable {
         searchButton.getStyleClass().remove("selected");
         tiposButton.getStyleClass().remove("selected");
         getPendiente();
-    }
-
-    public void updateUserNameLabel(String userName) {
-        userNameLabel.setText(userName);
-    }
-    public void setUserDni(String dni){
-
-        this.userDni = dni;
 
     }
+
+
+    public void setMedico(Personal medico){
+
+        this.medico = medico;
+
+    }
+    public void updateUserNameLabel(Personal medico) {
+        userNameLabel.setText(medico.getNombre() + " " + medico.getApellidos());
+    }
+
     public void cerrarVentana() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
@@ -272,7 +279,7 @@ public class MainPanelController implements Initializable {
         // Limpiar los elementos existentes en la TableView
         realizadas.getItems().clear();
 
-        ObservableList<Cita> listaRealizadas = citaJDBCDAO.obtenerLista("Realizada", userDni);
+        ObservableList<Cita> listaRealizadas = citaJDBCDAO.obtenerLista("Realizada", medico.getDni());
 
         // Agregar los elementos obtenidos a la TableView
         realizadas.setItems(listaRealizadas);
@@ -291,7 +298,7 @@ public class MainPanelController implements Initializable {
     public void getPendiente() {
 
         pendientes.getItems().clear();
-        ObservableList<Cita> listaPendiente = citaJDBCDAO.obtenerLista("Pendiente", userDni);
+        ObservableList<Cita> listaPendiente = citaJDBCDAO.obtenerLista("Pendiente", medico.getDni());
 
         colButton.setCellFactory(null);
         pendientes.setItems(listaPendiente);

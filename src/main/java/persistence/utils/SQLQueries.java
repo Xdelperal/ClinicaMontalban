@@ -39,16 +39,26 @@ public class SQLQueries {
 
     String actualizarEstado = "UPDATE cita SET estado = ?, informe = ? WHERE idCita = ?";
 
+    String recogerMedico = "SELECT p.dni, p.nombre, p.apellido, p.fechaN, per.especialidad, per.idTrabajador " +
+            "FROM persona p " +
+            "JOIN personal per ON p.dni = per.dni " +
+            "WHERE p.dni = ?";
+
+    String recogerMedicamentos = "SELECT id, nombre, dosis_estandar, descripcion FROM Medicamentos";
+
+    String recogerMedicamento = "SELECT * FROM Medicamentos WHERE nombre = ?";
+
+
+    String recogerNombreMedicamento = "SELECT nombre FROM TiposMedicamentos";
+
+    String recogerIdTipo = "SELECT id FROM TiposMedicamentos where nombre = ?";
+
     public String getCitas() {
         return citas;
     }
 
     public String getMotivo() {
         return recogerMotivo;
-    }
-
-    public String getPersonal() {
-        return nombrePersonal;
     }
 
     public String setReceta() {
@@ -71,8 +81,29 @@ public class SQLQueries {
         return recogerDatosPaciente ;
     }
 
+    public String getMedico(){
+        return recogerMedico;
+    }
+
     public String updateEstado(){
         return actualizarEstado;
     }
+
+    public String getMedicamentos(){
+        return recogerMedicamentos;
+    }
+    public String getMedicamento(){
+        return recogerMedicamento;
+    }
+
+    public String getIdTipo(){
+        return recogerIdTipo;
+    }
+
+
+    public String getNombreMedicamento(){
+        return recogerNombreMedicamento;
+    }
+
 
 }

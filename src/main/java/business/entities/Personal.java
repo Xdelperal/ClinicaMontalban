@@ -2,7 +2,7 @@ package business.entities;
 
 import java.time.LocalDate;
 
-public abstract class Personal extends Persona {
+public class Personal extends Persona {
     private int idTrabajador, especialidad;
 
 
@@ -20,6 +20,12 @@ public abstract class Personal extends Persona {
         this.setIdTrabajador(idTrabajador);
         this.setEspecialidad(especialidad);
     }
+    public Personal() {
+        super();
+
+
+    }
+
 
 
     public int getIdTrabajador() {
@@ -37,4 +43,7 @@ public abstract class Personal extends Persona {
     public void setEspecialidad(int especialidad) {
         this.especialidad = especialidad;
     }
+
+
+
 }
