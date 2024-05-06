@@ -75,7 +75,7 @@ public class MainPanelController implements Initializable {
         Connection connection = JDBCUtils.getConnection();
         citaJDBCDAO = new CitaJDBCDAO(connection);
         medicamentoJDBCDAO = new MedicamentoJDBCDAO();
-
+        medico = new Personal();
 
         // Inicialización de las tablas.
         datosPaciente.setVisible(true);
@@ -130,7 +130,7 @@ public class MainPanelController implements Initializable {
         madeButton.getStyleClass().remove("selected");
         searchButton.getStyleClass().remove("selected");
         tiposButton.getStyleClass().remove("selected");
-        getPendiente();
+        getPendiente(this.medico);
 
     }
 
@@ -142,6 +142,7 @@ public class MainPanelController implements Initializable {
     }
     public void updateUserNameLabel(Personal medico) {
         userNameLabel.setText(medico.getNombre() + " " + medico.getApellidos());
+
     }
 
     public void cerrarVentana() {
@@ -170,7 +171,7 @@ public class MainPanelController implements Initializable {
         madeButton.getStyleClass().remove("selected");
         presearch.getStyleClass().remove("selected");
         tiposButton.getStyleClass().remove("selected");
-        getPendiente();
+        getPendiente(this.medico);
     }
 
     @FXML
@@ -295,7 +296,10 @@ public class MainPanelController implements Initializable {
     }
 
 
-    public void getPendiente() {
+    public void getPendiente(Personal persona) {
+
+        Personal medico = new Personal();
+
 
         pendientes.getItems().clear();
         ObservableList<Cita> listaPendiente = citaJDBCDAO.obtenerLista("Pendiente", medico.getDni());
