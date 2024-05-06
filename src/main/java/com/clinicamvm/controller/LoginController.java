@@ -38,17 +38,14 @@ public class LoginController implements Initializable {
 
     @FXML
     private TextField fieldDNI;
-
     @FXML
     private PasswordField fieldContrasena;
-
     @FXML
     private Label msgLabel;
 
-    // Declarar la variable stage
+
     private Stage stage;
-    private SQLQueries sqlQueries;
-    private Personal medico;
+
 
 
 /**
