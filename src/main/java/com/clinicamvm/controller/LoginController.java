@@ -116,13 +116,10 @@ private void cargarMainPanel() {
         ScrollPane root = loader.load();
         MainPanelController mainPanelController = loader.getController();
 
-
         Personal medico = new Personal();
         PersonalJDBCDAO personalJDBCDAO = new PersonalJDBCDAO(connection);
         medico = personalJDBCDAO.getPersonalByDni(fieldDNI.getText());
 
-
-        System.out.println(medico);
         // Actualizar el texto del Label en el MainPanelController
         mainPanelController.setMedico(medico);
         mainPanelController.updateUserNameLabel(medico);

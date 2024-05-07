@@ -10,15 +10,6 @@ import java.sql.SQLException;
 
 public class RecetaJDBCDAO implements RecetaDAO {
 
-
-
-
-
-
-
-
-
-
     public void insertarReceta(Receta receta, int idCita) {
         try {
             // Establecer la conexión a la base de datos
