@@ -26,7 +26,7 @@ public class Main extends Application {
         primaryStage.setTitle("Login");
 
         // Cargar el ícono de la aplicación
-        Image icono = new Image(getClass().getResourceAsStream("/com/ui/img/logo.png"), 200, 200, true, true);
+        Image icono = new Image(getClass().getResourceAsStream("/com/ui/img/logo.png"));
         primaryStage.getIcons().add(icono);
 
         primaryStage.show();

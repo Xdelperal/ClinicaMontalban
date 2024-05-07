@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
@@ -29,6 +26,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 
 public class LoginController implements Initializable {
 
@@ -43,9 +42,27 @@ public class LoginController implements Initializable {
     @FXML
     private Label msgLabel;
 
-
     private Stage stage;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Expresión regular para aceptar máximo 8 dígitos seguidos de una letra opcional
+        Pattern pattern = Pattern.compile("\\d{0,8}[a-zA-Z]?");
+
+        // Aplicar el TextFormatter al TextField de DNI
+        fieldDNI.setTextFormatter(new TextFormatter<>(new UnaryOperator<TextFormatter.Change>() {
+            @Override
+            public TextFormatter.Change apply(TextFormatter.Change change) {
+                // Validar la nueva entrada con la expresión regular
+                if (pattern.matcher(change.getControlNewText()).matches()) {
+                    return change;
+                } else {
+                    // Si la entrada no coincide con la expresión regular, se rechaza
+                    return null;
+                }
+            }
+        }));
+    }
 
 
 /**
@@ -217,18 +234,10 @@ private String autenticarUsuario(String dni, String hashedPassword) {
     }
 }
 
-
     public void setStage(Stage stage) {
         this.stage = stage;
         // Configurar la ventana para que no sea redimensionable
         stage.setResizable(false);
     }
 
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
-
-    }
 }
