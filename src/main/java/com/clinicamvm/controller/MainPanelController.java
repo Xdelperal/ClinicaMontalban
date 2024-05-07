@@ -136,7 +136,7 @@ public class MainPanelController implements Initializable {
         realizadas.setVisible(false);
         PanelBuscador.setVisible(false);
         panelMedicamentos.setVisible(false);
-        getPendiente(this.medico);
+        getPendiente();
 
     }
 
@@ -172,7 +172,7 @@ public class MainPanelController implements Initializable {
         realizadas.setVisible(false);
         PanelBuscador.setVisible(false);
         panelMedicamentos.setVisible(false);
-        getPendiente(this.medico);
+        getPendiente();
     }
 
     @FXML
@@ -282,9 +282,8 @@ public class MainPanelController implements Initializable {
     }
 
 
-    public void getPendiente(Personal persona) {
+    public void getPendiente() {
 
-        Personal medico = new Personal();
 
 
         pendientes.getItems().clear();
