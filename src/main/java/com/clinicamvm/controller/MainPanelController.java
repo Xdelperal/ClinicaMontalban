@@ -48,7 +48,10 @@ public class MainPanelController implements Initializable {
     private TableColumn<Cita, Void> colButton;
 
     @FXML
-    private Button pendingButton, madeButton, closeButton, searchButton, presearch,tiposButton;
+    private Button closeButton, webClinica;
+
+    @FXML
+    private ToggleButton madeButton, pendingButton, tiposButton, presearch, searchButton;
 
     @FXML
     private Pane PanelBuscador, panelMedicamentos;
@@ -72,6 +75,14 @@ public class MainPanelController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        ToggleGroup toggleGroup = new ToggleGroup();
+        pendingButton.setToggleGroup(toggleGroup);
+        madeButton.setToggleGroup(toggleGroup);
+        tiposButton.setToggleGroup(toggleGroup);
+        presearch.setToggleGroup(toggleGroup);
+        searchButton.setToggleGroup(toggleGroup);
+        //recetarButton.setToggleGroup(toggleGroup);
+
         Connection connection = JDBCUtils.getConnection();
         citaJDBCDAO = new CitaJDBCDAO(connection);
         medicamentoJDBCDAO = new MedicamentoJDBCDAO();
@@ -125,11 +136,6 @@ public class MainPanelController implements Initializable {
         realizadas.setVisible(false);
         PanelBuscador.setVisible(false);
         panelMedicamentos.setVisible(false);
-
-        pendingButton.getStyleClass().add("selected");
-        madeButton.getStyleClass().remove("selected");
-        searchButton.getStyleClass().remove("selected");
-        tiposButton.getStyleClass().remove("selected");
         getPendiente(this.medico);
 
     }
@@ -166,11 +172,6 @@ public class MainPanelController implements Initializable {
         realizadas.setVisible(false);
         PanelBuscador.setVisible(false);
         panelMedicamentos.setVisible(false);
-
-        pendingButton.getStyleClass().add("selected");
-        madeButton.getStyleClass().remove("selected");
-        presearch.getStyleClass().remove("selected");
-        tiposButton.getStyleClass().remove("selected");
         getPendiente(this.medico);
     }
 
@@ -181,10 +182,6 @@ public class MainPanelController implements Initializable {
         PanelBuscador.setVisible(false);
         panelMedicamentos.setVisible(false);
 
-        pendingButton.getStyleClass().remove("selected");
-        searchButton.getStyleClass().remove("selected");
-        tiposButton.getStyleClass().remove("selected");
-        madeButton.getStyleClass().add("selected");
         getRealizadas();
     }
 
@@ -196,11 +193,6 @@ public class MainPanelController implements Initializable {
         pendientes.setVisible(false);
         panelMedicamentos.setVisible(false);
         PanelBuscador.setVisible(true);
-
-        madeButton.getStyleClass().remove("selected");
-        pendingButton.getStyleClass().remove("selected");
-        tiposButton.getStyleClass().remove("selected");
-        presearch.getStyleClass().add("selected");
     }
 
     private void dropDownTipos(){
@@ -217,12 +209,6 @@ public class MainPanelController implements Initializable {
         pendientes.setVisible(false);
         realizadas.setVisible(false);
         PanelBuscador.setVisible(false);
-
-        pendingButton.getStyleClass().remove("selected");
-        madeButton.getStyleClass().remove("selected");
-        presearch.getStyleClass().remove("selected");
-        tiposButton.getStyleClass().add("selected");
-
     }
 
 

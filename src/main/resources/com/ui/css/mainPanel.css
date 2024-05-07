@@ -64,3 +64,23 @@
     -fx-text-fill: white; /* Color del texto */
     -fx-font-size: 16px; /* Tamaño de fuente */
 }
+
+.toggle-button {
+    -fx-background-color: transparent;
+    -fx-font-size: 20px bold;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #017eff;
+    -fx-text-fill: #ffffff;
+}
+
+.toggle-button:hover {
+    -fx-background-color: #b4f0d0;
+    -fx-text-fill: #024f14;
+}
+
+.toggle-button .text {
+    -fx-padding: 0 20px;
+}
+

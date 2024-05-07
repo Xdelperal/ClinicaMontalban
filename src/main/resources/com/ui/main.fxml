@@ -5,10 +5,12 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -20,7 +22,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.ScrollPane?>
 <ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.MainPanelController">
     <content>
         <BorderPane>
@@ -115,7 +116,7 @@
                                         <Insets bottom="10.0" left="10.0" top="20.0" />
                                     </VBox.margin>
                                 </Label>
-                                <Button fx:id="pendingButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarPendientes" prefHeight="60.0" prefWidth="320.0" styleClass="selected" stylesheets="@css/mainPanel.css">
+                                <ToggleButton fx:id="pendingButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarPendientes" prefHeight="60.0" prefWidth="320.0" styleClass="selected" stylesheets="@css/mainPanel.css" text="Pendientes">
                                     <graphic>
                                         <!-- Aquí colocas la imagen que desees -->
                                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
@@ -124,13 +125,11 @@
                                             </image>
                                         </ImageView>
                                     </graphic>
-                                    <!-- Puedes agregar un texto opcional si lo deseas -->
-                                    <text>Pendientes</text>
                                     <font>
                                         <Font size="20.0" />
                                     </font>
-                                </Button>
-                                <Button fx:id="madeButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarRealizadas" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Realizadas">
+                                </ToggleButton>
+                                <ToggleButton fx:id="madeButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarRealizadas" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Realizadas">
                                     <graphic>
                                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
                                             <image>
@@ -144,14 +143,14 @@
                                     <VBox.margin>
                                         <Insets top="10.0" />
                                     </VBox.margin>
-                                </Button>
+                                </ToggleButton>
                             </children>
                             <padding>
                                 <Insets top="10.0" />
                             </padding>
                         </VBox>
                         <Separator prefWidth="310.0" />
-                        <VBox prefHeight="220.0" prefWidth="310.0">
+                        <VBox prefHeight="147.0" prefWidth="310.0">
                             <children>
                                 <Label text="Medicamentos">
                                     <font>
@@ -161,7 +160,7 @@
                                         <Insets bottom="10.0" left="10.0" top="10.0" />
                                     </VBox.margin>
                                 </Label>
-                                <Button fx:id="tiposButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Tipos medicamentos">
+                                <ToggleButton fx:id="tiposButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Tipos medicamentos">
                                     <graphic>
                                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
                                             <image>
@@ -172,31 +171,16 @@
                                     <font>
                                         <Font size="20.0" />
                                     </font>
-                                </Button>
-                                <Button alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Recetar">
-                                    <graphic>
-                                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
-                                            <image>
-                                                <Image url="@img/mainPane/sheet.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                    <font>
-                                        <Font size="20.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets top="10.0" />
-                                    </VBox.margin>
-                                </Button>
+                                </ToggleButton>
                             </children>
                             <padding>
                                 <Insets top="10.0" />
                             </padding>
                         </VBox>
-                        <VBox prefHeight="106.0" prefWidth="310.0">
+                        <VBox prefHeight="113.0" prefWidth="310.0">
                             <children>
                                 <Separator prefWidth="310.0" />
-                                <Button fx:id="presearch" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Busqueda">
+                                <ToggleButton fx:id="presearch" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Busqueda">
                                     <graphic>
                                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
                                             <image>
@@ -210,7 +194,7 @@
                                     <VBox.margin>
                                         <Insets top="20.0" />
                                     </VBox.margin>
-                                </Button>
+                                </ToggleButton>
                                 <Label>
                                     <font>
                                         <Font name="System Bold" size="30.0" />
@@ -338,7 +322,7 @@
                                     </font>
                                 </Label>
 
-                                <Button fx:id="searchButton" layoutX="424.0" layoutY="63.0" mnemonicParsing="false" onAction="#getBusqueda" text="Buscar" />
+                                <ToggleButton fx:id="searchButton" layoutX="424.0" layoutY="63.0" mnemonicParsing="false" onAction="#getBusqueda" text="Buscar" />
                                 <TextField fx:id="pacienteDNI" layoutX="226.0" layoutY="66.0" />
                                 <TableView fx:id="datosPaciente" layoutX="48.0" layoutY="122.0" prefHeight="699.0" prefWidth="1545.0" visible="false">
                                     <columns>

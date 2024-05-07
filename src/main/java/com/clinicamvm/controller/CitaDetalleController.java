@@ -27,7 +27,6 @@ import java.util.ResourceBundle;
 public class CitaDetalleController implements Initializable {
 
 
-
     //<editor-fold defaultstate="collapsed" desc="Elementos FXML Receta">
         @FXML
         private TableView<Receta> tablaReceta;
