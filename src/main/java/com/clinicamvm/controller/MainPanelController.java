@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -81,7 +82,8 @@ public class MainPanelController implements Initializable {
         tiposButton.setToggleGroup(toggleGroup);
         presearch.setToggleGroup(toggleGroup);
         searchButton.setToggleGroup(toggleGroup);
-        //recetarButton.setToggleGroup(toggleGroup);
+
+        toggleGroup.selectToggle(pendingButton);
 
         Connection connection = JDBCUtils.getConnection();
         citaJDBCDAO = new CitaJDBCDAO(connection);
@@ -93,20 +95,12 @@ public class MainPanelController implements Initializable {
         tablaMedicamentos.setVisible(true);
 
         // Tratamiento de paneles.
-        pendientes.setVisible(true);
+        pendientes.setVisible(false);
         realizadas.setVisible(false);
         PanelBuscador.setVisible(false);
         panelMedicamentos.setVisible(false);
 
-        // Accionadores de los botones.
-        closeButton.setOnAction(event -> cerrarVentana());
-        pendingButton.setOnAction(event -> mostrarPendientes());
-        madeButton.setOnAction(event -> mostrarRealizadas());
-        searchButton.setOnAction(event -> getBusqueda());
-        tiposButton.setOnAction(event -> mostrarMedicamentos());
         tiposMedicamento.setOnAction(event -> showMedicamentos());
-
-        presearch.setOnAction(event -> mostrarBuscar());
 
         Timeline timeline = new Timeline(new KeyFrame(javafx.util.Duration.seconds(1), event -> {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy  -  HH:mm:ss");
@@ -204,6 +198,7 @@ public class MainPanelController implements Initializable {
 
     }
 
+    @FXML
     private void mostrarMedicamentos(){
         panelMedicamentos.setVisible(true);
         pendientes.setVisible(false);
@@ -335,19 +330,5 @@ public class MainPanelController implements Initializable {
         }
         // Agregar los elementos obtenidos a la TableView
         tablaMedicamentos.setItems(listaMedicamentos);
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

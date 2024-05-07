@@ -160,7 +160,7 @@
                                         <Insets bottom="10.0" left="10.0" top="10.0" />
                                     </VBox.margin>
                                 </Label>
-                                <ToggleButton fx:id="tiposButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Tipos medicamentos">
+                                <ToggleButton fx:id="tiposButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarMedicamentos" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Tipos medicamentos">
                                     <graphic>
                                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
                                             <image>
@@ -180,7 +180,7 @@
                         <VBox prefHeight="113.0" prefWidth="310.0">
                             <children>
                                 <Separator prefWidth="310.0" />
-                                <ToggleButton fx:id="presearch" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Busqueda">
+                                <ToggleButton fx:id="presearch" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarBuscar" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Busqueda">
                                     <graphic>
                                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
                                             <image>

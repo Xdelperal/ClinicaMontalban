@@ -123,7 +123,7 @@ private void cargarMainPanel() {
         // Actualizar el texto del Label en el MainPanelController
         mainPanelController.setMedico(medico);
         mainPanelController.updateUserNameLabel(medico);
-
+        mainPanelController.getPendiente();
 
         // Obtener el Stage actual y configurar la nueva escena
         Stage stage = (Stage) fieldDNI.getScene().getWindow();
