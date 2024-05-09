@@ -22,11 +22,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.MainPanelController">
+<ScrollPane fitToHeight="true" fitToWidth="true" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.MainPanelController">
     <content>
         <BorderPane>
             <top>
-                <HBox alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="1315.0" styleClass="white-background" stylesheets="@css/mainPanel.css" BorderPane.alignment="CENTER">
+                <HBox alignment="CENTER_LEFT" styleClass="white-background" stylesheets="@css/mainPanel.css" BorderPane.alignment="CENTER">
                     <children>
                         <ImageView fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -104,7 +104,7 @@
 
 
             <left>
-                <VBox prefHeight="200.0" prefWidth="310.0" styleClass="white-background" stylesheets="@css/mainPanel.css" BorderPane.alignment="CENTER">
+                <VBox styleClass="white-background" stylesheets="@css/mainPanel.css" BorderPane.alignment="CENTER">
                     <children>
                         <VBox prefHeight="245.0" prefWidth="310.0">
                             <children>
@@ -116,7 +116,7 @@
                                         <Insets bottom="10.0" left="10.0" top="20.0" />
                                     </VBox.margin>
                                 </Label>
-                                <ToggleButton fx:id="pendingButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarPendientes" prefHeight="60.0" prefWidth="320.0" styleClass="selected" stylesheets="@css/mainPanel.css" text="Pendientes">
+                                <ToggleButton fx:id="pendingButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarPendientes" prefHeight="60.0" prefWidth="320.0" styleClass="selected" stylesheets="@css/mainPanel.css" text="  Pendientes">
                                     <graphic>
                                         <!-- Aquí colocas la imagen que desees -->
                                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
@@ -129,7 +129,7 @@
                                         <Font size="20.0" />
                                     </font>
                                 </ToggleButton>
-                                <ToggleButton fx:id="madeButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarRealizadas" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Realizadas">
+                                <ToggleButton fx:id="madeButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarRealizadas" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="  Realizadas">
                                     <graphic>
                                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
                                             <image>
@@ -160,7 +160,7 @@
                                         <Insets bottom="10.0" left="10.0" top="10.0" />
                                     </VBox.margin>
                                 </Label>
-                                <ToggleButton fx:id="tiposButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarMedicamentos" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Tipos medicamentos">
+                                <ToggleButton fx:id="tiposButton" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarMedicamentos" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="  Tipos medicamentos">
                                     <graphic>
                                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
                                             <image>
@@ -180,7 +180,7 @@
                         <VBox prefHeight="113.0" prefWidth="310.0">
                             <children>
                                 <Separator prefWidth="310.0" />
-                                <ToggleButton fx:id="presearch" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarBuscar" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="Busqueda">
+                                <ToggleButton fx:id="presearch" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarBuscar" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="  Busqueda">
                                     <graphic>
                                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
                                             <image>
@@ -216,7 +216,7 @@
                                         <Font name="System Bold" size="20.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="countTime" alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="99.0" layoutY="139.0" prefHeight="30.0" prefWidth="109.0">
+                                <Label fx:id="countTime" alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="99.0" layoutY="139.0" prefHeight="30.0" prefWidth="109.0" textFill="#4ce882">
                                     <font>
                                         <Font size="25.0" />
                                     </font>
@@ -236,9 +236,9 @@
                 </VBox>
             </left>
             <center>
-                <AnchorPane fx:id="anchorpane" stylesheets="@css/cita.css" BorderPane.alignment="CENTER">
+                <AnchorPane fx:id="anchorpane" stylesheets="@css/mainPanel.css" BorderPane.alignment="CENTER">
                     <children>
-                        <TableView fx:id="pendientes" layoutX="17.0" layoutY="14.0" prefHeight="870.0" prefWidth="1545.0" visible="false">
+                        <TableView fx:id="pendientes" layoutX="17.0" layoutY="14.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
                                 <TableColumn fx:id="colCita" prefWidth="100" text="Numero Cita">
                                     <cellValueFactory>
@@ -277,7 +277,7 @@
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                             </columnResizePolicy>
                         </TableView>
-                        <TableView fx:id="realizadas" layoutX="17.0" layoutY="14.0" prefHeight="870.0" prefWidth="1545.0" visible="false" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="14.0">
+                        <TableView fx:id="realizadas" layoutX="17.0" layoutY="14.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
                                 <TableColumn fx:id="colCita1" prefWidth="100" text="Numero Cita">
                                     <cellValueFactory>
@@ -314,7 +314,7 @@
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                             </columnResizePolicy>
                         </TableView>
-                        <AnchorPane fx:id="PanelBuscador" prefHeight="870.0" prefWidth="1545.0">
+                        <AnchorPane fx:id="PanelBuscador" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
                                 <Label fx:id="textSearch" layoutX="58.0" layoutY="65.0" text="Buscador Citas">
                                     <font>
@@ -324,7 +324,7 @@
 
                                 <ToggleButton fx:id="searchButton" layoutX="424.0" layoutY="63.0" mnemonicParsing="false" onAction="#getBusqueda" text="Buscar" />
                                 <TextField fx:id="pacienteDNI" layoutX="226.0" layoutY="66.0" />
-                                <TableView fx:id="datosPaciente" layoutX="48.0" layoutY="122.0" prefHeight="699.0" prefWidth="1545.0" visible="false">
+                                <TableView fx:id="datosPaciente" layoutX="48.0" layoutY="122.0" visible="false" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="48.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="122.0">
                                     <columns>
                                         <TableColumn fx:id="colCita11" prefWidth="100" text="Numero Cita">
                                             <cellValueFactory>
@@ -363,7 +363,7 @@
                                 </TableView>
                             </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="panelMedicamentos" prefHeight="870.0" prefWidth="1545.0">
+                        <AnchorPane fx:id="panelMedicamentos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
                                 <ChoiceBox fx:id="tiposMedicamento" layoutX="297.0" layoutY="63.0" prefHeight="29.0" prefWidth="172.0" />
                                 <Label layoutX="59.0" layoutY="65.0" text="Tipo de Medicamento">
@@ -371,7 +371,7 @@
                                         <Font size="20.0" />
                                     </font>
                                 </Label>
-                                <TableView fx:id="tablaMedicamentos" layoutX="59.0" layoutY="128.0" prefHeight="780.0" prefWidth="1177.0">
+                                <TableView fx:id="tablaMedicamentos" layoutX="56.0" layoutY="128.0" prefHeight="643.0" prefWidth="1262.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="56.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="127.0">
                                     <columns>
                                         <TableColumn fx:id="nombreMedicamento" prefWidth="100" text="Nombre">
                                             <cellValueFactory>

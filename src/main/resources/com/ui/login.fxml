@@ -46,10 +46,10 @@
     <right>
         <StackPane prefHeight="600.0" prefWidth="445.0">
             <AnchorPane prefHeight="600.0" prefWidth="400.0" styleClass="borderedPane" BorderPane.alignment="CENTER">
-                <TextField fx:id="fieldDNI" layoutX="139.0" layoutY="228.0" promptText="Usuario" style="-fx-background-color: transparent; -fx-border-color: #0596ff; -fx-border-width: 0px 0px 2px;" />
-                <PasswordField fx:id="fieldContrasena" layoutX="139.0" layoutY="293.0" promptText="Contraseña" style="-fx-background-color: transparent; -fx-border-color: #0596ff; -fx-border-width: 0px 0px 2px;" />
-                <FontAwesomeIconView fill="#00b539" glyphName="USER" layoutX="88.0" layoutY="263.0" size="25" />
-                <FontAwesomeIconView fill="#00b539" glyphName="LOCK" layoutX="89.0" layoutY="319.0" size="25" />
+                <TextField fx:id="fieldDNI" layoutX="139.0" layoutY="228.0" prefHeight="27.0" prefWidth="150.0" promptText="Usuario DNI" style="-fx-background-color: transparent; -fx-border-color: #0596ff; -fx-border-width: 0px 0px 2px;" />
+                <PasswordField fx:id="fieldContrasena" layoutX="139.0" layoutY="293.0" prefHeight="27.0" prefWidth="150.0" promptText="Contraseña" style="-fx-background-color: transparent; -fx-border-color: #0596ff; -fx-border-width: 0px 0px 2px;" />
+                <FontAwesomeIconView fill="#00b539" glyphName="USER" layoutX="96.0" layoutY="255.0" size="25" />
+                <FontAwesomeIconView fill="#00b539" glyphName="LOCK" layoutX="97.0" layoutY="321.0" size="25" />
                 <Button id="buttonEntrap" fx:id="buttonEntrap" layoutX="145.0" layoutY="370.0" mnemonicParsing="false" onAction="#comprobacion" prefHeight="37.0" prefWidth="113.0" styleClass="buttonEntrap" text="Entrar">
                     <font> 
 
@@ -60,7 +60,7 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-                <Hyperlink layoutX="87.0" layoutY="525.0" onAction="#abrirSoporte" text="No puedes acceder? Entra en soporte" />
+                <Hyperlink fx:id="soporte" layoutX="87.0" layoutY="525.0" onAction="#abrirSoporte" text="No puedes acceder? Entra en soporte" />
             <FontAwesomeIconView fill="#00da67" glyphName="USERS" layoutX="175.0" layoutY="117.0" selectionFill="#00da67" size="60" />
             <Text fill="#009e4a" layoutX="126.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Iniciar Sesion" wrappingWidth="163.71533203125">
                <font>

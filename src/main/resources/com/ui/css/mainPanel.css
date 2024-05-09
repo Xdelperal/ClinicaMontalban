@@ -11,36 +11,29 @@
     -fx-border-color: #D7D7D7;
 }
 
-.button.selected {
-    -fx-background-color: #F3F3F3;
-}
-
-.button {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-graphic-text-gap: 20px;
-}
-
-.button .text {
-    -fx-padding: 0 10px;
-}
-
-
-.button:hover {
-    -fx-background-color: #F3F3F3;
-}
-
 .root {
     -fx-default-background: white;
 }
 
-.button:armed {
-    -fx-background-color: #a4ffd9;
+.button {
+    -fx-background-color: #4CAF50; /* Color de fondo */
+    -fx-text-fill: white; /* Color del texto */
+    -fx-font-size: 16px; /* Tamaño de fuente */
+}
+.button:hover {
+    -fx-background-color: #45a049; /* Color de fondo al pasar el mouse */
 }
 
-.button:pressed {
-    -fx-text-fill:  #0000ff;
+.table-view {
+    -fx-background-color: #f2f2f2; /* Color de fondo */
+    -fx-font-size: 14px; /* Tamaño de fuente */
 }
+
+.table-cell {
+    -fx-text-fill: #333333; /* Color del texto */
+    -fx-alignment: center; /* Alineación del contenido */
+}
+
 .buttonEntrap {
     -fx-background-color: rgb(151, 212, 154);
     -fx-outline: none;
@@ -81,6 +74,13 @@
 }
 
 .toggle-button .text {
-    -fx-padding: 0 20px;
+    -fx-padding: 0 0 0 40px;
 }
+
+#anchorpane {
+    -fx-border-color: #b3ffb3;
+    -fx-border-width: 2px;
+}
+
+
 

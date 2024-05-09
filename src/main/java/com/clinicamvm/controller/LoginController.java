@@ -9,6 +9,9 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
@@ -18,6 +21,7 @@ import persistence.exceptions.DAOException;
 import persistence.utils.JDBCUtils;
 import persistence.utils.SQLQueries;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -105,15 +109,16 @@ public class LoginController implements Initializable {
 * Este metodo es el que redirecciona a la web cunando pulsas el link
 * de recuperacion de credenciales en caso de perdida.
 */
-    @FXML
-    private void abrirSoporte(ActionEvent event) {
-        try {
-            URI uri = new URI("https://google.com");
-            java.awt.Desktop.getDesktop().browse(uri);
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
+@FXML
+private void abrirSoporte(ActionEvent event) {
+    try {
+        // Especifica el comando para abrir el cliente de correo electrónico
+        String[] command = {"xdg-open", "mailto:soporte@clinicamontalban.com"};
+        Process process = Runtime.getRuntime().exec(command);
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
 
 
 

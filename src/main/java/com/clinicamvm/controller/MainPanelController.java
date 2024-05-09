@@ -49,7 +49,7 @@ public class MainPanelController implements Initializable {
     private TableColumn<Cita, Void> colButton;
 
     @FXML
-    private Button closeButton, webClinica;
+    private Button closeButton;
 
     @FXML
     private ToggleButton madeButton, pendingButton, tiposButton, presearch, searchButton;
@@ -131,15 +131,12 @@ public class MainPanelController implements Initializable {
         PanelBuscador.setVisible(false);
         panelMedicamentos.setVisible(false);
         getPendiente();
-
     }
-
 
     public void setMedico(Personal medico){
-
         this.medico = medico;
-
     }
+
     public void updateUserNameLabel(Personal medico) {
         userNameLabel.setText(medico.getNombre() + " " + medico.getApellidos());
 
@@ -206,17 +203,31 @@ public class MainPanelController implements Initializable {
         PanelBuscador.setVisible(false);
     }
 
-
-
     @FXML
     private void abrirPaginaWeb() {
         // Abrir la página web en el navegador por defecto
         try {
-            java.awt.Desktop.getDesktop().browse(new java.net.URI("https://www.clinicamontalban.com"));
+            // Comprobar el sistema operativo
+            String os = System.getProperty("os.name").toLowerCase();
+            Runtime rt = Runtime.getRuntime();
+            if (os.contains("win")) {
+                // Windows
+                rt.exec("rundll32 url.dll,FileProtocolHandler https://www.clinicamontalban.com");
+            } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+                // Linux
+                rt.exec("xdg-open https://www.clinicamontalban.com");
+            } else if (os.contains("mac")) {
+                // Mac OS
+                rt.exec("open https://www.clinicamontalban.com");
+            } else {
+                // Otros sistemas operativos, intenta con Desktop.browse
+                java.awt.Desktop.getDesktop().browse(new java.net.URI("https://www.clinicamontalban.com"));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     public void cargarCitaDetalle(int idCita) {
         try {
