@@ -172,7 +172,6 @@ public class MainPanelController implements Initializable {
         pendientes.setVisible(false);
         PanelBuscador.setVisible(false);
         panelMedicamentos.setVisible(false);
-
         getRealizadas();
     }
 
@@ -192,7 +191,6 @@ public class MainPanelController implements Initializable {
         for (Medicamento medicamento : listadoTipos) {
             tiposMedicamento.getItems().add(medicamento.gettNombre());
         }
-
     }
 
     @FXML
@@ -205,7 +203,6 @@ public class MainPanelController implements Initializable {
 
     @FXML
     private void abrirPaginaWeb() {
-        // Abrir la página web en el navegador por defecto
         try {
             // Comprobar el sistema operativo
             String os = System.getProperty("os.name").toLowerCase();
@@ -280,18 +277,12 @@ public class MainPanelController implements Initializable {
 
     @FXML
     private void getBusqueda(){
-
         datosPaciente.getItems().clear();
         ObservableList<Cita> buscarLista = citaJDBCDAO.buscar(pacienteDNI.getText());
         datosPaciente.setItems(buscarLista);
-
     }
 
-
     public void getPendiente() {
-
-
-
         pendientes.getItems().clear();
         ObservableList<Cita> listaPendiente = citaJDBCDAO.obtenerLista("Pendiente", medico.getDni());
 
@@ -323,12 +314,7 @@ public class MainPanelController implements Initializable {
                 };
             }
         });
-
     }
-
-
-
-    JDBCUtils recursos = new JDBCUtils();
 
     private void showMedicamentos() {
         tablaMedicamentos.getItems().clear();

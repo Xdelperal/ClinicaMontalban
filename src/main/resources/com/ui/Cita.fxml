@@ -44,7 +44,7 @@
                            </columnResizePolicy>
                         </TableView>
                         <TextField fx:id="textMedicamento" layoutX="33.0" layoutY="63.0" prefHeight="24.0" prefWidth="222.0" />
-                        <Button fx:id="buttonSearchMedicamentos" layoutX="276.0" layoutY="63.0" mnemonicParsing="false" text="Buscar" />
+                        <Button onAction="#busquedaMedicamentos" layoutX="276.0" layoutY="63.0" mnemonicParsing="false" text="Buscar" />
 
                      </children>
                   </Pane>

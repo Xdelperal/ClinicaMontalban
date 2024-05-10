@@ -4,6 +4,7 @@ import business.entities.Medicamento;
 import business.entities.Receta;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -20,9 +21,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class CitaDetalleController implements Initializable {
 
@@ -51,7 +50,7 @@ public class CitaDetalleController implements Initializable {
         @FXML
         private Label errorText, errorTextFecha, lblIdCita, errorTextChoice;
         @FXML
-        private Button buttonSearchMedicamentos,generar;
+        private Button generar;
         @FXML
         private TextField textMedicamento;
         @FXML
@@ -70,16 +69,14 @@ public class CitaDetalleController implements Initializable {
         private Map<Integer, Medicamento> mapaMedicamentos = new HashMap<>();
     //</editor-fold>
 
-
     @Override //Aqui van las primeras ejecuciones cuando se inicializa
     public void initialize(URL url, ResourceBundle resourceBundle) {
         medicamentoJDBCDAO = new MedicamentoJDBCDAO();
         Connection connection = JDBCUtils.getConnection();
         citaJDBCDAO = new CitaJDBCDAO(connection);
         generar.setOnAction(event -> crearInforme());
-        buttonSearchMedicamentos.setOnAction(event -> busquedaMedicamentos());
         tablaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
-        showMedicamentos();
+        showMedicamentos(tablaMedicamentos);
         errorTextChoice.setVisible(false);
 
         for (Medicamento medicamento : tablaMedicamentos) {
@@ -100,11 +97,6 @@ public class CitaDetalleController implements Initializable {
 
         @FXML
         public void crearInforme() {
-            // Imprimir el objeto por consola
-            System.out.println("Lista de Recetas:");
-            for (Receta r : listaReceta) {
-                System.out.println(r);
-            }
 
             boolean algunAtributoEsNull = listaReceta.stream()
                     .anyMatch(receta -> receta.getNombre() == null
@@ -126,32 +118,21 @@ public class CitaDetalleController implements Initializable {
 
                 informeCreado = citaJDBCDAO.crearConsulta(idCita, String.valueOf(duracion.getValue()));
 
-
-
-
                 String observacion = ObservacionCitaText.getText();
 
 
                 if (informeCreado == true){
-
                     for (Receta receta : listaReceta) {
-
-                    RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
-
-                    recetaJDBCDAO.insertarReceta(receta,this.idCita);
-
-
+                        RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
+                        recetaJDBCDAO.insertarReceta(receta,this.idCita);
                     }
-
                     citaJDBCDAO.actualizarEstado("Realizada",observacion,idCita);
-
                 }
-
             }
         }
 
         @FXML
-        private void showMedicamentos() {
+        private void showMedicamentos(ObservableList<Medicamento> tablaMedicamentos) {
             nombreMedicamento.setCellValueFactory(new PropertyValueFactory<Medicamento, String>("nombre"));
             dosisMedicamento.setCellValueFactory(new PropertyValueFactory<Medicamento, String>("dosisEstandar"));
             listaMedicamentos.setItems(tablaMedicamentos);
@@ -354,11 +335,23 @@ public class CitaDetalleController implements Initializable {
             });
         }
 
-        @FXML
-        private void busquedaMedicamentos() {
-            ObservableList<Medicamento> medicamentosBusqueda = medicamentoJDBCDAO.buscar(textMedicamento.getText());
-            listaMedicamentos.setItems(medicamentosBusqueda);
+    @FXML
+    private void busquedaMedicamentos() {
+        String palabraClave = textMedicamento.getText().trim().toLowerCase();
+
+        if (palabraClave.isEmpty()) {
+            showMedicamentos(tablaMedicamentos);
+        } else {
+            FilteredList<Medicamento> filteredList = new FilteredList<>(tablaMedicamentos);
+
+            filteredList.setPredicate(medicamento ->
+                    medicamento.getNombre().toLowerCase().contains(palabraClave)
+            );
+
+            ObservableList<Medicamento> medicamentosFiltrados = FXCollections.observableArrayList(filteredList);
+            showMedicamentos(medicamentosFiltrados);
         }
+    }
 
 
 

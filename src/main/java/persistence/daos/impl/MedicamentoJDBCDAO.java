@@ -182,37 +182,4 @@ public class MedicamentoJDBCDAO  implements MedicamentoDAO {
     }
 
 
-    @Override
-    public ObservableList<Medicamento> buscar(String nombreMed) {
-
-        try{
-            Connection connection = JDBCUtils.getConnection();
-
-             String sql ;
-
-             sql = sqlQueries.getMedicamento();
-
-             PreparedStatement statementCitas = connection.prepareStatement(sql);
-
-            statementCitas.setString(1, nombreMed);
-            ResultSet resultSetCitas = statementCitas.executeQuery();
-
-            while (resultSetCitas.next()) {
-                String nombre = resultSetCitas.getString("nombre");
-                String dosisEstandar = resultSetCitas.getString("dosis_estandar");
-                String descripcion = resultSetCitas.getString("descripcion");
-
-                Medicamento nuevoMed = new Medicamento(nombre, dosisEstandar , descripcion);
-                Medicamentos.add(nuevoMed);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return Medicamentos;
-
-
-
-    }
-
 }

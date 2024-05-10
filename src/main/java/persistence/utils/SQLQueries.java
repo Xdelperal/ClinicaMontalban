@@ -2,13 +2,12 @@ package persistence.utils;
 
 public class SQLQueries {
 
-    String citas =
-            "SELECT cita.idCita, cita.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
-                    "FROM cita " +
-                    "INNER JOIN cliente ON cita.idCliente = cliente.idCliente " +
-                    "INNER JOIN persona ON cliente.DNI = persona.DNI " +
-                    "INNER JOIN personal ON personal.idTrabajador = cita.idTrabajador " +
-                    "WHERE personal.DNI = ? AND cita.estado = ?";
+    String citas = "SELECT p.DNI, CONCAT(p.nombre, \" \", p.apellido) as nombre, ci.fecha, ci.hora, ci.descripcion, ci.estado " +
+            "FROM cita ci " +
+            "JOIN cliente c ON (c.idCliente = ci.idCliente) " +
+            "JOIN persona p ON (p.DNI = c.DNI) " +
+            "JOIN personal pe ON (ci.idTrabajador = pe.idTrabajador) " +
+            "WHERE pe.DNI = ? AND ci.estado = ?;";
 
     String recogerDatosPaciente =
             "SELECT cita.idCita, cita.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
@@ -45,9 +44,6 @@ public class SQLQueries {
             "WHERE p.dni = ?";
 
     String recogerMedicamentos = "SELECT id, nombre, dosis_estandar, descripcion FROM Medicamentos";
-
-    String recogerMedicamento = "SELECT * FROM Medicamentos WHERE nombre = ?";
-
 
     String recogerNombreMedicamento = "SELECT nombre FROM TiposMedicamentos";
 
@@ -92,14 +88,10 @@ public class SQLQueries {
     public String getMedicamentos(){
         return recogerMedicamentos;
     }
-    public String getMedicamento(){
-        return recogerMedicamento;
-    }
 
     public String getIdTipo(){
         return recogerIdTipo;
     }
-
 
     public String getNombreMedicamento(){
         return recogerNombreMedicamento;

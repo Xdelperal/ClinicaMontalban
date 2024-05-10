@@ -11,11 +11,19 @@ public class Cita extends Cliente {
 
     private final IntegerProperty idCita;
     private final StringProperty nombre;
-    private final StringProperty estado;
+    private final StringProperty DNI, estado, descripcion;
     private final ObjectProperty<Date> fecha;
     private final ObjectProperty<Time> hora;
-    private final StringProperty descripcion;
 
+
+    public Cita(StringProperty nombre, StringProperty DNI, StringProperty estado, StringProperty descripcion, ObjectProperty<Date> fecha, ObjectProperty<Time> hora) {
+        this.nombre = nombre;
+        this.DNI = DNI;
+        this.estado = estado;
+        this.descripcion = descripcion;
+        this.fecha = fecha;
+        this.hora = hora;
+    }
 
     public Cita(int idCita, int idCliente, String nombre, String estado, Date fecha, Time hora, String descripcion) {
         super(idCliente);
@@ -26,6 +34,7 @@ public class Cita extends Cliente {
         this.hora = new SimpleObjectProperty<>(hora);
         this.descripcion = new SimpleStringProperty(descripcion);
     }
+
 
 
 
@@ -77,4 +86,7 @@ public class Cita extends Cliente {
         this.descripcion.set(descripcion);
     }
 
+    public String getDNI() { return DNI.get(); }
+
+    public void setDNI(String DNI) { this.DNI.set(DNI); }
 }

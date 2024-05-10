@@ -45,7 +45,6 @@ public class LoginController implements Initializable {
     private PasswordField fieldContrasena;
     @FXML
     private Label msgLabel;
-
     private Stage stage;
 
     @Override
