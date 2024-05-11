@@ -325,40 +325,6 @@ public class MainPanelController implements Initializable {
         }
     }
 
-    @FXML
-    private void getRealizadas() {
-        // Limpiar los elementos existentes en la TableView
-        realizadas.getItems().clear();
-
-        ObservableList<Cita> listaRealizadas = citaJDBCDAO.obtenerLista("Realizada", medico.getDni());
-
-        // Configurar las fábricas de valores de celdas para cada columna
-        colCita1.setCellValueFactory(new PropertyValueFactory<>("idCita"));
-        colDNI1.setCellValueFactory(new PropertyValueFactory<>("DNI"));
-        colNombre1.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colFecha1.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        colHora1.setCellValueFactory(new PropertyValueFactory<>("hora"));
-        colMotivo1.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-
-        // Agregar los elementos obtenidos a la TableView
-        realizadas.setItems(listaRealizadas);
-    }
-
-    @FXML
-    private void getBusqueda(){
-        datosPaciente.getItems().clear();
-        ObservableList<Cita> buscarLista = citaJDBCDAO.buscar(pacienteDNI.getText());
-        datosPaciente.setItems(buscarLista);
-
-        // Configurar manualmente las celdas de las columnas
-        colCita11.setCellValueFactory(new PropertyValueFactory<>("idCita"));
-        colDNI11.setCellValueFactory(new PropertyValueFactory<>("DNI"));
-        colNombre11.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colFecha11.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        colHora11.setCellValueFactory(new PropertyValueFactory<>("hora"));
-        colMotivo11.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-    }
-
     public void getPendiente() {
         pendientes.getItems().clear();
         ObservableList<Cita> listaPendiente = citaJDBCDAO.obtenerLista("Pendiente", medico.getDni());
@@ -397,6 +363,40 @@ public class MainPanelController implements Initializable {
                 };
             }
         });
+    }
+
+    @FXML
+    private void getRealizadas() {
+        // Limpiar los elementos existentes en la TableView
+        realizadas.getItems().clear();
+
+        ObservableList<Cita> listaRealizadas = citaJDBCDAO.obtenerLista("Realizada", medico.getDni());
+
+        // Configurar las fábricas de valores de celdas para cada columna
+        colCita1.setCellValueFactory(new PropertyValueFactory<>("idCita"));
+        colDNI1.setCellValueFactory(new PropertyValueFactory<>("DNI"));
+        colNombre1.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colFecha1.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        colHora1.setCellValueFactory(new PropertyValueFactory<>("hora"));
+        colMotivo1.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+
+        // Agregar los elementos obtenidos a la TableView
+        realizadas.setItems(listaRealizadas);
+    }
+
+    @FXML
+    private void getBusqueda(){
+        datosPaciente.getItems().clear();
+        ObservableList<Cita> buscarLista = citaJDBCDAO.buscar(pacienteDNI.getText());
+        datosPaciente.setItems(buscarLista);
+
+        // Configurar manualmente las celdas de las columnas
+        colCita11.setCellValueFactory(new PropertyValueFactory<>("idCita"));
+        colDNI11.setCellValueFactory(new PropertyValueFactory<>("DNI"));
+        colNombre11.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colFecha11.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        colHora11.setCellValueFactory(new PropertyValueFactory<>("hora"));
+        colMotivo11.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
     }
 
     private void showMedicamentos() {

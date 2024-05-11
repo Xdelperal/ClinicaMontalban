@@ -88,7 +88,7 @@
                         <Region prefHeight="72.0" prefWidth="160.0" />
                         <Button fx:id="closeButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#cerrarVentana" prefHeight="54.0" prefWidth="58.0" stylesheets="@css/mainPanel.css">
                             <graphic>
-                                <ImageView fx:id="iconoImagen" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 70px;" styleClass="icono">
+                                <ImageView fx:id="iconoImagen" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 10px;" styleClass="icono">
                                     <image>
                                         <Image url="@img/mainPane/power-button.png" />
                                     </image>
@@ -150,7 +150,7 @@
                             </padding>
                         </VBox>
                         <Separator prefWidth="310.0" />
-                        <VBox prefHeight="147.0" prefWidth="310.0">
+                        <VBox prefHeight="159.0" prefWidth="290.0">
                             <children>
                                 <Label text="Medicamentos">
                                     <font>
@@ -177,9 +177,17 @@
                                 <Insets top="10.0" />
                             </padding>
                         </VBox>
-                        <VBox prefHeight="113.0" prefWidth="310.0">
+                        <VBox prefHeight="197.0" prefWidth="290.0">
                             <children>
                                 <Separator prefWidth="310.0" />
+                        <Label text="Herramientas">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
                                 <ToggleButton fx:id="presearch" alignment="TOP_LEFT" lineSpacing="10.0" mnemonicParsing="false" onAction="#mostrarBuscar" prefHeight="60.0" prefWidth="320.0" stylesheets="@css/mainPanel.css" text="  Busqueda">
                                     <graphic>
                                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 50px;">
@@ -192,7 +200,7 @@
                                         <Font size="20.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets top="20.0" />
+                                        <Insets top="10.0" />
                                     </VBox.margin>
                                 </ToggleButton>
                                 <Label>
@@ -208,25 +216,25 @@
                                 <Insets top="10.0" />
                             </padding>
                         </VBox>
-                        <Region prefHeight="23.0" prefWidth="310.0" />
+                        <Region prefHeight="13.0" prefWidth="240.0" />
                         <Pane prefHeight="189.0" prefWidth="310.0">
                             <children>
-                                <Label layoutX="75.0" layoutY="92.0" text="Tiempo sesion" textAlignment="CENTER">
+                                <Label layoutX="75.0" layoutY="90.0" text="Tiempo sesion" textAlignment="CENTER">
                                     <font>
                                         <Font name="System Bold" size="20.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="countTime" alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="99.0" layoutY="139.0" prefHeight="30.0" prefWidth="109.0" textFill="#4ce882">
+                                <Label fx:id="countTime" alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="88.0" layoutY="144.0" prefHeight="30.0" prefWidth="109.0" textFill="#4ce882">
                                     <font>
                                         <Font size="25.0" />
                                     </font>
                                 </Label>
-                                <Button fx:id="webClinica" layoutX="90.0" layoutY="25.0" mnemonicParsing="false" onAction="#abrirPaginaWeb" prefHeight="36.0" prefWidth="132.0" styleClass="buttonEntrap" text="Sitio WEB" textFill="#04d76a">
+                                <Button fx:id="webClinica" contentDisplay="CENTER" layoutX="77.0" layoutY="24.0" mnemonicParsing="false" onAction="#abrirPaginaWeb" prefHeight="36.0" prefWidth="132.0" styleClass="buttonEntrap" text="Sitio WEB" textFill="#04d76a">
                                     <font>
                                         <Font size="15.0" />
                                     </font>
                                 </Button>
-                                <Separator layoutX="-2.0" layoutY="-3.0" prefWidth="310.0" />
+                                <Separator layoutX="-2.0" layoutY="-3.0" prefHeight="0.0" prefWidth="291.0" />
                             </children>
                             <cursor>
                                 <Cursor fx:constant="DEFAULT" />
@@ -360,25 +368,25 @@
                         </AnchorPane>
                         <AnchorPane fx:id="panelMedicamentos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
-                                <ChoiceBox fx:id="tiposMedicamento" layoutX="297.0" layoutY="63.0" prefHeight="29.0" prefWidth="172.0" />
-                                <Label layoutX="59.0" layoutY="65.0" text="Tipo de Medicamento">
+                                <ChoiceBox fx:id="tiposMedicamento" layoutX="427.0" layoutY="49.0" prefHeight="29.0" prefWidth="139.0" />
+                                <Label layoutX="37.0" layoutY="48.0" text="Selecciona el tipo de medicamento:">
                                     <font>
-                                        <Font size="20.0" />
+                                        <Font name="System Bold" size="20.0" />
                                     </font>
                                 </Label>
-                                <TableView fx:id="tablaMedicamentos" layoutX="56.0" layoutY="128.0" prefHeight="643.0" prefWidth="1262.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="56.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="127.0">
+                                <TableView fx:id="tablaMedicamentos" layoutX="38.0" layoutY="98.0" prefHeight="668.0" prefWidth="1274.0" styleClass="tabla-tipos-medicamento" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="98.0">
                                     <columns>
-                                        <TableColumn fx:id="nombreMedicamento" prefWidth="100" text="Nombre">
+                                        <TableColumn fx:id="nombreMedicamento" prefWidth="138.0" text="Nombre">
                                             <cellValueFactory>
                                                 <PropertyValueFactory property="nombre" />
                                             </cellValueFactory>
                                         </TableColumn>
-                                        <TableColumn fx:id="dosisMedicamento" prefWidth="100" text="Dosis Estandar">
+                                        <TableColumn fx:id="dosisMedicamento" prefWidth="143.0" text="Dosis Estandar">
                                             <cellValueFactory>
                                                 <PropertyValueFactory property="dosisEstandar" />
                                             </cellValueFactory>
                                         </TableColumn>
-                                        <TableColumn fx:id="descripcionMedicamento" prefWidth="150" text="Descripcion">
+                                        <TableColumn fx:id="descripcionMedicamento" prefWidth="929.0" text="Descripcion">
                                             <cellValueFactory>
                                                 <PropertyValueFactory property="descripcion" />
                                             </cellValueFactory>
@@ -389,6 +397,11 @@
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                     </columnResizePolicy>
                                 </TableView>
+                        <ImageView fitHeight="31.0" fitWidth="39.0" layoutX="381.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/mainPane/flecha-tipoMedicamento.png" />
+                           </image>
+                        </ImageView>
                             </children>
                         </AnchorPane>
                     </children>
