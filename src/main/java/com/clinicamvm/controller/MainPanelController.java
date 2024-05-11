@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.stage.Screen;
@@ -23,6 +24,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -39,14 +41,72 @@ public class MainPanelController implements Initializable {
     @FXML
     private Label userNameLabel, currentTime, countTime;
 
+
     @FXML
     private TableView<Cita> pendientes, realizadas, datosPaciente;
 
+    //<editor-fold defaultstate="collapsed" desc="Columnas de Pendientes">
     @FXML
-    private TableView<Medicamento> tablaMedicamentos;
+    private TableColumn<Cita, Integer> colDNI;
+
+    @FXML
+    private TableColumn<Cita, String> colNombre;
+
+    @FXML
+    private TableColumn<Cita, Date> colFecha;
+
+    @FXML
+    private TableColumn<Cita, Time> colHora;
+
+    @FXML
+    private TableColumn<Cita, String> colMotivo;
 
     @FXML
     private TableColumn<Cita, Void> colButton;
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Columnas de Realizadas">
+    @FXML
+    private TableColumn<Cita, Integer> colCita1;
+
+    @FXML
+    private TableColumn<Cita, Integer> colDNI1;
+
+    @FXML
+    private TableColumn<Cita, String> colNombre1;
+
+    @FXML
+    private TableColumn<Cita, Date> colFecha1;
+
+    @FXML
+    private TableColumn<Cita, Time> colHora1;
+
+    @FXML
+    private TableColumn<Cita, String> colMotivo1;
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Columnas de Busqueda">
+    @FXML
+    private TableColumn<Cita, Integer> colCita11;
+
+    @FXML
+    private TableColumn<Cita, Integer> colDNI11;
+
+    @FXML
+    private TableColumn<Cita, String> colNombre11;
+
+    @FXML
+    private TableColumn<Cita, Date> colFecha11;
+
+    @FXML
+    private TableColumn<Cita, Time> colHora11;
+
+    @FXML
+    private TableColumn<Cita, String> colMotivo11;
+    //</editor-fold>
+
+    @FXML
+    private TableView<Medicamento> tablaMedicamentos;
 
     @FXML
     private Button closeButton;
@@ -191,6 +251,8 @@ public class MainPanelController implements Initializable {
         for (Medicamento medicamento : listadoTipos) {
             tiposMedicamento.getItems().add(medicamento.gettNombre());
         }
+        // Establecer "todos" como el valor predeterminado
+        tiposMedicamento.getSelectionModel().selectFirst();
     }
 
     @FXML
@@ -265,11 +327,18 @@ public class MainPanelController implements Initializable {
 
     @FXML
     private void getRealizadas() {
-
         // Limpiar los elementos existentes en la TableView
         realizadas.getItems().clear();
 
         ObservableList<Cita> listaRealizadas = citaJDBCDAO.obtenerLista("Realizada", medico.getDni());
+
+        // Configurar las fábricas de valores de celdas para cada columna
+        colCita1.setCellValueFactory(new PropertyValueFactory<>("idCita"));
+        colDNI1.setCellValueFactory(new PropertyValueFactory<>("DNI"));
+        colNombre1.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colFecha1.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        colHora1.setCellValueFactory(new PropertyValueFactory<>("hora"));
+        colMotivo1.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
 
         // Agregar los elementos obtenidos a la TableView
         realizadas.setItems(listaRealizadas);
@@ -280,16 +349,30 @@ public class MainPanelController implements Initializable {
         datosPaciente.getItems().clear();
         ObservableList<Cita> buscarLista = citaJDBCDAO.buscar(pacienteDNI.getText());
         datosPaciente.setItems(buscarLista);
+
+        // Configurar manualmente las celdas de las columnas
+        colCita11.setCellValueFactory(new PropertyValueFactory<>("idCita"));
+        colDNI11.setCellValueFactory(new PropertyValueFactory<>("DNI"));
+        colNombre11.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colFecha11.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        colHora11.setCellValueFactory(new PropertyValueFactory<>("hora"));
+        colMotivo11.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
     }
 
     public void getPendiente() {
         pendientes.getItems().clear();
         ObservableList<Cita> listaPendiente = citaJDBCDAO.obtenerLista("Pendiente", medico.getDni());
-
-        colButton.setCellFactory(null);
         pendientes.setItems(listaPendiente);
 
-        colButton.setCellFactory(new Callback<>() {
+        // Configurar las fábricas de valores de celdas para cada columna
+        colDNI.setCellValueFactory(new PropertyValueFactory<>("DNI"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        colHora.setCellValueFactory(new PropertyValueFactory<>("hora"));
+        colMotivo.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+
+        // Configurar el botón en la columna de acceso
+        colButton.setCellFactory(new Callback<TableColumn<Cita, Void>, TableCell<Cita, Void>>() {
             @Override
             public TableCell<Cita, Void> call(TableColumn<Cita, Void> param) {
                 return new TableCell<>() {

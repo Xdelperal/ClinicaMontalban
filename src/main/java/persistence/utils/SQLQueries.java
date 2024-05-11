@@ -2,12 +2,12 @@ package persistence.utils;
 
 public class SQLQueries {
 
-    String citas = "SELECT p.DNI, CONCAT(p.nombre, \" \", p.apellido) as nombre, ci.fecha, ci.hora, ci.descripcion, ci.estado " +
+    String citas = "SELECT ci.idCita, c.idCliente, p.DNI, CONCAT(p.nombre, \" \", p.apellido) as nombre, ci.fecha, ci.hora, ci.descripcion, ci.estado " +
             "FROM cita ci " +
             "JOIN cliente c ON (c.idCliente = ci.idCliente) " +
             "JOIN persona p ON (p.DNI = c.DNI) " +
             "JOIN personal pe ON (ci.idTrabajador = pe.idTrabajador) " +
-            "WHERE pe.DNI = ? AND ci.estado = ?;";
+            "WHERE pe.DNI = ? AND ci.estado = ?";
 
     String recogerDatosPaciente =
             "SELECT cita.idCita, cita.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +

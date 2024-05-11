@@ -88,7 +88,7 @@
                         <Region prefHeight="72.0" prefWidth="160.0" />
                         <Button fx:id="closeButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#cerrarVentana" prefHeight="54.0" prefWidth="58.0" stylesheets="@css/mainPanel.css">
                             <graphic>
-                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 70px;">
+                                <ImageView fx:id="iconoImagen" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 70px;" styleClass="icono">
                                     <image>
                                         <Image url="@img/mainPane/power-button.png" />
                                     </image>
@@ -104,7 +104,7 @@
 
 
             <left>
-                <VBox styleClass="white-background" stylesheets="@css/mainPanel.css" BorderPane.alignment="CENTER">
+                <VBox prefHeight="794.0" prefWidth="290.0" styleClass="white-background" stylesheets="@css/mainPanel.css" BorderPane.alignment="CENTER">
                     <children>
                         <VBox prefHeight="245.0" prefWidth="310.0">
                             <children>
@@ -240,14 +240,9 @@
                     <children>
                         <TableView fx:id="pendientes" layoutX="17.0" layoutY="14.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
-                                <TableColumn fx:id="colCita" prefWidth="100" text="Numero Cita">
-                                    <cellValueFactory>
-                                        <PropertyValueFactory property="idCita" />
-                                    </cellValueFactory>
-                                </TableColumn>
                                 <TableColumn fx:id="colDNI" prefWidth="100" text="DNI">
                                     <cellValueFactory>
-                                        <PropertyValueFactory property="idCliente" />
+                                        <PropertyValueFactory property="DNI" />
                                     </cellValueFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="colNombre" prefWidth="150" text="Nombre">
@@ -286,7 +281,7 @@
                                 </TableColumn>
                                 <TableColumn fx:id="colDNI1" prefWidth="100" text="DNI">
                                     <cellValueFactory>
-                                        <PropertyValueFactory property="idCliente" />
+                                        <PropertyValueFactory property="DNI" />
                                     </cellValueFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="colNombre1" prefWidth="150" text="Nombre">

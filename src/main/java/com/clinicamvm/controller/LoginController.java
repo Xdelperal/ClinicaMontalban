@@ -111,15 +111,29 @@ public class LoginController implements Initializable {
 @FXML
 private void abrirSoporte(ActionEvent event) {
     try {
-        // Especifica el comando para abrir el cliente de correo electrónico
-        String[] command = {"xdg-open", "mailto:soporte@clinicamontalban.com"};
-        Process process = Runtime.getRuntime().exec(command);
+        String osName = System.getProperty("os.name").toLowerCase();
+
+        // Verificar el sistema operativo y abrir el cliente de correo electrónico correspondiente
+        if (osName.contains("win")) {
+            // Para Windows
+            String[] command = {"cmd", "/c", "start", "mailto:soporte@clinicamontalban.com"};
+            Process process = Runtime.getRuntime().exec(command);
+        } else if (osName.contains("mac")) {
+            // Para MacOS
+            String[] command = {"open", "mailto:soporte@clinicamontalban.com"};
+            Process process = Runtime.getRuntime().exec(command);
+        } else if (osName.contains("nix") || osName.contains("nux") || osName.contains("aix")) {
+            // Para Linux/Unix
+            String[] command = {"xdg-open", "mailto:soporte@clinicamontalban.com"};
+            Process process = Runtime.getRuntime().exec(command);
+        } else {
+            // Sistema operativo desconocido, manejar según sea necesario
+            System.out.println("Sistema operativo no compatible.");
+        }
     } catch (IOException e) {
         e.printStackTrace();
     }
 }
-
-
 
 /**
  * Este metodo es el encargado de instanciar el inicializador del FXML que es la parte visual,

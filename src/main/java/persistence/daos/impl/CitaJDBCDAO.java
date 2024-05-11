@@ -24,10 +24,8 @@ public class CitaJDBCDAO implements CitaDAO {
     ObservableList<Cita> citas = FXCollections.emptyObservableList();
 
     public CitaJDBCDAO(Connection connection) {
-
         this.sqlQueries = new SQLQueries();
-        this.citas = FXCollections.observableArrayList(); // Inicializa citas como una nueva ObservableList
-
+        this.citas = FXCollections.observableArrayList();
     }
 
 
@@ -67,6 +65,7 @@ public class CitaJDBCDAO implements CitaDAO {
                         // Obtener los valores de las columnas
                         int idCita = resultSetCitas.getInt("idCita");
                         int idCliente = resultSetCitas.getInt("idCliente");
+                        String DNI = resultSetCitas.getString("DNI");
                         String nombre = resultSetCitas.getString("nombre");
                         String estado = resultSetCitas.getString("estado");
                         Date fecha = resultSetCitas.getDate("fecha");
@@ -74,7 +73,7 @@ public class CitaJDBCDAO implements CitaDAO {
                         String descripcion = resultSetCitas.getString("descripcion");
 
                         // Crear un objeto Cita con los datos obtenidos
-                        Cita nuevaCita = new Cita(idCita, idCliente, nombre, estado, (java.sql.Date) fecha, hora, descripcion);
+                        Cita nuevaCita = new Cita(idCliente, idCita, DNI,  nombre, estado, (java.sql.Date) fecha, hora, descripcion);
                         citas.add(nuevaCita);
                     }
                 }
@@ -98,30 +97,27 @@ public class CitaJDBCDAO implements CitaDAO {
 
     @Override
     public ObservableList<Cita> buscar(String dni) {
-
-        if (citas.size() > 0) {
-            citas.clear();
-        }
+        ObservableList<Cita> citas = FXCollections.observableArrayList(); // Crear una nueva lista
 
         try (Connection connection = JDBCUtils.getConnection();
-             PreparedStatement statementCitas = connection.prepareStatement("SELECT cita.idCita, cita.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
+             PreparedStatement statementCitas = connection.prepareStatement("SELECT cita.idCita, cita.idCliente, persona.DNI, CONCAT(persona.nombre, ' ', persona.apellido) as nombreCompleto, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
                      "FROM cita " +
                      "INNER JOIN cliente ON cita.idCliente = cliente.idCliente " +
                      "INNER JOIN persona ON cliente.DNI = persona.DNI " +
-                     "WHERE cliente.DNI = ?")) {
-
+                     "WHERE persona.DNI = ?")) { // Cambiar la columna a persona.DNI
             statementCitas.setString(1, dni);
             ResultSet resultSetCitas = statementCitas.executeQuery();
 
             while (resultSetCitas.next()) {
                 int idCita = resultSetCitas.getInt("idCita");
                 int idCliente = resultSetCitas.getInt("idCliente");
-                String nombre = resultSetCitas.getString("nombre");
+                String DNI = resultSetCitas.getString("DNI");
+                String nombreCompleto = resultSetCitas.getString("nombreCompleto"); // Cambiar al alias nombreCompleto
                 String estado = resultSetCitas.getString("estado");
                 Date fecha = resultSetCitas.getDate("fecha");
-                java.sql.Time hora = resultSetCitas.getTime("hora");
+                Time hora = resultSetCitas.getTime("hora");
                 String descripcion = resultSetCitas.getString("descripcion");
-                Cita nuevaCita = new Cita(idCita, idCliente, nombre, estado, (java.sql.Date) fecha, hora, descripcion);
+                Cita nuevaCita = new Cita(idCliente, idCita, DNI, nombreCompleto, estado, (java.sql.Date) fecha, hora, descripcion); // Usar nombreCompleto
                 citas.add(nuevaCita);
             }
         } catch (SQLException e) {
@@ -130,9 +126,6 @@ public class CitaJDBCDAO implements CitaDAO {
 
         return citas;
     }
-
-
-
 
     @Override
     public boolean crearConsulta(int idCita, String duracion) {

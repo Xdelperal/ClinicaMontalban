@@ -9,84 +9,51 @@ import java.sql.Time;
 
 public class Cita extends Cliente {
 
-    private final IntegerProperty idCita;
-    private final StringProperty nombre;
-    private final StringProperty DNI, estado, descripcion;
-    private final ObjectProperty<Date> fecha;
-    private final ObjectProperty<Time> hora;
+    private int idCita;
+    private String DNI, nombre, estado, descripcion;
+    private Date fecha;
+    private Time hora;
 
-
-    public Cita(StringProperty nombre, StringProperty DNI, StringProperty estado, StringProperty descripcion, ObjectProperty<Date> fecha, ObjectProperty<Time> hora) {
-        this.nombre = nombre;
+    public Cita(int idCliente, int idCita, String DNI, String nombre, String estado, Date fecha, Time hora, String descripcion) {
+        super(idCliente);
+        this.idCita = idCita;
         this.DNI = DNI;
+        this.nombre = nombre;
         this.estado = estado;
-        this.descripcion = descripcion;
         this.fecha = fecha;
         this.hora = hora;
+        this.descripcion = descripcion;
     }
-
-    public Cita(int idCita, int idCliente, String nombre, String estado, Date fecha, Time hora, String descripcion) {
-        super(idCliente);
-        this.idCita = new SimpleIntegerProperty(idCita);
-        this.nombre = new SimpleStringProperty(nombre);
-        this.estado = new SimpleStringProperty(estado);
-        this.fecha = new SimpleObjectProperty<>(fecha);
-        this.hora = new SimpleObjectProperty<>(hora);
-        this.descripcion = new SimpleStringProperty(descripcion);
-    }
-
-
 
 
     // Otros métodos, getters y setters
 
-    public int getIdCita() {
-        return idCita.get();
-    }
 
-    public void setIdCita(int idCita) {
-        this.idCita.set(idCita);
-    }
+    public int getIdCita() { return idCita; }
 
-    public String getNombre() {
-        return nombre.get();
-    }
+    public void setIdCita(int idCita) { this.idCita = idCita; }
 
-    public void setNombre(String nombre){ this.nombre.set(nombre); }
+    public String getDNI() { return DNI; }
 
-    public String getEstado() {
-        return estado.get();
-    }
+    public void setDNI(String DNI) { this.DNI = DNI; }
 
-    public void setEstado(String estado) {
-        this.estado.set(estado);
-    }
+    public String getNombre() { return nombre; }
 
-    public Date getFecha() {
-        return fecha.get();
-    }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public void setFecha(Date fecha) {
-        this.fecha.set(fecha);
-    }
+    public String getEstado() { return estado; }
 
-    public Time getHora() {
-        return hora.get();
-    }
+    public void setEstado(String estado) { this.estado = estado; }
 
-    public void setHora(Time hora) {
-        this.hora.set(hora);
-    }
+    public String getDescripcion() { return descripcion; }
 
-    public String getDescripcion() {
-        return descripcion.get();
-    }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion.set(descripcion);
-    }
+    public Date getFecha() { return fecha; }
 
-    public String getDNI() { return DNI.get(); }
+    public void setFecha(Date fecha) { this.fecha = fecha; }
 
-    public void setDNI(String DNI) { this.DNI.set(DNI); }
+    public Time getHora() { return hora; }
+
+    public void setHora(Time hora) { this.hora = hora; }
 }
