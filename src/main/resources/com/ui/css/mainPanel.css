@@ -55,6 +55,11 @@
     -fx-border-width: 1px;
 }
 
+#datosPaciente {
+    -fx-border-color: darkblue;
+    -fx-border-width: 1px;
+}
+
 #closeButton {
     -fx-background-color: transparent;
 }
@@ -70,7 +75,7 @@
     -fx-opacity: 1;
 }
 
-.buttonEntrap {
+.buttonEntrap, #searchButton {
     -fx-background-color: rgb(151, 212, 154);
     -fx-outline: none;
     -fx-border-color: rgb(151, 212, 154);
@@ -82,7 +87,7 @@
     -fx-transition: background-color 0.3s ease;
 }
 
-.buttonEntrap:hover {
+.buttonEntrap:hover, #searchButton:hover {
     -fx-background-color: rgb(218, 238, 255);
     -fx-border-color: rgb(218, 238, 255);
     -fx-border-width: 2px;

@@ -17,6 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -28,6 +30,9 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -40,7 +45,6 @@ public class MainPanelController implements Initializable {
 
     @FXML
     private Label userNameLabel, currentTime, countTime;
-
 
     @FXML
     private TableView<Cita> pendientes, realizadas, datosPaciente;
@@ -125,6 +129,12 @@ public class MainPanelController implements Initializable {
 
     private CitaJDBCDAO citaJDBCDAO;
 
+    //Expresion regular para el buscador de DNI.
+    private final Pattern pattern = Pattern.compile("\\d{0,8}[a-zA-Z]?");
+
+    //Declaramos como variable el stage para poder hacer verificaciones.
+    private Stage detalleCitaStage;
+
     private Personal medico;
 
     private String todos = "Todos", userDni;
@@ -133,6 +143,8 @@ public class MainPanelController implements Initializable {
 
     private ObservableList<Medicamento> listaMedicamentos;
     private int seconds = 0, minutes = 0, hours = 0;
+
+    private boolean cerrarVentanaPorApertura = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -183,6 +195,19 @@ public class MainPanelController implements Initializable {
 
         iniciar();
         dropDownTipos();
+
+        pacienteDNI.setTextFormatter(new TextFormatter<>(new UnaryOperator<TextFormatter.Change>() {
+            @Override
+            public TextFormatter.Change apply(TextFormatter.Change change) {
+                // Validar la nueva entrada con la expresión regular
+                if (pattern.matcher(change.getControlNewText()).matches()) {
+                    return change;
+                } else {
+                    // Si la entrada no coincide con la expresión regular, se rechaza
+                    return null;
+                }
+            }
+        }));
     }
 
     public void iniciar() {
@@ -235,7 +260,6 @@ public class MainPanelController implements Initializable {
         getRealizadas();
     }
 
-
     @FXML
     private void mostrarBuscar() {
         pacienteDNI.setText("");
@@ -287,8 +311,44 @@ public class MainPanelController implements Initializable {
         }
     }
 
-
     public void cargarCitaDetalle(int idCita) {
+        if (detalleCitaStage != null) {
+            // Si ya hay un detalle de cita abierto, preguntar si se desea cerrar
+            Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmDialog.setTitle("Confirmar");
+            confirmDialog.setHeaderText(null);
+
+            // Crear el VBox
+            VBox vbox = new VBox();
+
+            // Crear el texto normal
+            Label labelNormal = new Label("¿Estás seguro que quieres cerrar la pestaña actual de cita y abrir otra nueva?");
+            vbox.getChildren().add(labelNormal);
+
+            // Crear el texto en negrita y color rojo
+            Label labelNegrita = new Label("Perderás las modificaciones actuales.");
+            labelNegrita.setStyle("-fx-font-weight: bold;");
+            labelNegrita.setTextFill(Color.RED);
+            vbox.getChildren().add(labelNegrita);
+
+            // Establecer el contenido del diálogo como el VBox
+            confirmDialog.getDialogPane().setContent(vbox);
+
+            // Mostrar el diálogo de confirmación y esperar la respuesta del usuario
+            confirmDialog.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    // El usuario decidió cerrar el detalle de cita actual
+                    detalleCitaStage.close();
+                    abrirNuevoDetalleCita(idCita);
+                }
+            });
+        } else {
+            abrirNuevoDetalleCita(idCita);
+        }
+    }
+
+    // Modificar la función abrirNuevoDetalleCita() para establecer la bandera cuando se está cerrando la ventana
+    private void abrirNuevoDetalleCita(int idCita) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ui/Cita.fxml"));
             Parent root = loader.load();
@@ -306,6 +366,8 @@ public class MainPanelController implements Initializable {
             stage.setScene(scene);
             stage.setResizable(true); // Permitir redimensionar la ventana
 
+            // Mantener la referencia al nuevo detalle de cita abierto
+            detalleCitaStage = stage;
 
             // Obtener el tamaño de la pantalla
             Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
@@ -320,10 +382,49 @@ public class MainPanelController implements Initializable {
             stage.centerOnScreen();
             stage.setTitle("Información Cita");
             stage.show();
+
+            // Establecer un controlador de evento para el cierre de la ventana
+            stage.setOnCloseRequest(event -> {
+                if (!cerrarVentanaPorApertura) {
+                    event.consume(); // Consume el evento para evitar el cierre automático de la ventana
+
+                    // Crear el VBox
+                    VBox vbox = new VBox();
+
+                    // Crear el texto normal
+                    Label labelNormal = new Label("¿Estás seguro que quieres cerrar la pestaña actual de cita?");
+                    vbox.getChildren().add(labelNormal);
+
+                    // Crear el texto en negrita y color rojo
+                    Label labelNegrita = new Label("Perderás las modificaciones actuales.");
+                    labelNegrita.setStyle("-fx-font-weight: bold;");
+                    labelNegrita.setTextFill(Color.valueOf("red")); // Convertir el Color a Paint
+                    vbox.getChildren().add(labelNegrita);
+
+                    // Establecer el contenido del diálogo como el VBox
+                    Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                    confirmDialog.setTitle("Confirmar");
+                    confirmDialog.setHeaderText(null);
+                    confirmDialog.getDialogPane().setContent(vbox);
+
+                    // Mostrar el diálogo de confirmación y esperar la respuesta del usuario
+                    confirmDialog.showAndWait().ifPresent(response -> {
+                        if (response == ButtonType.OK) {
+                            // El usuario decidió cerrar la ventana actual
+                            detalleCitaStage.close();
+
+                            // Establecer detalleCitaStage en null después de cerrar la ventana
+                            detalleCitaStage = null;
+                        }
+                    });
+                }
+            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     public void getPendiente() {
         pendientes.getItems().clear();
@@ -385,9 +486,18 @@ public class MainPanelController implements Initializable {
     }
 
     @FXML
-    private void getBusqueda(){
+    private void getBusqueda() {
         datosPaciente.getItems().clear();
-        ObservableList<Cita> buscarLista = citaJDBCDAO.buscar(pacienteDNI.getText());
+
+        // Validar el DNI antes de ejecutar la búsqueda
+        String dni = pacienteDNI.getText();
+        if (!pattern.matcher(dni).matches()) {
+            // Mostrar un mensaje de error o tomar otra acción si el DNI no es válido
+            return;
+        }
+
+        // Ejecutar la búsqueda con el DNI válido
+        ObservableList<Cita> buscarLista = citaJDBCDAO.buscar(dni);
         datosPaciente.setItems(buscarLista);
 
         // Configurar manualmente las celdas de las columnas
