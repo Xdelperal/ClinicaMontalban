@@ -67,6 +67,18 @@ public class Receta extends Medicamento{
         this.comentario = comentario;
     }
 
+    public Receta(int id, int idMed, Date fechaInicial, Date fechaFinal, String cantidadDosis, String comentario) {
+        this.id = id;
+        this.idMed = idMed;
+        this.fechaInicial = fechaInicial;
+        this.fechaFinal = fechaFinal;
+        this.cantidadDosis = cantidadDosis;
+        this.comentario = comentario;
+    }
+
+    //Constructor Vacio.
+    public Receta(){}
+
     //De momento para verificar los objetos printandolos por consola.
     @Override
     public String toString() {

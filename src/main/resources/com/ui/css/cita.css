@@ -8,6 +8,8 @@
 }
 
 .table-view {
+    -fx-border-color: darkblue;
+    -fx-border-width: 1px;
     -fx-background-color: #f2f2f2; /* Color de fondo */
     -fx-font-size: 14px; /* Tamaño de fuente */
 }
@@ -16,5 +18,6 @@
     -fx-text-fill: #333333; /* Color del texto */
     -fx-alignment: center; /* Alineación del contenido */
 }
+
 
 

@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
@@ -44,7 +45,7 @@
                            </columnResizePolicy>
                         </TableView>
                         <TextField fx:id="textMedicamento" layoutX="33.0" layoutY="63.0" prefHeight="24.0" prefWidth="222.0" />
-                        <Button onAction="#busquedaMedicamentos" layoutX="276.0" layoutY="63.0" mnemonicParsing="false" text="Buscar" />
+                        <Button layoutX="276.0" layoutY="61.0" mnemonicParsing="false" onAction="#busquedaMedicamentos" text="Buscar" />
 
                      </children>
                   </Pane>
@@ -52,7 +53,7 @@
                <top>
                   <Pane prefHeight="86.0" prefWidth="1840.0" BorderPane.alignment="CENTER">
                      <children>
-                          <Label fx:id="lblIdCita" alignment="CENTER" layoutX="34.0" layoutY="9.0" prefHeight="69.0" prefWidth="638.0">
+                          <Label fx:id="lblIdCita" layoutX="34.0" layoutY="9.0" prefHeight="69.0" prefWidth="638.0">
                               <font>
                                   <Font size="24.0" />
                               </font>
@@ -63,7 +64,7 @@
                <center>
                   <Pane prefHeight="798.0" prefWidth="1088.0" BorderPane.alignment="CENTER">
                      <children>
-                        <TableView fx:id="tablaReceta" layoutX="61.0" layoutY="106.0" prefHeight="670.0" prefWidth="1029.0">
+                        <TableView fx:id="tablaReceta" layoutX="61.0" layoutY="59.0" prefHeight="717.0" prefWidth="1029.0" styleClass="tablaCita">
                           <columns>
                             <TableColumn fx:id="nombreLista" prefWidth="114.0" text="Nombre" />
                             <TableColumn fx:id="dosisEstandar" prefWidth="136.0" text="Dosis Estandar" />
@@ -74,9 +75,9 @@
                               <TableColumn fx:id="eliminar" minWidth="0.0" prefWidth="77.0" text="Eliminar" />
                           </columns>
                         </TableView>
-                        <Label layoutX="61.0" layoutY="53.0" prefHeight="45.0" prefWidth="267.0" text="Medicamentos Recetados">
+                        <Label layoutX="61.0" layoutY="3.0" prefHeight="45.0" prefWidth="299.0" text="Medicamentos Recetados">
                            <font>
-                              <Font size="20.0" />
+                              <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
                         <ImageView fitHeight="93.0" fitWidth="67.0" layoutX="-19.0" layoutY="423.0" pickOnBounds="true" preserveRatio="true">
@@ -94,25 +95,25 @@
                <right>
                   <Pane prefHeight="798.0" prefWidth="353.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label layoutX="105.0" layoutY="288.0" text="Comentarios">
+                        <Label layoutX="105.0" layoutY="229.0" text="Comentarios">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <Label layoutX="63.0" layoutY="469.0" prefHeight="25.0" prefWidth="234.0" text="Observacion Medico">
+                        <Label layoutX="63.0" layoutY="449.0" prefHeight="25.0" prefWidth="234.0" text="Observacion Medico">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="ObservacionCitaText" layoutX="33.0" layoutY="320.0" prefHeight="121.0" prefWidth="295.0" />
-                        <TextArea fx:id="ObservacionMedicoText" layoutX="34.0" layoutY="507.0" prefHeight="128.0" prefWidth="294.0" />
-                        <Label layoutX="112.0" layoutY="111.0" text="Motivo Cita">
+                        <TextArea fx:id="ObservacionCitaText" layoutX="33.0" layoutY="264.0" prefHeight="150.0" prefWidth="295.0" />
+                        <TextArea fx:id="ObservacionMedicoText" layoutX="34.0" layoutY="486.0" prefHeight="159.0" prefWidth="294.0" />
+                        <Label layoutX="112.0" layoutY="22.0" text="Motivo Cita">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                         <TextArea fx:id="motivoCitaText" editable="false" layoutX="33.0" layoutY="143.0" prefHeight="110.0" prefWidth="294.0" />
-                        <ChoiceBox fx:id="duracion" layoutX="30.0" layoutY="724.0" prefHeight="24.0" prefWidth="161.0">
+                         <TextArea fx:id="motivoCitaText" editable="false" layoutX="33.0" layoutY="59.0" prefHeight="140.0" prefWidth="294.0" />
+                        <ChoiceBox fx:id="duracion" layoutX="96.0" layoutY="715.0" prefHeight="24.0" prefWidth="161.0">
                            <items>
                               <FXCollections fx:factory="observableArrayList">
                                  <String fx:value="CORTA" />
@@ -120,16 +121,19 @@
                               </FXCollections>
                            </items>
                         </ChoiceBox>
-                        <Label layoutX="30.0" layoutY="678.0" prefHeight="25.0" prefWidth="234.0" text="Duracion receta">
+                        <Label layoutX="82.0" layoutY="676.0" prefHeight="25.0" prefWidth="188.0" text="Duracion receta">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="errorTextChoice" layoutX="202.0" layoutY="727.0" prefHeight="19.0" prefWidth="124.0" text="Elije una opcion" textFill="RED">
+                        <Label fx:id="errorTextChoice" layoutX="114.0" layoutY="756.0" prefHeight="19.0" prefWidth="124.0" text="Elije una opcion" textFill="RED">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </Label>
+                        <Separator layoutY="220.0" prefHeight="0.0" prefWidth="353.0" />
+                        <Separator layoutX="-2.0" layoutY="429.0" prefHeight="11.0" prefWidth="356.0" />
+                        <Separator layoutX="-2.0" layoutY="658.0" prefHeight="11.0" prefWidth="356.0" />
                      </children>
                      <opaqueInsets>
                         <Insets />

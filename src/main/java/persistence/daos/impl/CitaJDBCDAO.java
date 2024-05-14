@@ -9,6 +9,8 @@ import persistence.daos.contracts.CitaDAO;
 import persistence.utils.*;
 import java.sql.*;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class CitaJDBCDAO implements CitaDAO {
@@ -20,7 +22,6 @@ public class CitaJDBCDAO implements CitaDAO {
 
     private String descripcion, TSI;
 
-    private Date fechaActual;
     ObservableList<Cita> citas = FXCollections.emptyObservableList();
 
     public CitaJDBCDAO(Connection connection) {
@@ -129,63 +130,42 @@ public class CitaJDBCDAO implements CitaDAO {
 
     @Override
     public boolean crearConsulta(int idCita, String duracion) {
-
         Connection connection = JDBCUtils.getConnection();
-
-
         try {
-
             SQLQueries sqlQueries = new SQLQueries();
-
-
             String sqlConsulta = sqlQueries.getConsulta();
-
             PreparedStatement statementGetConsulta = connection.prepareStatement(sqlConsulta);
-
             statementGetConsulta.setInt(1, idCita);
-
-
-
             ResultSet resultSetCitas = statementGetConsulta.executeQuery();
+             if (resultSetCitas.next()){
+                 return true;
+             } else{
+                 LocalDate variable = LocalDate.now();
+
+                 // Formatear la fecha en el formato DDMMYY
+                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyy");
+                 String fechaActual = variable.format(formatter);
+
+                 ClienteJDBCDAO clienteJDBCDAO= new ClienteJDBCDAO();
+                 TSI = clienteJDBCDAO.getTsiByIdcita(idCita);
+                 TSI = TSI.substring(4);
+                 String codigoBarras = fechaActual + TSI  + idCita;
+
+                 sqlConsulta = sqlQueries.setConsulta();
+
+                 PreparedStatement statementConsulta = connection.prepareStatement(sqlConsulta);
+
+                 statementConsulta.setInt(1, idCita);
+                 statementConsulta.setString(2, duracion);
+                 statementConsulta.setString(3,codigoBarras);
 
 
- if (resultSetCitas.next()){
-
-     return true;
-
- } else{
-
-     fechaActual = Date.from(Instant.now());
-
-     ClienteJDBCDAO clienteJDBCDAO= new ClienteJDBCDAO();
-
-     TSI = clienteJDBCDAO.getTsiByIdcita(idCita);
-
-     String codigoBarras = fechaActual + TSI  + idCita;
-
-
-
-     sqlConsulta = sqlQueries.setConsulta();
-
-     PreparedStatement statementConsulta = connection.prepareStatement(sqlConsulta);
-
-     statementConsulta.setInt(1, idCita);
-     statementConsulta.setString(2, duracion);
-     statementConsulta.setString(3,codigoBarras);
-
-
-     statementConsulta.execute();
-     return true;
- }
-
-
-
-
+                 statementConsulta.execute();
+                 return true;
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
 

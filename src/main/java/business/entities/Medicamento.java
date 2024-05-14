@@ -76,6 +76,8 @@ public class Medicamento {
         this.tId = tId;
     }
 
+    public Medicamento(){}
+
     //Constructor con el nombre del tipo de Medicamento
     public Medicamento(String Medicamento){
         this.tNombre=Medicamento;

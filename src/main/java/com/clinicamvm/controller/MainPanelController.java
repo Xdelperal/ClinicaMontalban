@@ -16,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
@@ -314,7 +313,7 @@ public class MainPanelController implements Initializable {
         }
     }
 
-    public void cargarCitaDetalle(int idCita) {
+    public void cargarCitaDetalle(int idCita, boolean tipo) {
         if (detalleCitaStage != null) {
             // Si ya hay un detalle de cita abierto, preguntar si se desea cerrar
             Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
@@ -342,16 +341,18 @@ public class MainPanelController implements Initializable {
                 if (response == ButtonType.OK) {
                     // El usuario decidió cerrar el detalle de cita actual
                     detalleCitaStage.close();
-                    abrirNuevoDetalleCita(idCita);
+                    abrirNuevoDetalleCita(idCita, false);
                 }
             });
+        } else if (tipo){
+            abrirNuevoDetalleCita(idCita, true);
         } else {
-            abrirNuevoDetalleCita(idCita);
+            abrirNuevoDetalleCita(idCita, false);
         }
     }
 
     // Modificar la función abrirNuevoDetalleCita() para establecer la bandera cuando se está cerrando la ventana
-    private void abrirNuevoDetalleCita(int idCita) {
+    private void abrirNuevoDetalleCita(int idCita, boolean tipo) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ui/Cita.fxml"));
             Parent root = loader.load();
@@ -359,9 +360,15 @@ public class MainPanelController implements Initializable {
             // Obteniendo el controlador del FXML cargado
             CitaDetalleController controller = loader.getController();
 
+            //Aquí declaramos que es una cita a modificar con el booleano, para que inicie otro metodo en el controlador al inicializarse.
+            if(tipo) {
+                controller.setReceta(idCita);
+            }
+
             // Configurando el ID de la cita en el controlador del detalle de la cita
             controller.setIdCita(idCita);
             controller.setMotivo(idCita);
+
             // Creando la escena y mostrando la ventana
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -423,6 +430,7 @@ public class MainPanelController implements Initializable {
                 }
             });
 
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -451,7 +459,7 @@ public class MainPanelController implements Initializable {
                         button.setOnAction(event -> {
                             Cita cita = getTableView().getItems().get(getIndex());
                             int citaId = cita.getIdCita();
-                            cargarCitaDetalle(citaId);
+                            cargarCitaDetalle(citaId, false);
                         });
                     }
 
@@ -493,7 +501,7 @@ public class MainPanelController implements Initializable {
                         button.setOnAction(event -> {
                             Cita cita = getTableView().getItems().get(getIndex());
                             int citaId = cita.getIdCita();
-                            cargarCitaDetalle(citaId);
+                            cargarCitaDetalle(citaId, true);
                         });
                     }
 
