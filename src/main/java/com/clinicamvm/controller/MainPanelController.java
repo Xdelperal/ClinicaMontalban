@@ -87,6 +87,9 @@ public class MainPanelController implements Initializable {
 
     @FXML
     private TableColumn<Cita, String> colMotivo1;
+
+    @FXML
+    private TableColumn<Cita, Void> modificar1;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Columnas de Busqueda">
@@ -470,8 +473,8 @@ public class MainPanelController implements Initializable {
     private void getRealizadas() {
         // Limpiar los elementos existentes en la TableView
         realizadas.getItems().clear();
-
         ObservableList<Cita> listaRealizadas = citaJDBCDAO.obtenerLista("Realizada", medico.getDni());
+        realizadas.setItems(listaRealizadas);
 
         // Configurar las fábricas de valores de celdas para cada columna
         colCita1.setCellValueFactory(new PropertyValueFactory<>("idCita"));
@@ -481,8 +484,31 @@ public class MainPanelController implements Initializable {
         colHora1.setCellValueFactory(new PropertyValueFactory<>("hora"));
         colMotivo1.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
 
-        // Agregar los elementos obtenidos a la TableView
-        realizadas.setItems(listaRealizadas);
+        modificar1.setCellFactory(new Callback<TableColumn<Cita, Void>, TableCell<Cita, Void>>() {
+            @Override
+            public TableCell<Cita, Void> call(TableColumn<Cita, Void> param) {
+                return new TableCell<>() {
+                    private final Button button = new Button("Modificar");
+                    {
+                        button.setOnAction(event -> {
+                            Cita cita = getTableView().getItems().get(getIndex());
+                            int citaId = cita.getIdCita();
+                            cargarCitaDetalle(citaId);
+                        });
+                    }
+
+                    @Override
+                    protected void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(button);
+                        }
+                    }
+                };
+            }
+        });
     }
 
     @FXML

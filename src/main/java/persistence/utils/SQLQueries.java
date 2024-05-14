@@ -26,6 +26,8 @@ public class SQLQueries {
     String crearReceta = "INSERT IGNORE INTO detalle_consulta (id_consulta, id_medicamento, fecha_inicio, fecha_fin, obs, dosis) " +
             "VALUES (?,?,?,?,?,?)";
 
+    String obtenerReceta = "SELECT * FROM detalle_consulta";
+
     String crearConsulta ="INSERT IGNORE INTO consulta (id_cita, tipo_tratamiento, codigo_barras) VALUES (?,?,?)";
 
     String recogerConsulta ="SELECT * FROM consulta WHERE id_cita = ?";
