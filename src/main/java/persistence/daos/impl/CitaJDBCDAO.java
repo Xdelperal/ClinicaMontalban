@@ -8,7 +8,6 @@ import javafx.scene.control.TableView;
 import persistence.daos.contracts.CitaDAO;
 import persistence.utils.*;
 import java.sql.*;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -193,7 +192,7 @@ public class CitaJDBCDAO implements CitaDAO {
     }
 
     @Override
-    public boolean crearConsulta(int idCita, String duracion) {
+    public boolean crearConsulta(int idCita, String duracion, String obs_medico) {
         Connection connection = JDBCUtils.getConnection();
         try {
             SQLQueries sqlQueries = new SQLQueries();
@@ -215,13 +214,14 @@ public class CitaJDBCDAO implements CitaDAO {
                  TSI = TSI.substring(4);
                  String codigoBarras = fechaActual + TSI  + idCita;
 
-                 sqlConsulta = sqlQueries.                                                                                                                                        setConsulta();
+                 sqlConsulta = sqlQueries.setConsulta();
 
                  PreparedStatement statementConsulta = connection.prepareStatement(sqlConsulta);
 
                  statementConsulta.setInt(1, idCita);
                  statementConsulta.setString(2, duracion);
                  statementConsulta.setString(3,codigoBarras);
+                 statementConsulta.setString(4,obs_medico);
 
 
                  statementConsulta.execute();
@@ -283,6 +283,7 @@ public class CitaJDBCDAO implements CitaDAO {
                 statementInforme.setString(2, obv);
 
                 statementInforme.setString(3, String.valueOf(idCita));
+
 
                 // Ejecutar la segunda consulta
                 statementInforme.executeUpdate();

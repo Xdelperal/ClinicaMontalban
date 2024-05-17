@@ -9,6 +9,6 @@ public interface CitaDAO {
     ObservableList<Cita> buscar(String dni);
 
 
-    boolean crearConsulta(int idCita, String duracion);
+    boolean crearConsulta(int idCita, String duracion,String obs_medico);
 
 }

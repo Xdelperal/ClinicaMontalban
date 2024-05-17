@@ -150,10 +150,10 @@ public class CitaDetalleController implements Initializable {
             errorText.setText("Receta creada exitosamente.");
             errorText.setStyle("-fx-text-fill: green;");
 
-            informeCreado = citaJDBCDAO.crearConsulta(idCita, String.valueOf(duracion.getValue()));
 
             String observacion = ObservacionCitaText.getText();
 
+            informeCreado = citaJDBCDAO.crearConsulta(idCita, String.valueOf(duracion.getValue()),observacion);
 
             if (informeCreado == true){
                 for (Receta receta : listaReceta) {

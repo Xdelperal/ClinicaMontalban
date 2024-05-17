@@ -36,7 +36,7 @@ public class SQLQueries {
 
     String obtenerReceta = "SELECT * FROM detalle_consulta WHERE id_consulta = ?";
 
-    String crearConsulta ="INSERT INTO consulta (id_cita, tipo_tratamiento, codigo_barras) VALUES (?,?,?)";
+    String crearConsulta ="INSERT INTO consulta (id_cita, tipo_tratamiento, codigo_barras,obs_medico) VALUES (?,?,?,?)";
 
     String recogerConsulta ="SELECT * FROM consulta WHERE id_cita = ?";
 
