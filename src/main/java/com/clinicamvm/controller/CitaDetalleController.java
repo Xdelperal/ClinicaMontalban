@@ -73,7 +73,7 @@ public class CitaDetalleController implements Initializable {
         private ObservableList<Receta> listaRecetaExistente = FXCollections.observableArrayList();
         private ObservableList<Medicamento> tablaMedicamentos;
         private Map<Integer, Medicamento> mapaMedicamentos = new HashMap<>();
-        private boolean estado = false;
+        private boolean estado;
         private Cita cita;
     //</editor-fold>
 
@@ -205,6 +205,7 @@ public class CitaDetalleController implements Initializable {
     }
 
     public void setReceta(int idCita) {
+        estado = true;
         generar.setText("Actualizar");
         RecetaJDBCDAO dao = new RecetaJDBCDAO();
         List<Receta> ListaRecetaCita = dao.obtenerReceta(idCita);
@@ -255,7 +256,6 @@ public class CitaDetalleController implements Initializable {
 
         // Establecer los valores manualmente a la tabla
         tablaReceta.setItems(listaRecetaExistente);
-        estado = true;
     }
 
     private void setUpEditableCells() {
@@ -270,11 +270,22 @@ public class CitaDetalleController implements Initializable {
         Medicamento medicamento = mapaMedicamentos.get(idMedicamento);
         Receta receta = new Receta(numeroReceta++,medicamento.getId(), medicamento.getNombre(), medicamento.getDosisEstandar(), null, null, null, null);
 
-        listaReceta.add(receta);
+        if (estado) {
+            listaRecetaExistente.add(receta);
+        } else {
+            listaReceta.add(receta);
+        }
+        ;
 
         nombreLista.setCellValueFactory(new PropertyValueFactory<Receta, String>("nombre"));
         dosisEstandar.setCellValueFactory(new PropertyValueFactory<Receta, String>("dosisEstandar"));
-        tablaReceta.setItems(listaReceta);
+
+        if (estado) {
+            tablaReceta.setItems(listaRecetaExistente);
+        } else {
+            tablaReceta.setItems(listaReceta);
+        }
+
 
         setUpDatePickers();
         setUpDosisCell();
@@ -287,7 +298,11 @@ public class CitaDetalleController implements Initializable {
                     deleteButton.setOnAction(event -> {
                         Receta receta = getTableRow().getItem();
                         if (receta != null) {
-                            listaReceta.remove(receta);
+                            if(estado) {
+                                listaRecetaExistente.remove(receta);
+                            } else {
+                                listaReceta.remove(receta);
+                            }
                         }
                     });
                 }
@@ -302,7 +317,6 @@ public class CitaDetalleController implements Initializable {
                 }
             };
         });
-        estado = false;
     }
 
     @FXML

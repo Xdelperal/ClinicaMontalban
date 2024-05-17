@@ -58,13 +58,7 @@ public class RecetaJDBCDAO implements RecetaDAO {
             String sqlEliminarDetalleConsulta = "DELETE FROM detalle_consulta WHERE id_consulta=?";
             try (PreparedStatement statementDetalleConsulta = connection.prepareStatement(sqlEliminarDetalleConsulta)) {
                 statementDetalleConsulta.setInt(1, idCita);
-                statementDetalleConsulta.executeUpdate();
-            }
-            
-            String sqlEliminarConsulta = "DELETE FROM consulta WHERE id_cita=?";
-            try (PreparedStatement statementConsulta = connection.prepareStatement(sqlEliminarConsulta)) {
-                statementConsulta.setInt(1, idCita);
-                statementConsulta.executeUpdate();
+                statementDetalleConsulta.execute();
             }
         }
 

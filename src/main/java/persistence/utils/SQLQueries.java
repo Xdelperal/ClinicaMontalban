@@ -31,12 +31,12 @@ public class SQLQueries {
                     "INNER JOIN persona ON cliente.DNI = persona.DNI " +
                     "WHERE cita.idCita = ?";
 
-    String crearReceta = "INSERT IGNORE INTO detalle_consulta (id_consulta, id_medicamento, fecha_inicio, fecha_fin, obs, dosis) " +
+    String crearReceta = "INSERT INTO detalle_consulta (id_consulta, id_medicamento, fecha_inicio, fecha_fin, obs, dosis) " +
             "VALUES (?,?,?,?,?,?)";
 
     String obtenerReceta = "SELECT * FROM detalle_consulta WHERE id_consulta = ?";
 
-    String crearConsulta ="INSERT IGNORE INTO consulta (id_cita, tipo_tratamiento, codigo_barras) VALUES (?,?,?)";
+    String crearConsulta ="INSERT INTO consulta (id_cita, tipo_tratamiento, codigo_barras) VALUES (?,?,?)";
 
     String recogerConsulta ="SELECT * FROM consulta WHERE id_cita = ?";
 
