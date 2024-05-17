@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -391,6 +392,10 @@ public class MainPanelController implements Initializable {
             // Creando la escena y mostrando la ventana
             Scene scene = new Scene(root);
             Stage stage = new Stage();
+
+            Image icono = new Image(getClass().getResourceAsStream("/com/ui/img/logo.png"), 200, 200, true, true);
+            stage.getIcons().add(icono);
+
             // Establecer la escena en la ventana
             stage.setScene(scene);
             stage.setResizable(true); // Permitir redimensionar la ventana

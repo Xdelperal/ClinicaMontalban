@@ -13,6 +13,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import persistence.daos.impl.CitaJDBCDAO;
 import persistence.daos.impl.MedicamentoJDBCDAO;
@@ -100,8 +103,6 @@ public class CitaDetalleController implements Initializable {
     }
 
 
-
-
     public void setBoolean (boolean setEstado) {
         this.estado = setEstado;
     }
@@ -129,6 +130,26 @@ public class CitaDetalleController implements Initializable {
         }
         errorText.setText("Receta actualizada exitosamente.");
         errorText.setStyle("-fx-text-fill: green;");
+
+        // Cerrar el panel
+        Stage stage = (Stage) errorText.getScene().getWindow();
+        stage.close();
+
+        // Crear el VBox para contener los elementos del texto
+        VBox vbox = new VBox();
+
+        // Crear el texto "Recuerda" en negrita y en verde
+        Label labelRecuerda = new Label("Has actualizado correctamente!");
+        labelRecuerda.setTextFill(Color.GREEN); // Establecer el color del texto
+        labelRecuerda.setStyle("-fx-font-weight: bold;"); // Establecer el texto en negrita
+        vbox.getChildren().add(labelRecuerda);
+
+        // Establecer el contenido del diálogo como el VBox
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Receta actualizada");
+        alert.setHeaderText(null);
+        alert.getDialogPane().setContent(vbox); // Establecer el VBox como contenido del diálogo
+        alert.showAndWait();
     }
 
     public void informeNuevo() {
@@ -153,7 +174,7 @@ public class CitaDetalleController implements Initializable {
 
             String observacion = ObservacionCitaText.getText();
 
-            informeCreado = citaJDBCDAO.crearConsulta(idCita, String.valueOf(duracion.getValue()),observacion);
+            informeCreado = citaJDBCDAO.crearConsulta(idCita, String.valueOf(duracion.getValue()), observacion);
 
             if (informeCreado == true){
                 for (Receta receta : listaReceta) {
@@ -161,6 +182,31 @@ public class CitaDetalleController implements Initializable {
                     recetaJDBCDAO.insertarReceta(receta,this.idCita);
                 }
                 citaJDBCDAO.actualizarEstado("Realizada",observacion,idCita);
+                // Cerrar el panel
+                Stage stage = (Stage) errorText.getScene().getWindow();
+                stage.close();
+
+                // Crear el VBox para contener los elementos del texto
+                VBox vbox = new VBox();
+
+                // Crear el texto normal en verde
+                Label labelNormal = new Label("La receta se ha completado con éxito!");
+                labelNormal.setTextFill(Color.GREEN); // Establecer el color del texto
+                vbox.getChildren().add(labelNormal);
+
+                // Crear el texto "Recuerda" en negrita y en verde
+                Label labelRecuerda = new Label("Recuerda, se puede modificar la receta en Realizadas");
+                labelRecuerda.setTextFill(Color.GREEN); // Establecer el color del texto
+                labelRecuerda.setStyle("-fx-font-weight: bold;"); // Establecer el texto en negrita
+                vbox.getChildren().add(labelRecuerda);
+
+                // Establecer el contenido del diálogo como el VBox
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Receta completada");
+                alert.setHeaderText(null);
+                alert.getDialogPane().setContent(vbox); // Establecer el VBox como contenido del diálogo
+                alert.showAndWait();
+
             }
         }
     }
@@ -271,7 +317,7 @@ public class CitaDetalleController implements Initializable {
         } else {
             listaReceta.add(receta);
         }
-        ;
+
 
         nombreLista.setCellValueFactory(new PropertyValueFactory<Receta, String>("nombre"));
         dosisEstandar.setCellValueFactory(new PropertyValueFactory<Receta, String>("dosisEstandar"));
@@ -281,7 +327,6 @@ public class CitaDetalleController implements Initializable {
         } else {
             tablaReceta.setItems(listaReceta);
         }
-
 
         setUpDatePickers();
         setUpDosisCell();

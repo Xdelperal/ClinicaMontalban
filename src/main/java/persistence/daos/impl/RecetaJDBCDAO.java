@@ -31,7 +31,6 @@ public class RecetaJDBCDAO implements RecetaDAO {
 
                     int rowsAffected = statementReceta.executeUpdate();
 
-                    // Confirmar la transacción si todo es exitoso
                     connection.commit();
 
                     if (rowsAffected > 0) {
