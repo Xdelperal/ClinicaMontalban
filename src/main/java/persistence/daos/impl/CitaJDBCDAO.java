@@ -24,6 +24,8 @@ public class CitaJDBCDAO implements CitaDAO {
 
     ObservableList<Cita> citas = FXCollections.emptyObservableList();
 
+    private Cita cita;
+
     public CitaJDBCDAO(Connection connection) {
         this.sqlQueries = new SQLQueries();
         this.citas = FXCollections.observableArrayList();
@@ -92,7 +94,7 @@ public class CitaJDBCDAO implements CitaDAO {
 
 
 
-    @Override
+        @Override
     public ObservableList<Cita> obtenerLista(String estadoCita, String userName) {
         try {
             // Establecer la conexión a la base de datos

@@ -370,9 +370,6 @@ public class MainPanelController implements Initializable {
             // Configurando el ID de la cita en el controlador del detalle de la cita
             controller.setCita(idCita, medico.getDni());
             controller.setMotivo(idCita);
-            
-
-
 
             // Creando la escena y mostrando la ventana
             Scene scene = new Scene(root);

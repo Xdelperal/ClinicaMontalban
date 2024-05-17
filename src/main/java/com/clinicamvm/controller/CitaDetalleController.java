@@ -2,6 +2,7 @@ package com.clinicamvm.controller;
 
 import business.entities.Cita;
 import business.entities.Medicamento;
+import business.entities.Personal;
 import business.entities.Receta;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -64,20 +65,20 @@ public class CitaDetalleController implements Initializable {
 
     //<editor-fold defaultstate="collapsed" desc="Elementos normales">
         private int idCita,numeroReceta;
+        private Personal personal;
         private boolean informeCreado = false;
         private CitaJDBCDAO citaJDBCDAO;
-        private Cita cita;
         private MedicamentoJDBCDAO medicamentoJDBCDAO;
         private ObservableList<Receta> listaReceta = FXCollections.observableArrayList();
         private ObservableList<Receta> listaRecetaExistente = FXCollections.observableArrayList();
         private ObservableList<Medicamento> tablaMedicamentos;
         private Map<Integer, Medicamento> mapaMedicamentos = new HashMap<>();
         private boolean estado = false;
+        private Cita cita;
     //</editor-fold>
 
     @Override //Aqui van las primeras ejecuciones cuando se inicializa
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         medicamentoJDBCDAO = new MedicamentoJDBCDAO();
         Connection connection = JDBCUtils.getConnection();
         citaJDBCDAO = new CitaJDBCDAO(connection);
@@ -92,14 +93,16 @@ public class CitaDetalleController implements Initializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Metodos de cita">
-
-     public void setCita(int idCita, String dni) {
+    public void setCita(int idCita, String dni) {
 
         cita = citaJDBCDAO.getCita(dni,idCita);
         this.idCita = idCita;
         lblIdCita.setText("Nombre: "+cita.getNombre()+" \tDNI: "+cita.getDNI()+" \nFecha y hora:"+cita.getFecha()+" "+cita.getHora());
 
     }
+
+
+
 
     public void setBoolean (boolean setEstado) {
         this.estado = setEstado;
@@ -202,7 +205,6 @@ public class CitaDetalleController implements Initializable {
     }
 
     public void setReceta(int idCita) {
-        estado = true;
         generar.setText("Actualizar");
         RecetaJDBCDAO dao = new RecetaJDBCDAO();
         List<Receta> ListaRecetaCita = dao.obtenerReceta(idCita);
@@ -253,7 +255,7 @@ public class CitaDetalleController implements Initializable {
 
         // Establecer los valores manualmente a la tabla
         tablaReceta.setItems(listaRecetaExistente);
-
+        estado = true;
     }
 
     private void setUpEditableCells() {
@@ -268,21 +270,11 @@ public class CitaDetalleController implements Initializable {
         Medicamento medicamento = mapaMedicamentos.get(idMedicamento);
         Receta receta = new Receta(numeroReceta++,medicamento.getId(), medicamento.getNombre(), medicamento.getDosisEstandar(), null, null, null, null);
 
-        if (estado){
-            listaRecetaExistente.add(receta);
-        } else {
-            listaReceta.add(receta);
-        }
+        listaReceta.add(receta);
 
         nombreLista.setCellValueFactory(new PropertyValueFactory<Receta, String>("nombre"));
         dosisEstandar.setCellValueFactory(new PropertyValueFactory<Receta, String>("dosisEstandar"));
-
-        if (estado){
-            tablaReceta.setItems(listaRecetaExistente);
-        } else {
-            tablaReceta.setItems(listaReceta);
-        }
-
+        tablaReceta.setItems(listaReceta);
 
         setUpDatePickers();
         setUpDosisCell();
@@ -310,7 +302,7 @@ public class CitaDetalleController implements Initializable {
                 }
             };
         });
-        //estado = false;
+        estado = false;
     }
 
     @FXML
