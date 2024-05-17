@@ -146,6 +146,8 @@ public class MainPanelController implements Initializable {
     private ObservableList<Medicamento> listaMedicamentos;
     private int seconds = 0, minutes = 0, hours = 0;
 
+    private Timeline updateTimeline;
+
     private boolean cerrarVentanaPorApertura = false;
 
     @Override
@@ -210,6 +212,21 @@ public class MainPanelController implements Initializable {
                 }
             }
         }));
+
+        setupAutoUpdate();
+    }
+
+
+    private void setupAutoUpdate() {
+        updateTimeline = new Timeline(new KeyFrame(javafx.util.Duration.seconds(5), event -> {
+            if (pendientes.isVisible()) {
+                getPendiente();
+            } else if (realizadas.isVisible()) {
+                getRealizadas();
+            }
+        }));
+        updateTimeline.setCycleCount(Animation.INDEFINITE);
+        updateTimeline.play();
     }
 
     public void iniciar() {
