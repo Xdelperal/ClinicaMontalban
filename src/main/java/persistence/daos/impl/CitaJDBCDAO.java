@@ -29,6 +29,68 @@ public class CitaJDBCDAO implements CitaDAO {
         this.citas = FXCollections.observableArrayList();
     }
 
+	
+    public Cita getCita( String userName, int idCita1) {
+        Cita cita = null;
+        try {
+            // Establecer la conexión a la base de datos
+            Connection connection = JDBCUtils.getConnection();
+
+            // Consulta SQL para obtener el ID del trabajador
+            String sql = "SELECT idTrabajador FROM personal WHERE DNI = ?";
+
+            // Preparar la declaración SQL
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, userName);
+
+            // Ejecutar la consulta
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                // Consulta SQL para obtener las citas pendientes con el nombre del cliente
+                String sqlCitas = sqlQueries.getCita();
+
+                // Preparar la declaración SQL para la segunda consulta
+                PreparedStatement statementCitas = connection.prepareStatement(sqlCitas);
+                statementCitas.setString(1, userName);
+                statementCitas.setInt(2, idCita1);
+
+                // Ejecutar la segunda consulta
+                ResultSet resultSetCitas = statementCitas.executeQuery();
+
+                // Recorrer el resultado de la consulta
+                if (resultSetCitas.next()) {
+                    // Obtener los valores de las columnas
+                    int idCita = resultSetCitas.getInt("idCita");
+                    int idCliente = resultSetCitas.getInt("idCliente");
+                    String DNI = resultSetCitas.getString("DNI");
+                    String nombre = resultSetCitas.getString("nombre");
+                    String estado = resultSetCitas.getString("estado");
+                    Date fecha = resultSetCitas.getDate("fecha");
+                    Time hora = resultSetCitas.getTime("hora");
+                    String descripcion = resultSetCitas.getString("descripcion");
+
+                    // Crear un objeto Cita con los datos obtenidos
+                    cita = new Cita(idCliente, idCita, DNI, nombre, estado, (java.sql.Date) fecha, hora, descripcion);
+                }
+
+                // Cerrar recursos
+                resultSetCitas.close();
+                statementCitas.close();
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return cita;
+    }
+
+
+
+
 
     @Override
     public ObservableList<Cita> obtenerLista(String estadoCita, String userName) {
@@ -151,7 +213,7 @@ public class CitaJDBCDAO implements CitaDAO {
                  TSI = TSI.substring(4);
                  String codigoBarras = fechaActual + TSI  + idCita;
 
-                 sqlConsulta = sqlQueries.setConsulta();
+                 sqlConsulta = sqlQueries.                                                                                                                                        setConsulta();
 
                  PreparedStatement statementConsulta = connection.prepareStatement(sqlConsulta);
 

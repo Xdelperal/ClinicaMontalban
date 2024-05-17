@@ -1,5 +1,6 @@
 package com.clinicamvm.controller;
 
+import business.entities.Cita;
 import business.entities.Medicamento;
 import business.entities.Receta;
 import javafx.beans.property.SimpleObjectProperty;
@@ -65,6 +66,7 @@ public class CitaDetalleController implements Initializable {
         private int idCita,numeroReceta;
         private boolean informeCreado = false;
         private CitaJDBCDAO citaJDBCDAO;
+        private Cita cita;
         private MedicamentoJDBCDAO medicamentoJDBCDAO;
         private ObservableList<Receta> listaReceta = FXCollections.observableArrayList();
         private ObservableList<Receta> listaRecetaExistente = FXCollections.observableArrayList();
@@ -75,6 +77,7 @@ public class CitaDetalleController implements Initializable {
 
     @Override //Aqui van las primeras ejecuciones cuando se inicializa
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         medicamentoJDBCDAO = new MedicamentoJDBCDAO();
         Connection connection = JDBCUtils.getConnection();
         citaJDBCDAO = new CitaJDBCDAO(connection);
@@ -90,9 +93,16 @@ public class CitaDetalleController implements Initializable {
 
     //<editor-fold defaultstate="collapsed" desc="Metodos de cita">
 
-    public void setIdCita(int idCita) {
-        lblIdCita.setText("Cita numero " + idCita);
+     public void setCita(int idCita, String dni) {
+
+        cita = citaJDBCDAO.getCita(dni,idCita);
         this.idCita = idCita;
+        lblIdCita.setText("Nombre: "+cita.getNombre()+" \tDNI: "+cita.getDNI()+" \nFecha y hora:"+cita.getFecha()+" "+cita.getHora());
+
+    }
+
+    public void setBoolean (boolean setEstado) {
+        this.estado = setEstado;
     }
 
     public void setMotivo(int idCita) {
@@ -110,9 +120,13 @@ public class CitaDetalleController implements Initializable {
     }
 
     public void actualizarInforme() {
+        System.out.println("Tamaño de la lista: " + listaRecetaExistente.size());
+
         for (Receta receta : listaRecetaExistente) {
+            System.out.println("Este es el id de la CITA: " + this.idCita);
             RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
-            recetaJDBCDAO.actualizarReceta(receta,this.idCita);
+            recetaJDBCDAO.insertarReceta(receta, this.idCita);
+            System.out.println("Receta añadida: " + receta);
         }
         errorText.setText("Receta actualizada exitosamente.");
         errorText.setStyle("-fx-text-fill: green;");
@@ -188,6 +202,7 @@ public class CitaDetalleController implements Initializable {
     }
 
     public void setReceta(int idCita) {
+        estado = true;
         generar.setText("Actualizar");
         RecetaJDBCDAO dao = new RecetaJDBCDAO();
         List<Receta> ListaRecetaCita = dao.obtenerReceta(idCita);
@@ -238,7 +253,7 @@ public class CitaDetalleController implements Initializable {
 
         // Establecer los valores manualmente a la tabla
         tablaReceta.setItems(listaRecetaExistente);
-        estado = true;
+
     }
 
     private void setUpEditableCells() {
@@ -253,11 +268,21 @@ public class CitaDetalleController implements Initializable {
         Medicamento medicamento = mapaMedicamentos.get(idMedicamento);
         Receta receta = new Receta(numeroReceta++,medicamento.getId(), medicamento.getNombre(), medicamento.getDosisEstandar(), null, null, null, null);
 
-        listaReceta.add(receta);
+        if (estado){
+            listaRecetaExistente.add(receta);
+        } else {
+            listaReceta.add(receta);
+        }
 
         nombreLista.setCellValueFactory(new PropertyValueFactory<Receta, String>("nombre"));
         dosisEstandar.setCellValueFactory(new PropertyValueFactory<Receta, String>("dosisEstandar"));
-        tablaReceta.setItems(listaReceta);
+
+        if (estado){
+            tablaReceta.setItems(listaRecetaExistente);
+        } else {
+            tablaReceta.setItems(listaReceta);
+        }
+
 
         setUpDatePickers();
         setUpDosisCell();
@@ -285,7 +310,7 @@ public class CitaDetalleController implements Initializable {
                 }
             };
         });
-        estado = false;
+        //estado = false;
     }
 
     @FXML

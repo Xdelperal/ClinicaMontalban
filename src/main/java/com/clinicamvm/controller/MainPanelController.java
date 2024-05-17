@@ -363,11 +363,16 @@ public class MainPanelController implements Initializable {
             //Aquí declaramos que es una cita a modificar con el booleano, para que inicie otro metodo en el controlador al inicializarse.
             if(tipo) {
                 controller.setReceta(idCita);
+            } else {
+                controller.setBoolean(false);
             }
 
             // Configurando el ID de la cita en el controlador del detalle de la cita
-            controller.setIdCita(idCita);
+            controller.setCita(idCita, medico.getDni());
             controller.setMotivo(idCita);
+            
+
+
 
             // Creando la escena y mostrando la ventana
             Scene scene = new Scene(root);

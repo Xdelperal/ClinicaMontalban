@@ -8,6 +8,14 @@ public class SQLQueries {
             "JOIN persona p ON (p.DNI = c.DNI) " +
             "JOIN personal pe ON (ci.idTrabajador = pe.idTrabajador) " +
             "WHERE pe.DNI = ? AND ci.estado = ?";
+            
+            
+     String recogerCita = "SELECT ci.idCita, c.idCliente, p.DNI, CONCAT(p.nombre, \" \", p.apellido) as nombre, ci.fecha, ci.hora, ci.descripcion, ci.estado " +
+            "FROM cita ci " +
+            "JOIN cliente c ON (c.idCliente = ci.idCliente) " +
+            "JOIN persona p ON (p.DNI = c.DNI) " +
+            "JOIN personal pe ON (ci.idTrabajador = pe.idTrabajador) " +
+            "WHERE pe.DNI = ? AND ci.idCita = ?";
 
     String recogerDatosPaciente =
             "SELECT cita.idCita, cita.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
@@ -23,12 +31,12 @@ public class SQLQueries {
                     "INNER JOIN persona ON cliente.DNI = persona.DNI " +
                     "WHERE cita.idCita = ?";
 
-    String crearReceta = "INSERT IGNORE INTO detalle_consulta (id_consulta, id_medicamento, fecha_inicio, fecha_fin, obs, dosis) " +
+    String crearReceta = "INSERT  INTO detalle_consulta (id_consulta, id_medicamento, fecha_inicio, fecha_fin, obs, dosis) " +
             "VALUES (?,?,?,?,?,?)";
 
     String obtenerReceta = "SELECT * FROM detalle_consulta WHERE id_consulta = ?";
 
-    String crearConsulta ="INSERT IGNORE INTO consulta (id_cita, tipo_tratamiento, codigo_barras) VALUES (?,?,?)";
+    String crearConsulta ="INSERT  INTO consulta (id_cita, tipo_tratamiento, codigo_barras) VALUES (?,?,?)";
 
     String recogerConsulta ="SELECT * FROM consulta WHERE id_cita = ?";
 
@@ -55,12 +63,20 @@ public class SQLQueries {
         return citas;
     }
 
+
+public String getCita(){
+        return recogerCita;
+}
     public String getMotivo() {
         return recogerMotivo;
     }
 
     public String setReceta() {
         return crearReceta;
+    }
+
+    public String setRecetaExistente() {
+        return obtenerReceta;
     }
 
     public String getConsulta() {

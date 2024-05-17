@@ -13,57 +13,78 @@ import java.util.List;
 
 public class RecetaJDBCDAO implements RecetaDAO {
 
-    public void insertarReceta(Receta receta, int idCita) {
-        try {
-            // Establecer la conexión a la base de datos
-            Connection connection = JDBCUtils.getConnection();
-            {
+        public void insertarReceta(Receta receta, int idCita) {
+            try (Connection connection = JDBCUtils.getConnection()) {
+                // Iniciar una transacción
+                connection.setAutoCommit(false);
 
-                SQLQueries sqlQueries = new SQLQueries();
+                try {
+                    // Eliminar recetas existentes para la cita
+                    eliminarReceta(connection, idCita);
+                    SQLQueries sqlQueries = new SQLQueries();
+                    // Insertar la nueva receta
 
+                    String sqlReceta = sqlQueries.setReceta();
+                    try (PreparedStatement statementReceta = connection.prepareStatement(sqlReceta)) {
+                        statementReceta.setInt(1, idCita);
+                        statementReceta.setInt(2, receta.getIdMed());
+                        statementReceta.setDate(3, receta.getFechaInicial());
+                        statementReceta.setDate(4, receta.getFechaFinal());
+                        statementReceta.setString(5, receta.getComentario());
+                        statementReceta.setString(6, receta.getCantidadDosis());
 
-                // Consulta SQL para obtener las citas pendientes con el nombre del cliente
-                String sqlReceta = sqlQueries.setReceta();
+                        int rowsAffected = statementReceta.executeUpdate();
 
-                // Preparar la declaración SQL para la segunda consulta
-                PreparedStatement statementReceta = connection.prepareStatement(sqlReceta);
+                        // Confirmar la transacción si todo es exitoso
+                        connection.commit();
 
-                statementReceta.setInt(1, idCita);
-                statementReceta.setInt(2, receta.getIdMed());
-                statementReceta.setDate(3, receta.getFechaInicial());
-                statementReceta.setDate(4, receta.getFechaFinal());
-                statementReceta.setString(5, receta.getComentario());
-                statementReceta.setString(6, receta.getCantidadDosis());
-
-                boolean insertExitoso = statementReceta.execute();
-
-                if (insertExitoso) {
-                    System.out.println("Receta insertada correctamente.");
-                } else {
-                    System.out.println("No se pudo insertar la receta.");
+                        if (rowsAffected > 0) {
+                            System.out.println("Receta insertada correctamente.");
+                        } else {
+                            System.out.println("No se pudo insertar la receta.");
+                        }
+                    }
+                } catch (SQLException e) {
+                    // Si hay un error, revertir la transacción
+                    connection.rollback();
+                    e.printStackTrace();
                 }
-
-                // Recorrer el resultado de la consulta
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-
-            // Cerrar recursos
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
-    }
+
+        private void eliminarReceta(Connection connection, int idCita) throws SQLException {
+            String sqlEliminarDetalleConsulta = "DELETE FROM detalle_consulta WHERE id_consulta=?";
+            try (PreparedStatement statementDetalleConsulta = connection.prepareStatement(sqlEliminarDetalleConsulta)) {
+                statementDetalleConsulta.setInt(1, idCita);
+                statementDetalleConsulta.executeUpdate();
+            }
+            
+            String sqlEliminarConsulta = "DELETE FROM consulta WHERE id_cita=?";
+            try (PreparedStatement statementConsulta = connection.prepareStatement(sqlEliminarConsulta)) {
+                statementConsulta.setInt(1, idCita);
+                statementConsulta.executeUpdate();
+            }
+        }
+
+
 
     public List<Receta> obtenerReceta(int idCita) {
         List<Receta> recetas = new ArrayList<>();
 
-        try (Connection connection = JDBCUtils.getConnection();
-             PreparedStatement statement = connection.prepareStatement("SELECT * FROM detalle_consulta WHERE id_consulta = ?")) {
+        try (Connection connection = JDBCUtils.getConnection()) {
 
-            statement.setInt(1, idCita);
+            SQLQueries sqlQueries = new SQLQueries();
 
-            try (ResultSet resultSet = statement.executeQuery()) {
+            // Consulta SQL para obtener las recetas existentes para una cita específica
+            String sqlRecetaExistente = sqlQueries.setRecetaExistente();
+
+            // Preparar la declaración SQL para la consulta de recetas existentes
+            PreparedStatement statementRecetaExistente = connection.prepareStatement(sqlRecetaExistente);
+            statementRecetaExistente.setInt(1, idCita);
+
+            try (ResultSet resultSet = statementRecetaExistente.executeQuery()) {
                 while (resultSet.next()) {
                     // Construir un objeto Receta a partir de los datos del resultado
                     Receta receta = new Receta();
@@ -82,30 +103,6 @@ public class RecetaJDBCDAO implements RecetaDAO {
         }
 
         return recetas;
-    }
-
-    public void actualizarReceta(Receta receta, int idCita) {
-        try (Connection connection = JDBCUtils.getConnection();
-             PreparedStatement statement = connection.prepareStatement("UPDATE detalle_consulta SET fecha_inicio = ?, fecha_fin = ?, dosis = ?, obs = ? WHERE id_medicamento = ? AND id_consulta = ?")) {
-
-            statement.setDate(1, receta.getFechaInicial());
-            statement.setDate(2, receta.getFechaFinal());
-            statement.setString(3, receta.getCantidadDosis());
-            statement.setString(4, receta.getComentario());
-            statement.setInt(5, receta.getIdMed());
-            statement.setInt(6, idCita);
-
-            int rowsAffected = statement.executeUpdate();
-
-            if (rowsAffected > 0) {
-                System.out.println("Receta actualizada correctamente.");
-            } else {
-                System.out.println("No se pudo actualizar la receta.");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 }
