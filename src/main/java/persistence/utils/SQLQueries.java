@@ -36,6 +36,8 @@ public class SQLQueries {
 
     String obtenerReceta = "SELECT * FROM detalle_consulta WHERE id_consulta = ?";
 
+
+
     String crearConsulta ="INSERT INTO consulta (id_cita, tipo_tratamiento, codigo_barras,obs_medico) VALUES (?,?,?,?)";
 
     String recogerConsulta ="SELECT * FROM consulta WHERE id_cita = ?";
@@ -47,6 +49,9 @@ public class SQLQueries {
     String recogerTsi = "SELECT c.TSI FROM cliente c JOIN cita ci ON(c.idCliente = ci.idCliente)WHERE ci.idCita= ? ";
 
     String actualizarEstado = "UPDATE cita SET estado = ?, informe = ? WHERE idCita = ?";
+
+
+    String actualizarInforme = "UPDATE cita SET  informe = ? WHERE idCita = ?";
 
     String recogerMedico = "SELECT p.dni, p.nombre, p.apellido, p.fechaN, per.especialidad, per.idTrabajador " +
             "FROM persona p " +
