@@ -94,11 +94,9 @@ public class CitaDetalleController implements Initializable {
 
     //<editor-fold defaultstate="collapsed" desc="Metodos de cita">
     public void setCita(int idCita, String dni) {
-
         cita = citaJDBCDAO.getCita(dni,idCita);
         this.idCita = idCita;
-        lblIdCita.setText("Nombre: "+cita.getNombre()+" \tDNI: "+cita.getDNI()+" \nFecha y hora:"+cita.getFecha()+" "+cita.getHora());
-
+        lblIdCita.setText("Nombre: "+cita.getNombre()+" \tDNI: "+cita.getDNI()+" \t\tFecha y hora:"+cita.getFecha()+" "+cita.getHora());
     }
 
 
@@ -123,13 +121,11 @@ public class CitaDetalleController implements Initializable {
     }
 
     public void actualizarInforme() {
-        System.out.println("Tamaño de la lista: " + listaRecetaExistente.size());
-
+        RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
+        recetaJDBCDAO.eliminarReceta(this.idCita);
         for (Receta receta : listaRecetaExistente) {
             System.out.println("Este es el id de la CITA: " + this.idCita);
-            RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
             recetaJDBCDAO.insertarReceta(receta, this.idCita);
-            System.out.println("Receta añadida: " + receta);
         }
         errorText.setText("Receta actualizada exitosamente.");
         errorText.setStyle("-fx-text-fill: green;");

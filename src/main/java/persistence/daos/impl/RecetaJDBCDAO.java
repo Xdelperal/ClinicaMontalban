@@ -12,56 +12,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecetaJDBCDAO implements RecetaDAO {
+    public void insertarReceta(Receta receta, int idCita) {
+        try (Connection connection = JDBCUtils.getConnection()) {
+            // Iniciar una transacción
+            connection.setAutoCommit(false);
 
-        public void insertarReceta(Receta receta, int idCita) {
-            try (Connection connection = JDBCUtils.getConnection()) {
-                // Iniciar una transacción
-                connection.setAutoCommit(false);
+            try {
+                // Insertar la nueva receta
+                SQLQueries sqlQueries = new SQLQueries();
+                String sqlReceta = sqlQueries.setReceta();
+                try (PreparedStatement statementReceta = connection.prepareStatement(sqlReceta)) {
+                    statementReceta.setInt(1, idCita);
+                    statementReceta.setInt(2, receta.getIdMed());
+                    statementReceta.setDate(3, receta.getFechaInicial());
+                    statementReceta.setDate(4, receta.getFechaFinal());
+                    statementReceta.setString(5, receta.getComentario());
+                    statementReceta.setString(6, receta.getCantidadDosis());
 
-                try {
-                    // Eliminar recetas existentes para la cita
-                    eliminarReceta(connection, idCita);
-                    SQLQueries sqlQueries = new SQLQueries();
-                    // Insertar la nueva receta
+                    int rowsAffected = statementReceta.executeUpdate();
 
-                    String sqlReceta = sqlQueries.setReceta();
-                    try (PreparedStatement statementReceta = connection.prepareStatement(sqlReceta)) {
-                        statementReceta.setInt(1, idCita);
-                        statementReceta.setInt(2, receta.getIdMed());
-                        statementReceta.setDate(3, receta.getFechaInicial());
-                        statementReceta.setDate(4, receta.getFechaFinal());
-                        statementReceta.setString(5, receta.getComentario());
-                        statementReceta.setString(6, receta.getCantidadDosis());
+                    // Confirmar la transacción si todo es exitoso
+                    connection.commit();
 
-                        int rowsAffected = statementReceta.executeUpdate();
-
-                        // Confirmar la transacción si todo es exitoso
-                        connection.commit();
-
-                        if (rowsAffected > 0) {
-                            System.out.println("Receta insertada correctamente.");
-                        } else {
-                            System.out.println("No se pudo insertar la receta.");
-                        }
+                    if (rowsAffected > 0) {
+                        System.out.println("Receta insertada correctamente.");
+                    } else {
+                        System.out.println("No se pudo insertar la receta.");
                     }
-                } catch (SQLException e) {
-                    // Si hay un error, revertir la transacción
-                    connection.rollback();
-                    e.printStackTrace();
                 }
             } catch (SQLException e) {
+                // Si hay un error, revertir la transacción
+                connection.rollback();
                 e.printStackTrace();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
 
-        private void eliminarReceta(Connection connection, int idCita) throws SQLException {
+    public void eliminarReceta(int idCita) {
+        try (Connection connection = JDBCUtils.getConnection()) {
             String sqlEliminarDetalleConsulta = "DELETE FROM detalle_consulta WHERE id_consulta=?";
             try (PreparedStatement statementDetalleConsulta = connection.prepareStatement(sqlEliminarDetalleConsulta)) {
                 statementDetalleConsulta.setInt(1, idCita);
                 statementDetalleConsulta.execute();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
+    }
 
 
     public List<Receta> obtenerReceta(int idCita) {
