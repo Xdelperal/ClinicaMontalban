@@ -22,6 +22,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
 <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.MainPanelController">
     <content>
         <BorderPane>
@@ -273,7 +274,7 @@
                                         <PropertyValueFactory property="descripcion" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="colButton" prefWidth="200" text="Acceso" />
+                                <TableColumn fx:id="colButton" prefWidth="200" text="Crear Receta" />
                             </columns>
                             <!-- Configurar la alineación automática de las columnas -->
                             <columnResizePolicy>
@@ -326,10 +327,10 @@
                                     </font>
                                 </Label>
 
-                                <ToggleButton fx:id="searchButton" layoutX="401.0" layoutY="45.0" mnemonicParsing="false" onAction="#getBusqueda" prefHeight="32.0" prefWidth="86.0" text="Buscar">
+                                <Button fx:id="searchButton" layoutX="401.0" layoutY="45.0" mnemonicParsing="false" onAction="#getBusqueda" prefHeight="32.0" prefWidth="86.0" text="Buscar" styleClass="btn btn-primary">
                            <font>
                               <Font size="10.0" />
-                           </font></ToggleButton>
+                           </font></Button>
                                 <TextField fx:id="pacienteDNI" layoutX="251.0" layoutY="49.0" prefHeight="24.0" prefWidth="135.0">
                                     <promptText>Introduce el DNI</promptText>
                                 </TextField>
@@ -374,7 +375,7 @@
                         </AnchorPane>
                         <AnchorPane fx:id="panelMedicamentos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
-                                <ChoiceBox fx:id="tiposMedicamento" layoutX="492.0" layoutY="47.0" prefHeight="29.0" prefWidth="139.0" />
+                                <JFXComboBox fx:id="tiposMedicamento" layoutX="492.0" layoutY="47.0" prefHeight="29.0" prefWidth="139.0"/>
                                 <Label layoutX="37.0" layoutY="48.0" text="Selecciona el tipo de medicamento">
                                     <font>
                                         <Font name="System Bold" size="20.0" />

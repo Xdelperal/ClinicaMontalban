@@ -1,5 +1,4 @@
 /* Es el estilo del login.css  */
-
 .buttonEntrap {
     -fx-background-color: rgb(151, 212, 154);
     -fx-outline: none;
@@ -10,6 +9,7 @@
     -fx-font-weight: bold;
     -fx-cursor: hand;
     -fx-transition: background-color 0.3s ease;
+    -fx-font-size: 16px; /* Tamaño de fuente para el estado normal */
 }
 
 .buttonEntrap:hover {
@@ -17,10 +17,26 @@
     -fx-border-color: rgb(218, 238, 255);
     -fx-border-width: 2px;
     -fx-text-fill: rgb(62, 74, 134);
+    -fx-font-size: 16px; /* Tamaño de fuente para el estado de hover */
 }
 
 .borderedPane {
     -fx-border-width: 0px 0px 0px 2px;
     -fx-border-color: rgba(151, 212, 154, 0.8);
     -fx-padding: 10px;
+}
+
+#msgLabel {
+    -fx-background-color: rgba(220, 53, 69, 0.6); /* Color de fondo rojo transparente */
+    -fx-text-fill: #fff; /* Color del texto blanco */
+    -fx-font-weight: bold; /* Texto en negrita */
+    -fx-background-radius: 5px; /* Radio de borde */
+    -fx-border-radius: 5px; /* Radio de borde */
+    -fx-alignment: center; /* Alineación del texto al centro */
+    -fx-font-size: 15px; /* Tamaño de fuente */
+    -fx-transition: background-color 0.3s ease; /* Transición de color de fondo */
+}
+
+#msgLabel:hover {
+    -fx-background-color: rgba(220, 53, 69, 0.9); /* Color de fondo rojo más transparente al pasar el ratón */
 }

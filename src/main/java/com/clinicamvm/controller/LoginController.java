@@ -2,6 +2,8 @@ package com.clinicamvm.controller;
 
 import business.entities.Persona;
 import business.entities.Personal;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.kordamp.bootstrapfx.BootstrapFX;
 import persistence.daos.impl.PersonalJDBCDAO;
 import persistence.exceptions.DAOException;
 import persistence.utils.JDBCUtils;
@@ -40,15 +43,16 @@ public class LoginController implements Initializable {
     */
 
     @FXML
-    private TextField fieldDNI;
+    private JFXTextField fieldDNI;
     @FXML
-    private PasswordField fieldContrasena;
+    private JFXPasswordField fieldContrasena;
     @FXML
     private Label msgLabel;
     private Stage stage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        msgLabel.setVisible(false);
         // Expresión regular para aceptar máximo 8 dígitos seguidos de una letra opcional
         Pattern pattern = Pattern.compile("\\d{0,8}[a-zA-Z]?");
 
@@ -73,36 +77,38 @@ public class LoginController implements Initializable {
 * y que el inicioha sido exitoso, tambien comprueba que los datos han sido rellenados
 * de forma correta.
 */
-    @FXML
-    public void comprobacion(ActionEvent e) throws IOException {
-        String dni = fieldDNI.getText();
-        String contrasena = fieldContrasena.getText();
+@FXML
+public void comprobacion(ActionEvent e) throws IOException {
+    String dni = fieldDNI.getText();
+    String contrasena = fieldContrasena.getText();
 
-        if (dni.isBlank() || contrasena.isBlank()) {
-            msgLabel.setText("No has introducido los datos!");
-            msgLabel.setWrapText(true);
-        } else {
-            // Hashear la contraseña
-            String hashedContrasena = hashPassword(contrasena);
+    if (dni.isBlank() || contrasena.isBlank()) {
+        msgLabel.setText("No has introducido los datos!");
+        msgLabel.setWrapText(true);
+        msgLabel.setVisible(true);
+    } else {
+        // Hashear la contraseña
+        String hashedContrasena = hashPassword(contrasena);
 
-            // Realizar la autenticación
-            String result = autenticarUsuario(dni, hashedContrasena);
+        // Realizar la autenticación
+        String result = autenticarUsuario(dni, hashedContrasena);
 
-            switch (result) {
-                case "success":
-                    // Usuario autenticado, redirigir a la página principal
-                    cargarMainPanel();
-                    break;
-                case "Contraseña incorrecta":
-                case "Usuario no encontrado":
-                case "Error de base de datos":
-                    // Mostrar mensaje de error en el panel
-                    msgLabel.setText(result);
-                    break;
-            }
+        switch (result) {
+            case "success":
+                // Usuario autenticado, redirigir a la página principal
+                cargarMainPanel();
+                break;
+            case "Contraseña incorrecta":
+            case "Usuario no encontrado":
+            case "Error de base de datos":
+                // Mostrar mensaje de error en el panel
+                msgLabel.setText(result);
+                // Hacer visible el msgLabel si falla la autenticación
+                msgLabel.setVisible(true);
+                break;
         }
     }
-
+}
 
 /**
 * Este metodo es el que redirecciona a la web cunando pulsas el link
@@ -163,6 +169,7 @@ private void cargarMainPanel() {
         // Obtener el Stage actual y configurar la nueva escena
         Stage stage = (Stage) fieldDNI.getScene().getWindow();
         Scene scene = new Scene(root);
+        //scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 
         // Establecer la escena en la ventana
         stage.setScene(scene);

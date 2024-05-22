@@ -36,15 +36,43 @@
     -fx-alignment: center-left;
 }
 
+/* Estilo general del TableView */
 .table-view {
-    -fx-background-color: #f2f2f2;
-    -fx-font-size: 14px;
+    -fx-background-color: #f9f9f9; /* Color de fondo */
+    -fx-border-color: #dcdcdc; /* Color del borde */
+    -fx-border-width: 1px; /* Ancho del borde */
+    -fx-font-size: 14px; /* Tamaño de fuente */
 }
 
+/* Estilo de las celdas */
 .table-cell {
-    -fx-text-fill: #333333;
-    -fx-alignment: center;
+    -fx-text-fill: #333333; /* Color del texto */
+    -fx-alignment: center; /* Alineación del contenido */
 }
+
+/* Estilo de las filas alternas (opcional) */
+.table-row-cell:odd {
+    -fx-background-color: #f2f2f2; /* Color de fondo para filas impares */
+}
+
+/* Estilo de la cabecera de la tabla */
+.table-header-background {
+    -fx-background-color: #e0e0e0; /* Color de fondo de la cabecera */
+}
+
+.table-header {
+    -fx-background-color: #e0e0e0; /* Color de fondo de la cabecera */
+    -fx-text-fill: #333333; /* Color del texto de la cabecera */
+    -fx-border-color: #dcdcdc; /* Color del borde de la cabecera */
+    -fx-border-width: 0 0 1px 0; /* Borde inferior */
+}
+
+/* Estilo de las líneas de división entre celdas */
+.table-row-cell {
+    -fx-border-color: #dcdcdc; /* Color del borde */
+    -fx-border-width: 0 0 1px 0; /* Borde inferior */
+}
+
 
 .tabla-tipos-medicamento .table-cell {
      -fx-alignment: center-left;
@@ -91,22 +119,6 @@
 
 }
 
-#searchButton {
-    -fx-background-color: rgb(151, 212, 154);
-    -fx-outline: none;
-    -fx-border-color: rgb(151, 212, 154);
-    -fx-text-fill: rgb(255, 255, 255);
-    -fx-font-size: 16px;
-    -fx-cursor: hand;
-    -fx-transition: background-color 0.3s ease;
-}
-
-#searchButton:hover {
-    -fx-background-color: rgb(218, 238, 255);
-    -fx-border-color: rgb(218, 238, 255);
-    -fx-border-width: 2px;
-}
-
 .buttonPendiente {
     -fx-background-color: #4CAF50; /* Color de fondo */
     -fx-text-fill: white; /* Color del texto */
@@ -137,5 +149,118 @@
     -fx-border-width: 2px;
 }
 
+/* General style for JFXComboBox */
+.jfx-combo-box {
+    -fx-border-color: #ced4da;
+    -fx-border-width: 1px;
+    -fx-background-color: white;
+    -fx-font-size: 14px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);
+}
+
+/* Style for the list cells (dropdown items) */
+.jfx-combo-box .list-cell {
+    -fx-background-color: white;
+    -fx-text-fill: #495057;
+    -fx-padding: 8px;
+    -fx-font-size: 14px;
+}
+
+/* Hover effect for list cells */
+.jfx-combo-box .list-cell:hover {
+    -fx-background-color: #f1f3f5;
+}
+
+/* Selected list cell */
+.jfx-combo-box .list-cell:selected {
+    -fx-background-color: #e9ecef;
+    -fx-text-fill: #212529;
+}
+
+/* Focus and prompt text */
+.jfx-combo-box .combo-box-base .text-input {
+    -fx-prompt-text-fill: #adb5bd;
+    -fx-text-fill: #495057;
+}
+
+/* Arrow button styling */
+.jfx-combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 4px;
+}
+
+/* Arrow icon color */
+.jfx-combo-box .arrow-button .arrow {
+    -fx-background-color: #495057;
+}
+
+/* Hover effect for the arrow button */
+.jfx-combo-box .arrow-button:hover {
+    -fx-background-color: #e9ecef;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+
+/* Selected list cell */
+.jfx-combo-box .list-cell:selected {
+    -fx-background-color: #e9ecef;
+    -fx-text-fill: #212529;
+}
+
+/* Focus and prompt text */
+.jfx-combo-box .combo-box-base .text-input {
+    -fx-prompt-text-fill: #adb5bd;
+    -fx-text-fill: #495057;
+}
+
+/* Arrow button styling */
+.jfx-combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0.25em;
+}
+
+/* Arrow icon color */
+.jfx-combo-box .arrow-button .arrow {
+    -fx-background-color: #495057;
+}
+
+/* Hover effect for the arrow button */
+.jfx-combo-box .arrow-button:hover {
+    -fx-background-color: #e9ecef;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.btn {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-border-width: 0;
+    -fx-border-radius: 4px;
+}
+
+.btn:hover {
+    -fx-background-color: #0056b3;
+}
+
+.btn:pressed {
+    -fx-background-color: #0056b3;
+}
+
+.btn-primary {
+    -fx-background-color: #007bff;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #0056b3;
+}
+
+.btn-primary:pressed {
+    -fx-background-color: #0056b3;
+}
 
 

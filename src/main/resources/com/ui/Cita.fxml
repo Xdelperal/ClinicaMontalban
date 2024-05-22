@@ -23,7 +23,7 @@
    <content>
 
       <AnchorPane prefHeight="1000.0" prefWidth="1840.0">
-          <children>
+         <children>
             <BorderPane prefHeight="1000.0" prefWidth="1840.0">
                <left>
                   <Pane prefHeight="798.0" prefWidth="396.0" BorderPane.alignment="CENTER">
@@ -53,11 +53,12 @@
                <top>
                   <Pane prefHeight="86.0" prefWidth="1840.0" BorderPane.alignment="CENTER">
                      <children>
-                          <Label fx:id="lblIdCita" layoutX="34.0" layoutY="9.0" prefHeight="69.0" prefWidth="1793.0">
-                              <font>
-                                  <Font size="24.0" />
-                              </font>
-                          </Label>
+                        <Label fx:id="lblIdCita" layoutX="30.0" layoutY="9.0" prefHeight="69.0" prefWidth="1785.0">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="-2.0" layoutY="83.0" prefHeight="5.0" prefWidth="1851.0" style="-fx-background-color: #7FFFD4;" />
                      </children>
                   </Pane>
                </top>
@@ -65,15 +66,15 @@
                   <Pane prefHeight="798.0" prefWidth="1088.0" BorderPane.alignment="CENTER">
                      <children>
                         <TableView fx:id="tablaReceta" layoutX="61.0" layoutY="59.0" prefHeight="717.0" prefWidth="1029.0" styleClass="tablaCita">
-                          <columns>
-                            <TableColumn fx:id="nombreLista" prefWidth="114.0" text="Nombre" />
-                            <TableColumn fx:id="dosisEstandar" prefWidth="136.0" text="Dosis Estandar" />
+                           <columns>
+                              <TableColumn fx:id="nombreLista" prefWidth="114.0" text="Nombre" />
+                              <TableColumn fx:id="dosisEstandar" prefWidth="136.0" text="Dosis Estandar" />
                               <TableColumn fx:id="fechaInicial" prefWidth="142.0" text="Fecha Inicial" />
                               <TableColumn fx:id="fechaFinal" prefWidth="137.0" text="Fecha Final" />
                               <TableColumn fx:id="cantidadDosis" minWidth="0.0" prefWidth="138.0" text="Cantidad Dosis" />
                               <TableColumn fx:id="comentario" minWidth="0.0" prefWidth="284.0" text="Comentario" />
                               <TableColumn fx:id="eliminar" minWidth="0.0" prefWidth="77.0" text="Eliminar" />
-                          </columns>
+                           </columns>
                         </TableView>
                         <Label layoutX="61.0" layoutY="3.0" prefHeight="45.0" prefWidth="299.0" text="Medicamentos Recetados">
                            <font>
@@ -112,7 +113,7 @@
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                         <TextArea fx:id="motivoCitaText" editable="false" layoutX="33.0" layoutY="59.0" prefHeight="140.0" prefWidth="294.0" />
+                        <TextArea fx:id="motivoCitaText" editable="false" layoutX="33.0" layoutY="59.0" prefHeight="140.0" prefWidth="294.0" />
                         <ChoiceBox fx:id="duracion" layoutX="96.0" layoutY="715.0" prefHeight="24.0" prefWidth="161.0">
                            <items>
                               <FXCollections fx:factory="observableArrayList">
@@ -144,15 +145,16 @@
                   <Pane prefHeight="116.0" prefWidth="1840.0" BorderPane.alignment="CENTER">
                      <children>
                         <Button fx:id="generar" layoutX="1548.0" layoutY="33.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="171.0" text="Generar" />
-                        <Label fx:id="errorText" layoutX="1126.0" layoutY="32.0" prefHeight="53.0" prefWidth="389.0" text="" textFill="RED">
+                        <Label fx:id="errorText" layoutX="726.0" layoutY="32.0" prefHeight="53.0" prefWidth="389.0" text="" textFill="RED">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
+                        <Button fx:id="cancelar" layoutX="1355.0" layoutY="34.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="171.0" text="Cancelar" />
                      </children></Pane>
                </bottom>
             </BorderPane>
-          </children>
+         </children>
       </AnchorPane>
    </content>
 </ScrollPane>

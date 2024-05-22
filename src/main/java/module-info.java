@@ -2,6 +2,7 @@ module com.clinicamvm.clinicamontalban {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
+    requires com.jfoenix;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;

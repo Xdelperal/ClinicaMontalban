@@ -3,6 +3,8 @@ package com.clinicamvm.controller;
 import business.entities.Cita;
 import business.entities.Medicamento;
 import business.entities.Personal;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTreeTableView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -116,10 +118,10 @@ public class MainPanelController implements Initializable {
     private TableView<Medicamento> tablaMedicamentos;
 
     @FXML
-    private Button closeButton;
+    private Button closeButton, searchButton;
 
     @FXML
-    private ToggleButton madeButton, pendingButton, tiposButton, presearch, searchButton;
+    private ToggleButton madeButton, pendingButton, tiposButton, presearch;
 
     @FXML
     private Pane PanelBuscador, panelMedicamentos;
@@ -128,7 +130,7 @@ public class MainPanelController implements Initializable {
     private TextField pacienteDNI;
 
     @FXML
-    private ChoiceBox<String> tiposMedicamento;
+    private JFXComboBox<String> tiposMedicamento;
 
     private CitaJDBCDAO citaJDBCDAO;
 
@@ -158,7 +160,7 @@ public class MainPanelController implements Initializable {
         madeButton.setToggleGroup(toggleGroup);
         tiposButton.setToggleGroup(toggleGroup);
         presearch.setToggleGroup(toggleGroup);
-        searchButton.setToggleGroup(toggleGroup);
+        //searchButton.setToggleGroup(toggleGroup);
 
         toggleGroup.selectToggle(pendingButton);
 
