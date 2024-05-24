@@ -41,7 +41,6 @@
     -fx-background-color: #f9f9f9; /* Color de fondo */
     -fx-border-color: #dcdcdc; /* Color del borde */
     -fx-border-width: 1px; /* Ancho del borde */
-    -fx-font-size: 14px; /* Tamaño de fuente */
 }
 
 /* Estilo de las celdas */
@@ -67,12 +66,15 @@
     -fx-border-width: 0 0 1px 0; /* Borde inferior */
 }
 
-/* Estilo de las líneas de división entre celdas */
+/* Aumentar el espacio entre filas */
 .table-row-cell {
-    -fx-border-color: #dcdcdc; /* Color del borde */
-    -fx-border-width: 0 0 1px 0; /* Borde inferior */
+    -fx-spacing: 50px; /* Espacio entre filas */
 }
 
+/* Ajustar el tamaño del texto al tamaño de la fila */
+.table-row-cell .table-cell {
+    -fx-font-size: 1.2em; /* Tamaño de fuente */
+}
 
 .tabla-tipos-medicamento .table-cell {
      -fx-alignment: center-left;

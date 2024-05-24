@@ -1,6 +1,5 @@
 package com.clinicamvm.controller;
 
-import business.entities.Persona;
 import business.entities.Personal;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -13,21 +12,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import org.kordamp.bootstrapfx.BootstrapFX;
 import persistence.daos.impl.PersonalJDBCDAO;
 import persistence.exceptions.DAOException;
 import persistence.utils.JDBCUtils;
-import persistence.utils.SQLQueries;
 
-import java.awt.*;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

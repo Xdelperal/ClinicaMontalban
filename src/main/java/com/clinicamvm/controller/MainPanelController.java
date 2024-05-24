@@ -4,7 +4,6 @@ import business.entities.Cita;
 import business.entities.Medicamento;
 import business.entities.Personal;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTreeTableView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -12,12 +11,15 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -138,7 +140,7 @@ public class MainPanelController implements Initializable {
     private final Pattern pattern = Pattern.compile("\\d{0,8}[a-zA-Z]?");
 
     //Declaramos como variable el stage para poder hacer verificaciones.
-    private Stage detalleCitaStage;
+    public static Stage detalleCitaStage;
 
     private Personal medico;
 
@@ -151,7 +153,6 @@ public class MainPanelController implements Initializable {
 
     private Timeline updateTimeline;
 
-    private boolean cerrarVentanaPorApertura = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -160,7 +161,6 @@ public class MainPanelController implements Initializable {
         madeButton.setToggleGroup(toggleGroup);
         tiposButton.setToggleGroup(toggleGroup);
         presearch.setToggleGroup(toggleGroup);
-        //searchButton.setToggleGroup(toggleGroup);
 
         toggleGroup.selectToggle(pendingButton);
 
@@ -332,7 +332,6 @@ public class MainPanelController implements Initializable {
             e.printStackTrace();
         }
     }
-
     public void cargarCitaDetalle(int idCita, boolean tipo) {
         if (detalleCitaStage != null) {
             // Si ya hay un detalle de cita abierto, preguntar si se desea cerrar
@@ -364,14 +363,13 @@ public class MainPanelController implements Initializable {
                     abrirNuevoDetalleCita(idCita, false);
                 }
             });
-        } else if (tipo){
+        } else if (tipo) {
             abrirNuevoDetalleCita(idCita, true);
         } else {
             abrirNuevoDetalleCita(idCita, false);
         }
     }
 
-    // Modificar la función abrirNuevoDetalleCita() para establecer la bandera cuando se está cerrando la ventana
     private void abrirNuevoDetalleCita(int idCita, boolean tipo) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ui/Cita.fxml"));
@@ -380,8 +378,8 @@ public class MainPanelController implements Initializable {
             // Obteniendo el controlador del FXML cargado
             CitaDetalleController controller = loader.getController();
 
-            //Aquí declaramos que es una cita a modificar con el booleano, para que inicie otro metodo en el controlador al inicializarse.
-            if(tipo) {
+            // Aquí declaramos que es una cita a modificar con el booleano, para que inicie otro método en el controlador al inicializarse.
+            if (tipo) {
                 controller.setReceta(idCita);
             } else {
                 controller.setBoolean(false);
@@ -421,47 +419,49 @@ public class MainPanelController implements Initializable {
 
             // Establecer un controlador de evento para el cierre de la ventana
             stage.setOnCloseRequest(event -> {
-                if (!cerrarVentanaPorApertura) {
-                    event.consume(); // Consume el evento para evitar el cierre automático de la ventana
+                event.consume(); // Consume el evento para evitar el cierre automático de la ventana
 
-                    // Crear el VBox
-                    VBox vbox = new VBox();
+                // Crear el VBox
+                VBox vbox = new VBox();
 
-                    // Crear el texto normal
-                    Label labelNormal = new Label("¿Estás seguro que quieres cerrar la pestaña actual de cita?");
-                    vbox.getChildren().add(labelNormal);
+                // Crear el texto normal
+                Label labelNormal = new Label("¿Estás seguro que quieres cerrar la pestaña actual de cita?");
+                vbox.getChildren().add(labelNormal);
 
-                    // Crear el texto en negrita y color rojo
-                    Label labelNegrita = new Label("Perderás las modificaciones actuales.");
-                    labelNegrita.setStyle("-fx-font-weight: bold;");
-                    labelNegrita.setTextFill(Color.valueOf("red")); // Convertir el Color a Paint
-                    vbox.getChildren().add(labelNegrita);
+                // Crear el texto en negrita y color rojo
+                Label labelNegrita = new Label("Perderás las modificaciones actuales.");
+                labelNegrita.setStyle("-fx-font-weight: bold;");
+                labelNegrita.setTextFill(Color.valueOf("red")); // Convertir el Color a Paint
+                vbox.getChildren().add(labelNegrita);
 
-                    // Establecer el contenido del diálogo como el VBox
-                    Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
-                    confirmDialog.setTitle("Confirmar");
-                    confirmDialog.setHeaderText(null);
-                    confirmDialog.getDialogPane().setContent(vbox);
+                // Establecer el contenido del diálogo como el VBox
+                Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmDialog.setTitle("Confirmar");
+                confirmDialog.setHeaderText(null);
+                confirmDialog.getDialogPane().setContent(vbox);
 
-                    // Mostrar el diálogo de confirmación y esperar la respuesta del usuario
-                    confirmDialog.showAndWait().ifPresent(response -> {
-                        if (response == ButtonType.OK) {
-                            // El usuario decidió cerrar la ventana actual
-                            detalleCitaStage.close();
-
-                            // Establecer detalleCitaStage en null después de cerrar la ventana
-                            detalleCitaStage = null;
-                        }
-                    });
-                }
+                // Mostrar el diálogo de confirmación y esperar la respuesta del usuario
+                confirmDialog.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        // El usuario decidió cerrar la ventana actual
+                        stage.close();
+                        detalleCitaStage = null; // Limpiar la referencia al cerrar
+                    }
+                });
             });
-
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // Método para cerrar la ventana del detalle de la cita y actualizar la referencia
+    private void cerrarVentanaDetalleCita() {
+        if (detalleCitaStage != null) {
+            detalleCitaStage.close();
+            detalleCitaStage = null;
+        }
+    }
 
     public void getPendiente() {
         pendientes.getItems().clear();
@@ -480,8 +480,43 @@ public class MainPanelController implements Initializable {
             @Override
             public TableCell<Cita, Void> call(TableColumn<Cita, Void> param) {
                 return new TableCell<>() {
-                    private final Button button = new Button("Abrir");
+                    private final Button button = new Button();
                     {
+                        // Crear un ImageView con la imagen deseada
+                        ImageView imageView = new ImageView(new Image(getClass().getResource("/com/ui/img/mainPane/recipe.png").toExternalForm()));
+
+                        // Establecer el tamaño del ImageView según tus necesidades
+                        imageView.setFitWidth(45);
+                        imageView.setFitHeight(45);
+
+                        // Establecer el ImageView como gráfico del botón
+                        button.setGraphic(imageView);
+
+                        // Hacer el botón transparente
+                        button.setStyle("-fx-background-color: transparent;");
+
+                        // Agregar efecto de sombra y cambiar cursor al pasar el mouse sobre el botón
+                        DropShadow shadow = new DropShadow();
+                        shadow.setColor(Color.GRAY); // Color de la sombra
+                        shadow.setWidth(10); // Ancho de la sombra
+                        shadow.setHeight(10); // Altura de la sombra
+
+                        button.setOnMouseEntered(event -> {
+                            // Cambiar el cursor cuando el mouse pasa sobre el botón
+                            button.setCursor(Cursor.HAND);
+
+                            // Agregar efecto de sombra cuando el mouse pasa sobre el botón
+                            button.setEffect(shadow);
+                        });
+
+                        button.setOnMouseExited(event -> {
+                            // Restaurar el cursor cuando el mouse sale del botón
+                            button.setCursor(Cursor.DEFAULT);
+
+                            // Eliminar el efecto de sombra cuando el mouse sale del botón
+                            button.setEffect(null);
+                        });
+
                         button.setOnAction(event -> {
                             Cita cita = getTableView().getItems().get(getIndex());
                             int citaId = cita.getIdCita();
@@ -522,8 +557,44 @@ public class MainPanelController implements Initializable {
             @Override
             public TableCell<Cita, Void> call(TableColumn<Cita, Void> param) {
                 return new TableCell<>() {
-                    private final Button button = new Button("Modificar");
+                    private final Button button = new Button();
                     {
+                        // Crear un ImageView con la imagen deseada
+                        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("/com/ui/img/mainPane/edit.png")));
+
+                        // Establecer el tamaño del ImageView según tus necesidades
+                        imageView.setFitWidth(40);
+                        imageView.setFitHeight(40);
+
+                        // Establecer el ImageView como gráfico del botón
+                        button.setGraphic(imageView);
+
+                        // Hacer el botón transparente
+                        button.setStyle("-fx-background-color: transparent;");
+
+                        // Agregar efecto de sombra y cambiar cursor al pasar el mouse sobre el botón
+                        DropShadow shadow = new DropShadow();
+                        shadow.setColor(Color.GRAY); // Color de la sombra
+                        shadow.setWidth(10); // Ancho de la sombra
+                        shadow.setHeight(10); // Altura de la sombra
+
+                        button.setOnMouseEntered(event -> {
+                            // Cambiar el cursor cuando el mouse pasa sobre el botón
+                            button.setCursor(Cursor.HAND);
+
+                            // Agregar efecto de sombra cuando el mouse pasa sobre el botón
+                            button.setEffect(shadow);
+                        });
+
+                        button.setOnMouseExited(event -> {
+                            // Restaurar el cursor cuando el mouse sale del botón
+                            button.setCursor(Cursor.DEFAULT);
+
+                            // Eliminar el efecto de sombra cuando el mouse sale del botón
+                            button.setEffect(null);
+                        });
+
+                        // Asignar un evento al botón
                         button.setOnAction(event -> {
                             Cita cita = getTableView().getItems().get(getIndex());
                             int citaId = cita.getIdCita();
@@ -543,6 +614,7 @@ public class MainPanelController implements Initializable {
                 };
             }
         });
+
     }
 
     @FXML

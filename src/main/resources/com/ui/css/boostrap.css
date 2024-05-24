@@ -1,0 +1,14 @@
+/* Estilo para el botón btn-danger */
+.btn-danger {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-border-color: transparent;
+}
+
+.btn-danger:hover {
+    -fx-background-color: #c82333; /* Color de fondo al pasar el mouse */
+}

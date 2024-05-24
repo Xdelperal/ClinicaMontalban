@@ -11,8 +11,12 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -57,7 +61,7 @@ public class CitaDetalleController implements Initializable {
         @FXML
         private Label errorText, errorTextFecha, lblIdCita, errorTextChoice;
         @FXML
-        private Button generar;
+        private Button generar, cancelar;
         @FXML
         private TextField textMedicamento;
         @FXML
@@ -82,6 +86,7 @@ public class CitaDetalleController implements Initializable {
 
     @Override //Aqui van las primeras ejecuciones cuando se inicializa
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        cancelar.getStyleClass().setAll("btn","btn-danger");
         medicamentoJDBCDAO = new MedicamentoJDBCDAO();
         Connection connection = JDBCUtils.getConnection();
         citaJDBCDAO = new CitaJDBCDAO(connection);
@@ -166,25 +171,26 @@ public class CitaDetalleController implements Initializable {
             errorText.setStyle("-fx-text-fill: red;");
         } else if (!"CORTA".equals(duracion.getValue()) && !"LARGA".equals(duracion.getValue())) {
             errorTextChoice.setVisible(true);
-        }else {
+        } else {
             errorTextChoice.setVisible(false);
             errorText.setText("Receta creada exitosamente.");
             errorText.setStyle("-fx-text-fill: green;");
-
 
             String observacion = ObservacionCitaText.getText();
 
             informeCreado = citaJDBCDAO.crearConsulta(idCita, String.valueOf(duracion.getValue()), observacion);
 
-            if (informeCreado == true){
+            if (informeCreado) {
                 for (Receta receta : listaReceta) {
                     RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
-                    recetaJDBCDAO.insertarReceta(receta,this.idCita);
+                    recetaJDBCDAO.insertarReceta(receta, this.idCita);
                 }
-                citaJDBCDAO.actualizarEstado("Realizada",observacion,idCita);
-                // Cerrar el panel
+                citaJDBCDAO.actualizarEstado("Realizada", observacion, idCita);
+
+                // Cerrar el panel y asegurarse de que se actualiza el detalleCitaStage
                 Stage stage = (Stage) errorText.getScene().getWindow();
                 stage.close();
+                MainPanelController.detalleCitaStage = null; // Actualizar el MainPanelController para establecerlo a null
 
                 // Crear el VBox para contener los elementos del texto
                 VBox vbox = new VBox();
@@ -206,7 +212,6 @@ public class CitaDetalleController implements Initializable {
                 alert.setHeaderText(null);
                 alert.getDialogPane().setContent(vbox); // Establecer el VBox como contenido del diálogo
                 alert.showAndWait();
-
             }
         }
     }
@@ -218,13 +223,47 @@ public class CitaDetalleController implements Initializable {
         dosisMedicamento.setCellValueFactory(new PropertyValueFactory<Medicamento, String>("dosisEstandar"));
         listaMedicamentos.setItems(tablaMedicamentos);
 
-        añadirMedicamento.setCellFactory(new Callback<>() {
+        añadirMedicamento.setCellFactory(new Callback<TableColumn<Medicamento, Void>, TableCell<Medicamento, Void>>() {
             @Override
             public TableCell<Medicamento, Void> call(TableColumn<Medicamento, Void> param) {
                 return new TableCell<>() {
-                    private final Button button = new Button("+");
-
+                    private final Button button = new Button();
                     {
+                        // Crear un ImageView con la imagen deseada
+                        ImageView imageView = new ImageView(new Image(getClass().getResource("/com/ui/img/citaPane/plus.png").toExternalForm()));
+
+                        // Establecer el tamaño del ImageView según tus necesidades
+                        imageView.setFitWidth(25);
+                        imageView.setFitHeight(25);
+
+                        // Establecer el ImageView como gráfico del botón
+                        button.setGraphic(imageView);
+
+                        // Hacer el botón transparente
+                        button.setStyle("-fx-background-color: transparent;");
+
+                        // Agregar efecto de sombra y cambiar cursor al pasar el mouse sobre el botón
+                        DropShadow shadow = new DropShadow();
+                        shadow.setColor(Color.GRAY); // Color de la sombra
+                        shadow.setWidth(10); // Ancho de la sombra
+                        shadow.setHeight(10); // Altura de la sombra
+
+                        button.setOnMouseEntered(event -> {
+                            // Cambiar el cursor cuando el mouse pasa sobre el botón
+                            button.setCursor(Cursor.HAND);
+
+                            // Agregar efecto de sombra cuando el mouse pasa sobre el botón
+                            button.setEffect(shadow);
+                        });
+
+                        button.setOnMouseExited(event -> {
+                            // Restaurar el cursor cuando el mouse sale del botón
+                            button.setCursor(Cursor.DEFAULT);
+
+                            // Eliminar el efecto de sombra cuando el mouse sale del botón
+                            button.setEffect(null);
+                        });
+
                         button.setOnAction(event -> {
                             Medicamento medicamento = getTableView().getItems().get(getIndex());
                             int medicamentoId = medicamento.getId();
