@@ -123,7 +123,7 @@ public class MainPanelController implements Initializable {
     private TableView<Medicamento> tablaMedicamentos;
 
     @FXML
-    private Button closeButton, searchButton;
+    private Button closeButton;
 
     @FXML
     private ToggleButton madeButton, pendingButton, tiposButton, presearch;
@@ -335,6 +335,7 @@ public class MainPanelController implements Initializable {
             e.printStackTrace();
         }
     }
+
     public void cargarCitaDetalle(int idCita, boolean tipo) {
         if (detalleCitaStage != null) {
             // Si ya hay un detalle de cita abierto, preguntar si se desea cerrar
@@ -363,15 +364,15 @@ public class MainPanelController implements Initializable {
                 if (response == ButtonType.OK) {
                     // El usuario decidió cerrar el detalle de cita actual
                     detalleCitaStage.close();
-                    abrirNuevoDetalleCita(idCita, false);
+                    detalleCitaStage = null; // Reset detalleCitaStage
+                    abrirNuevoDetalleCita(idCita, tipo);
                 }
             });
-        } else if (tipo) {
-            abrirNuevoDetalleCita(idCita, true);
         } else {
-            abrirNuevoDetalleCita(idCita, false);
+            abrirNuevoDetalleCita(idCita, tipo);
         }
     }
+
 
     private void abrirNuevoDetalleCita(int idCita, boolean tipo) {
         try {
@@ -434,7 +435,7 @@ public class MainPanelController implements Initializable {
                 // Crear el texto en negrita y color rojo
                 Label labelNegrita = new Label("Perderás las modificaciones actuales.");
                 labelNegrita.setStyle("-fx-font-weight: bold;");
-                labelNegrita.setTextFill(Color.valueOf("red")); // Convertir el Color a Paint
+                labelNegrita.setTextFill(Color.RED);
                 vbox.getChildren().add(labelNegrita);
 
                 // Establecer el contenido del diálogo como el VBox
@@ -457,6 +458,7 @@ public class MainPanelController implements Initializable {
             e.printStackTrace();
         }
     }
+
 
     // Método para cerrar la ventana del detalle de la cita y actualizar la referencia
     private void cerrarVentanaDetalleCita() {

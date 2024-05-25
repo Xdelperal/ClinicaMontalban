@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -19,7 +19,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<?import com.jfoenix.controls.JFXComboBox?>
 <ScrollPane stylesheets="@css/cita.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.CitaDetalleController">
    <content>
       <AnchorPane prefHeight="1000.0" prefWidth="1840.0">
@@ -45,7 +44,7 @@
                            </columnResizePolicy>
                         </TableView>
                         <TextField fx:id="textMedicamento" layoutX="33.0" layoutY="63.0" prefHeight="24.0" prefWidth="222.0" />
-                        <Button layoutX="276.0" layoutY="61.0" mnemonicParsing="false" onAction="#busquedaMedicamentos" stylesheets="@css/boostrap.css" styleClass="btn-primary" text="Buscar"/>
+                        <Button layoutX="276.0" layoutY="61.0" mnemonicParsing="false" onAction="#busquedaMedicamentos" styleClass="btn-primary" stylesheets="@css/boostrap.css" text="Buscar" />
 
                      </children>
                   </Pane>
@@ -53,17 +52,51 @@
                <top>
                   <Pane prefHeight="86.0" prefWidth="1840.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label fx:id="lblIdCita" layoutX="30.0" layoutY="9.0" prefHeight="69.0" prefWidth="514.0">
+                        <Label fx:id="nombrePaciente" layoutX="112.0" layoutY="9.0" prefHeight="69.0" prefWidth="377.0">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Separator layoutX="-2.0" layoutY="83.0" prefHeight="5.0" prefWidth="1851.0" style="-fx-background-color: #7FFFD4;" />
-                        <Label fx:id="lblIdCita1" layoutX="1335.0" layoutY="9.0" prefHeight="69.0" prefWidth="479.0">
+                        <Separator layoutX="-2.0" layoutY="85.0" maxWidth="1.7976931348623157E308" prefHeight="4.0" prefWidth="1917.0" style="-fx-background-color: #7FFFD4;" />
+                        <Label fx:id="fechaPaciente" layoutX="1097.0" layoutY="9.0" prefHeight="69.0" prefWidth="479.0">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
+                        <Button fx:id="cerrarCita" contentDisplay="RIGHT" layoutX="1726.0" layoutY="11.0" mnemonicParsing="false" onAction="#cerrarCita" prefHeight="54.0" prefWidth="58.0" stylesheets="@css/cita.css">
+                           <graphic>
+                              <ImageView fx:id="iconoImagen" fitHeight="50.0" fitWidth="50.0" layoutX="1744.0" layoutY="19.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 10px;" styleClass="icono">
+                                 <image>
+                                    <Image url="@img/citaPane/back.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="27.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/citaPane/pacient.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="515.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/citaPane/dni.png" />
+                           </image>
+                        </ImageView>
+                        <Separator layoutX="496.0" layoutY="-12.0" orientation="VERTICAL" prefHeight="75.0" prefWidth="11.0" />
+                        <Label fx:id="dniPaciente" layoutX="601.0" layoutY="9.0" prefHeight="69.0" prefWidth="389.0">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="1000.0" layoutY="6.0" orientation="VERTICAL" prefHeight="75.0" prefWidth="11.0" />
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1011.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/citaPane/date.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </Pane>
                </top>
@@ -119,7 +152,7 @@
                            </font>
                         </Label>
                         <TextArea fx:id="motivoCitaText" editable="false" layoutX="33.0" layoutY="59.0" prefHeight="140.0" prefWidth="294.0" />
-                        <JFXComboBox fx:id="duracion" layoutX="96.0" layoutY="715.0" prefHeight="24.0" prefWidth="161.0" styleClass="jfx-combo-box" promptText="   Selecciona">
+                        <JFXComboBox fx:id="duracion" layoutX="96.0" layoutY="715.0" prefHeight="24.0" prefWidth="161.0" promptText="   Selecciona" styleClass="jfx-combo-box">
                            <items>
                               <FXCollections fx:factory="observableArrayList">
                                  <String fx:value="CORTA" />
@@ -150,13 +183,12 @@
                <bottom>
                   <Pane prefHeight="116.0" prefWidth="1840.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Button fx:id="generar" layoutX="1548.0" layoutY="33.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="171.0" text="Generar" />
-                        <Label fx:id="errorText" layoutX="726.0" layoutY="32.0" prefHeight="53.0" prefWidth="389.0" text="" textFill="RED">
+                        <Button fx:id="generar" layoutX="1573.0" layoutY="33.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="171.0" text="Generar" />
+                        <Label fx:id="errorText" layoutX="1094.0" layoutY="32.0" prefHeight="53.0" prefWidth="389.0" text="" textFill="RED">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <Button fx:id="cerrar" layoutX="1355.0" layoutY="34.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="160.0" styleClass="btn-danger" stylesheets="@css/boostrap.css" text="Cerrar" />
                      </children></Pane>
                </bottom>
             </BorderPane>

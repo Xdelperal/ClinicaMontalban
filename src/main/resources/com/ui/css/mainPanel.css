@@ -36,58 +36,142 @@
     -fx-alignment: center-left;
 }
 
-/* Estilo general del TableView */
 .table-view {
-    -fx-background-color: #f9f9f9; /* Color de fondo */
-    -fx-border-color: #dcdcdc; /* Color del borde */
-    -fx-border-width: 1px; /* Ancho del borde */
+    -fx-background-color: #ffffff; /* Fondo blanco */
+    -fx-background-radius: 10px; /* Bordes redondeados */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4); /* Sombra suave */
 }
 
-/* Estilo de las celdas */
 .table-cell {
-    -fx-text-fill: #333333; /* Color del texto */
-    -fx-alignment: center; /* Alineación del contenido */
+    -fx-text-fill: #333333; /* Color del texto gris oscuro */
+    -fx-alignment: center;
+    -fx-padding: 8px; /* Espaciado interno */
 }
 
-/* Estilo de las filas alternas (opcional) */
 .table-row-cell:odd {
-    -fx-background-color: #f2f2f2; /* Color de fondo para filas impares */
+    -fx-background-color: #f7f9fc; /* Fondo para filas impares */
 }
 
-/* Estilo de la cabecera de la tabla */
+.table-row-cell:even {
+    -fx-background-color: #ffffff; /* Fondo para filas pares */
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #e9f5ff; /* Fondo para la fila seleccionada */
+    -fx-text-fill: #212529; /* Color del texto para la fila seleccionada */
+}
+
 .table-header-background {
-    -fx-background-color: #e0e0e0; /* Color de fondo de la cabecera */
+    -fx-background-color: #4a90e2; /* Color de fondo para la cabecera */
+    -fx-border-radius: 10px 10px 0 0; /* Bordes redondeados en la parte superior */
+    -fx-background-radius: 10px 10px 0 0; /* Bordes redondeados en la parte superior */
 }
 
 .table-header {
-    -fx-background-color: #e0e0e0; /* Color de fondo de la cabecera */
-    -fx-text-fill: #333333; /* Color del texto de la cabecera */
-    -fx-border-color: #dcdcdc; /* Color del borde de la cabecera */
-    -fx-border-width: 0 0 1px 0; /* Borde inferior */
+    -fx-background-color: #4a90e2; /* Color de fondo para la cabecera */
+    -fx-text-fill: #ffffff; /* Color del texto blanco */
+    -fx-border-color: #d1d1d1;
+    -fx-border-width: 0 0 1px 0;
+    -fx-font-weight: bold; /* Texto en negrita */
+    -fx-padding: 15px; /* Espaciado interno aumentado */
+    -fx-font-size: 1.2em; /* Tamaño de fuente aumentado */
+    -fx-background-radius: 10px 10px 0 0; /* Esquinas redondeadas en la parte superior */
 }
 
-/* Aumentar el espacio entre filas */
+/* Mejoras adicionales para los encabezados de las columnas */
+.table-view .column-header .label {
+    -fx-font-size: 1.2em; /* Aumentar tamaño de fuente para el texto del encabezado */
+    -fx-font-weight: bold; /* Asegurar que el texto esté en negrita */
+}
+
+/* Mejora general para el encabezado de la tabla */
+.table-view .column-header {
+    -fx-background-color: #96c6fa; /* Color de fondo para la cabecera */
+    -fx-text-fill: #ffffff; /* Color del texto blanco */
+    -fx-border-color: #d1d1d1;
+    -fx-border-width: 0 0 1px 0;
+    -fx-font-weight: bold; /* Texto en negrita */
+    -fx-padding: 15px; /* Espaciado interno aumentado */
+    -fx-font-size: 1.2em; /* Tamaño de fuente aumentado */
+    -fx-background-radius: 10px 10px 0 0; /* Esquinas redondeadas en la parte superior */
+}
+
 .table-row-cell {
-    -fx-spacing: 50px; /* Espacio entre filas */
+    -fx-border-color: #dcdcdc; /* Borde entre filas */
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 8px 0; /* Espaciado entre filas (arriba y abajo) */
 }
 
-/* Ajustar el tamaño del texto al tamaño de la fila */
 .table-row-cell .table-cell {
-    -fx-font-size: 1.2em; /* Tamaño de fuente */
+    -fx-font-size: 1.3em; /* Tamaño de fuente */
 }
 
 .tabla-tipos-medicamento .table-cell {
-     -fx-alignment: center-left;
+    -fx-alignment: center-left;
 }
 
 #tablaMedicamentos {
-    -fx-border-color: darkblue;
-    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #f9f9f9;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4); /* Sombra suave */
+}
+
+#tablaMedicamentos .column-header {
+    -fx-background-color: #96c6fa; /* Color de fondo mejorado */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px; /* Tamaño de fuente más grande */
+    -fx-padding: 10px; /* Espaciado interno */
+    -fx-border-radius: 10px 10px 0 0; /* Esquinas redondeadas en la parte superior */
+}
+
+#tablaMedicamentos .table-row-cell {
+    -fx-border-color: lightgray;
+    -fx-border-width: 0 0 1px 0; /* Solo borde inferior */
+    -fx-background-color: white;
+    -fx-border-radius: 0 0 10px 10px; /* Esquinas redondeadas en la parte inferior */
+    -fx-padding: 5px 0; /* Espaciado vertical entre filas */
+}
+
+#tablaMedicamentos .table-cell {
+    -fx-padding: 10px; /* Espaciado interno */
+    -fx-font-size: 14px;
+}
+
+#tablaMedicamentos .table-row-cell:selected {
+    -fx-background-color: #d3eaf7; /* Color de fondo para la fila seleccionada */
 }
 
 #datosPaciente {
-    -fx-border-color: darkblue;
-    -fx-border-width: 1px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #f9f9f9;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4); /* Sombra suave */
+}
+
+#datosPaciente .column-header {
+    -fx-background-color: #96c6fa; /* Color de fondo mejorado */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px; /* Tamaño de fuente más grande */
+    -fx-padding: 10px; /* Espaciado interno */
+    -fx-border-radius: 10px 10px 0 0; /* Esquinas redondeadas en la parte superior */
+}
+
+#datosPaciente .table-row-cell {
+    -fx-border-color: lightgray;
+    -fx-border-width: 0 0 1px 0; /* Solo borde inferior */
+    -fx-background-color: white;
+    -fx-border-radius: 0 0 10px 10px; /* Esquinas redondeadas en la parte inferior */
+    -fx-padding: 5px 0; /* Espaciado vertical entre filas */
+}
+
+#datosPaciente .table-cell {
+    -fx-padding: 10px; /* Espaciado interno */
+    -fx-font-size: 14px;
+}
+
+#datosPaciente .table-row-cell:selected {
+    -fx-background-color: #d3eaf7; /* Color de fondo para la fila seleccionada */
 }
 
 #closeButton {
@@ -105,21 +189,6 @@
     -fx-opacity: 1;
 }
 
-.buttonEntrap {
-    -fx-background-color: rgb(151, 212, 154);
-    -fx-outline: none;
-    -fx-border-color: rgb(151, 212, 154);
-    -fx-border-radius: 20px;
-    -fx-padding: 10px 20px;
-    -fx-text-fill: rgb(255, 255, 255);
-    -fx-font-weight: bold;
-    -fx-cursor: hand;
-    -fx-transition: background-color 0.3s ease;
-}
-
-.buttonEntrap:hover {
-
-}
 
 .buttonPendiente {
     -fx-background-color: #4CAF50; /* Color de fondo */
@@ -148,21 +217,11 @@
 
 #anchorpane {
     -fx-border-color: #b3ffb3;
-    -fx-border-width: 2px;
-}
-
-/* General style for JFXComboBox */
-.jfx-combo-box {
-    -fx-border-color: #ced4da;
     -fx-border-width: 1px;
-    -fx-background-color: white;
-    -fx-font-size: 14px;
-    -fx-border-radius: 6px;
-    -fx-background-radius: 6px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);
 }
 
-/* Style for the list cells (dropdown items) */
+
+/* Style para el dropdown items */
 .jfx-combo-box .list-cell {
     -fx-background-color: white;
     -fx-text-fill: #495057;
@@ -191,37 +250,6 @@
 .jfx-combo-box .arrow-button {
     -fx-background-color: transparent;
     -fx-padding: 4px;
-}
-
-/* Arrow icon color */
-.jfx-combo-box .arrow-button .arrow {
-    -fx-background-color: #495057;
-}
-
-/* Hover effect for the arrow button */
-.jfx-combo-box .arrow-button:hover {
-    -fx-background-color: #e9ecef;
-    -fx-border-radius: 6px;
-    -fx-background-radius: 6px;
-}
-
-
-/* Selected list cell */
-.jfx-combo-box .list-cell:selected {
-    -fx-background-color: #e9ecef;
-    -fx-text-fill: #212529;
-}
-
-/* Focus and prompt text */
-.jfx-combo-box .combo-box-base .text-input {
-    -fx-prompt-text-fill: #adb5bd;
-    -fx-text-fill: #495057;
-}
-
-/* Arrow button styling */
-.jfx-combo-box .arrow-button {
-    -fx-background-color: transparent;
-    -fx-padding: 0.25em;
 }
 
 /* Arrow icon color */

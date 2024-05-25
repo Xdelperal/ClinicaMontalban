@@ -40,3 +40,17 @@
 #msgLabel:hover {
     -fx-background-color: rgba(220, 53, 69, 0.9); /* Color de fondo rojo más transparente al pasar el ratón */
 }
+
+/* Estilo para el botón */
+.hidden-button {
+    -fx-background-color: transparent; /* Fondo transparente */
+    -fx-border-color: transparent; /* Borde transparente */
+    -fx-background-radius: 0; /* Sin borde redondeado */
+    -fx-padding: 0; /* Sin relleno */
+}
+
+.hidden-button:hover .eye-icon {
+    -fx-effect: dropshadow(three-pass-box, #00b539, 1, 0, 0, 0); /* Efecto de sombra con color */
+    -fx-effect-radius: 0.5; /* Radio del efecto */
+    -fx-opacity: 0.3; /* Opacidad del efecto */
+}

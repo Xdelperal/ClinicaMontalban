@@ -1,16 +1,55 @@
 
 .table-view {
-    -fx-border-color: darkblue;
-    -fx-border-width: 1px;
-    -fx-background-color: #f2f2f2; /* Color de fondo */
-    -fx-font-size: 14px; /* Tamaño de fuente */
+    -fx-background-color: #ffffff; /* Fondo blanco */
+    -fx-background-radius: 10px; /* Bordes redondeados */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4); /* Sombra suave */
 }
 
 .table-cell {
-    -fx-text-fill: #333333; /* Color del texto */
-    -fx-alignment: center; /* Alineación del contenido */
+    -fx-text-fill: #333333; /* Color del texto gris oscuro */
+    -fx-alignment: center;
+    -fx-padding: 8px; /* Espaciado interno */
 }
 
+.table-row-cell:odd {
+    -fx-background-color: #f7f9fc; /* Fondo para filas impares */
+}
+
+.table-row-cell:even {
+    -fx-background-color: #ffffff; /* Fondo para filas pares */
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #e9f5ff; /* Fondo para la fila seleccionada */
+    -fx-text-fill: #212529; /* Color del texto para la fila seleccionada */
+}
+
+.table-header-background {
+    -fx-background-color: #4a90e2; /* Color de fondo para la cabecera */
+    -fx-border-radius: 10px 10px 0 0; /* Bordes redondeados en la parte superior */
+    -fx-background-radius: 10px 10px 0 0; /* Bordes redondeados en la parte superior */
+}
+
+.table-header {
+    -fx-background-color: #4a90e2; /* Color de fondo para la cabecera */
+    -fx-text-fill: #ffffff; /* Color del texto blanco */
+    -fx-border-color: #d1d1d1;
+    -fx-border-width: 0 0 1px 0;
+    -fx-font-weight: bold; /* Texto en negrita */
+    -fx-padding: 10px; /* Espaciado interno */
+    -fx-font-size: 1.2em; /* Tamaño de fuente */
+}
+
+.table-row-cell {
+    -fx-spacing: 50px;
+    -fx-border-color: #dcdcdc; /* Borde entre filas */
+    -fx-border-width: 0 0 1px 0;
+}
+
+.table-row-cell .table-cell {
+    -fx-font-size: 1em; /* Tamaño de fuente */
+    -fx-padding: 4px; /* Espaciado interno */
+}
 .jfx-combo-box {
     -fx-font-size: 14px; /* Cambia el tamaño de la fuente */
     -fx-background-color: #ffffff; /* Cambia el color de fondo */
@@ -29,6 +68,21 @@
 .jfx-combo-box .prompt-text {
     -fx-alignment: center-left; /* Alinea el texto del prompt */
     -fx-padding: 0 10px; /* Añade un poco de padding */
+}
+
+#cerrarCita {
+    -fx-background-color: transparent;
+}
+
+#cerrarCita .icono {
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+    -fx-opacity: 0.5;
+}
+
+#cerrarCita:hover .icono {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-opacity: 1;
 }
 
 

@@ -41,6 +41,15 @@
             <AnchorPane prefHeight="600.0" prefWidth="400.0" styleClass="borderedPane" BorderPane.alignment="CENTER">
                 <JFXTextField fx:id="fieldDNI" layoutX="139.0" layoutY="228.0" prefHeight="27.0" prefWidth="150.0" promptText="Usuario (DNI)" labelFloat="true"/>
                 <JFXPasswordField fx:id="fieldContrasena" layoutX="139.0" layoutY="293.0" prefHeight="27.0" prefWidth="150.0" promptText="Contraseña" labelFloat="true"/>
+                <JFXTextField fx:id="fieldContrasenaVisible" layoutX="139.0" layoutY="293.0" prefHeight="27.0" prefWidth="150.0" promptText="Contraseña (Visible)" labelFloat="true" visible="false"/>
+                <!-- Botón para mostrar/ocultar la contraseña -->
+                <Button styleClass="hidden-button" layoutX="305.0" layoutY="295.0" onAction="#togglePasswordVisibility">
+                    <graphic>
+                        <ImageView fx:id="eyeIcon" styleClass="eye-icon" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@img/loginPane/eyeOpen.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
                 <FontAwesomeIconView fill="#00b539" glyphName="USER" layoutX="96.0" layoutY="255.0" size="25" />
                 <FontAwesomeIconView fill="#00b539" glyphName="LOCK" layoutX="97.0" layoutY="321.0" size="25" />
                 <Button id="buttonEntrap" fx:id="buttonEntrap" layoutX="150.0" layoutY="370.0" mnemonicParsing="false" onAction="#comprobacion" prefHeight="37.0" prefWidth="113.0" styleClass="buttonEntrap" text="Entrar">

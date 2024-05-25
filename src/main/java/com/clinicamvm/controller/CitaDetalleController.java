@@ -11,9 +11,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
@@ -61,9 +64,9 @@ public class CitaDetalleController implements Initializable {
 
     //<editor-fold defaultstate="collapsed" desc="Elementos FXML">
         @FXML
-        private Label errorText, errorTextFecha, lblIdCita, errorTextChoice;
+        private Label errorText, errorTextFecha, errorTextChoice, nombrePaciente, dniPaciente, fechaPaciente;
         @FXML
-        private Button generar, cerrar;
+        private Button generar, cerrarCita;
         @FXML
         private TextField textMedicamento;
         @FXML
@@ -88,7 +91,6 @@ public class CitaDetalleController implements Initializable {
 
     @Override //Aqui van las primeras ejecuciones cuando se inicializa
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cerrar.getStyleClass().setAll("btn","btn-danger");
         medicamentoJDBCDAO = new MedicamentoJDBCDAO();
         Connection connection = JDBCUtils.getConnection();
         citaJDBCDAO = new CitaJDBCDAO(connection);
@@ -106,7 +108,9 @@ public class CitaDetalleController implements Initializable {
     public void setCita(int idCita, String dni) {
         cita = citaJDBCDAO.getCita(dni,idCita);
         this.idCita = idCita;
-        lblIdCita.setText("Nombre: "+cita.getNombre()+" \tDNI: "+cita.getDNI()+" \t\tFecha y hora:"+cita.getFecha()+" "+cita.getHora());
+        nombrePaciente.setText(cita.getNombre());
+        dniPaciente.setText(cita.getDNI());
+        fechaPaciente.setText(cita.getFecha() + " " + cita.getHora());
     }
 
 
@@ -117,6 +121,8 @@ public class CitaDetalleController implements Initializable {
     public void setMotivo(int idCita) {
         motivoCitaText.setText(citaJDBCDAO.getMotivo(idCita));
     }
+
+    public void cerrarCita() { Stage stage = (Stage) cerrarCita.getScene().getWindow(); stage.close(); MainPanelController.detalleCitaStage = null;}
 
     @FXML
     public void crearInforme() {

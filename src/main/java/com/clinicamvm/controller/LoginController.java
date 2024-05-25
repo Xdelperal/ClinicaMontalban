@@ -13,12 +13,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import persistence.daos.impl.PersonalJDBCDAO;
 import persistence.exceptions.DAOException;
 import persistence.utils.JDBCUtils;
 
+import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -39,11 +41,19 @@ public class LoginController implements Initializable {
     @FXML
     private JFXPasswordField fieldContrasena;
     @FXML
+    private JFXTextField fieldContrasenaVisible;
+    @FXML
     private Label msgLabel;
     private Stage stage;
 
+    @FXML
+    private ImageView eyeIcon;
+
+    private boolean passwordVisible = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         msgLabel.setVisible(false);
         // Expresión regular para aceptar máximo 8 dígitos seguidos de una letra opcional
         Pattern pattern = Pattern.compile("\\d{0,8}[a-zA-Z]?");
@@ -61,6 +71,8 @@ public class LoginController implements Initializable {
                 }
             }
         }));
+
+        togglePasswordVisibility();
     }
 
 
@@ -71,6 +83,7 @@ public class LoginController implements Initializable {
 */
 @FXML
 public void comprobacion(ActionEvent e) throws IOException {
+    togglePasswordVisibility();
     String dni = fieldDNI.getText();
     String contrasena = fieldContrasena.getText();
 
@@ -222,39 +235,80 @@ private void cargarMainPanel() {
  * Este metodo es el que ejecuta la query para la comprobacion de las
  * credenciales del login coincidan con las almacenadas en la de la base de datos.
  */
-private String autenticarUsuario(String dni, String hashedPassword) {
-    JDBCUtils jdbcUtils = new JDBCUtils();
-    try (Connection connection = jdbcUtils.getConnection()) {
-        String query = "SELECT password FROM personal WHERE DNI=?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, dni);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    String storedPassword = resultSet.getString("password");
-                    if (hashedPassword.equals(storedPassword)) {
-                        // Autenticación exitosa
-                        return "success";
+    private String autenticarUsuario(String dni, String hashedPassword) {
+        JDBCUtils jdbcUtils = new JDBCUtils();
+        try (Connection connection = jdbcUtils.getConnection()) {
+            String query = "SELECT password FROM personal WHERE DNI=?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, dni);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String storedPassword = resultSet.getString("password");
+                        if (hashedPassword.equals(storedPassword)) {
+                            // Autenticación exitosa
+                            return "success";
+                        } else {
+                            // Contraseña incorrecta
+                            return "Contraseña incorrecta";
+                        }
                     } else {
-                        // Contraseña incorrecta
-                        return "Contraseña incorrecta";
+                        // Usuario no encontrado
+                        return "Usuario no encontrado";
                     }
-                } else {
-                    // Usuario no encontrado
-                    return "Usuario no encontrado";
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Error de base de datos
+            return "Error de base de datos";
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        // Error de base de datos
-        return "Error de base de datos";
     }
-}
 
     public void setStage(Stage stage) {
         this.stage = stage;
         // Configurar la ventana para que no sea redimensionable
         stage.setResizable(false);
     }
+
+    @FXML
+    private void togglePasswordVisibility() {
+        // Almacena el contenido actual de ambos campos de contraseña
+        String passwordText = fieldContrasena.getText();
+        String visiblePasswordText = fieldContrasenaVisible.getText();
+
+        // Guarda el campo de contraseña que debe quedar seleccionado
+        TextField selectedField = passwordVisible ? fieldContrasena : fieldContrasenaVisible;
+
+        // Cambia la visibilidad de ambos campos de contraseña según su estado actual
+        fieldContrasena.setVisible(!passwordVisible);
+        fieldContrasena.setManaged(!passwordVisible);
+        fieldContrasenaVisible.setVisible(passwordVisible);
+        fieldContrasenaVisible.setManaged(passwordVisible);
+
+        // Restaura el contenido de los campos de contraseña según sea necesario
+        if (passwordVisible) {
+            // Si el campo de contraseña visible está visible, restaura su contenido
+            fieldContrasenaVisible.setText(passwordText);
+        } else {
+            // Si el campo de contraseña está visible, restaura su contenido
+            fieldContrasena.setText(visiblePasswordText);
+        }
+
+        // Cambia el estado de passwordVisible
+        passwordVisible = !passwordVisible;
+
+        // Cambia el icono del ojo
+        Image image = new Image(getClass().getResource(passwordVisible ? "/com/ui/img/loginPane/eyeOpen.png" : "/com/ui/img/loginPane/eyeClose.png").toExternalForm());
+        eyeIcon.setImage(image);
+
+        // Solicita el foco para el campo seleccionado
+        selectedField.requestFocus();
+    }
+
+
+
+
+
+
 
 }
