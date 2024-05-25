@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
@@ -21,19 +22,19 @@
 
 <ScrollPane stylesheets="@css/cita.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.CitaDetalleController">
    <content>
-      <AnchorPane prefHeight="1000.0" prefWidth="1840.0">
+      <AnchorPane>
          <children>
             <BorderPane prefHeight="1000.0" prefWidth="1840.0">
                <left>
                   <Pane prefHeight="798.0" prefWidth="396.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label layoutX="32.0" layoutY="14.0" prefHeight="25.0" prefWidth="295.0" text="Busqueda de Medicamentos">
+                        <Label layoutX="35.0" layoutY="33.0" prefHeight="25.0" prefWidth="295.0" text="Busqueda de Medicamentos">
                            <font>
-                              <Font size="20.0" />
+                              <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
 
-                        <TableView fx:id="listaMedicamentos" layoutX="33.0" layoutY="112.0" prefHeight="670.0" prefWidth="327.0">
+                        <TableView fx:id="listaMedicamentos" layoutX="35.0" layoutY="124.0" prefHeight="660.0" prefWidth="327.0">
                            <columns>
                               <TableColumn fx:id="nombreMedicamento" prefWidth="135.0" text="Nombre" />
                               <TableColumn fx:id="dosisMedicamento" prefWidth="105.0" text="Dosis Estandar" />
@@ -43,22 +44,22 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <TextField fx:id="textMedicamento" layoutX="33.0" layoutY="63.0" prefHeight="24.0" prefWidth="222.0" />
-                        <Button layoutX="276.0" layoutY="61.0" mnemonicParsing="false" onAction="#busquedaMedicamentos" styleClass="btn-primary" stylesheets="@css/boostrap.css" text="Buscar" />
+                        <TextField fx:id="textMedicamento" layoutX="35.0" layoutY="76.0" prefHeight="25.0" prefWidth="240.0" />
+                        <Button layoutX="291.0" layoutY="70.0" mnemonicParsing="false" onAction="#busquedaMedicamentos" styleClass="btn-green" stylesheets="@css/boostrap.css" text="Buscar" />
 
                      </children>
                   </Pane>
                </left>
                <top>
-                  <Pane prefHeight="86.0" prefWidth="1840.0" BorderPane.alignment="CENTER">
+                  <Pane prefHeight="86.0" prefWidth="2000.0" style="-fx-background-color: #e8faf0;">
                      <children>
-                        <Label fx:id="nombrePaciente" layoutX="112.0" layoutY="9.0" prefHeight="69.0" prefWidth="377.0">
+                        <Label fx:id="nombrePaciente" layoutX="109.0" layoutY="10.0" prefHeight="69.0" prefWidth="357.0">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Separator layoutX="-2.0" layoutY="85.0" maxWidth="1.7976931348623157E308" prefHeight="4.0" prefWidth="1917.0" style="-fx-background-color: #7FFFD4;" />
-                        <Label fx:id="fechaPaciente" layoutX="1097.0" layoutY="9.0" prefHeight="69.0" prefWidth="479.0">
+                        <Separator layoutX="-2.0" layoutY="85.0" maxWidth="1.7976931348623157E308" prefHeight="4.0" prefWidth="1917.0" style="-fx-background-color: #7FFFD4;" styleClass="header" />
+                        <Label fx:id="fechaPaciente" layoutX="1393.0" layoutY="9.0" prefHeight="69.0" prefWidth="309.0">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -75,35 +76,38 @@
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="27.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="33.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true" styleClass="iconoDatos">
                            <image>
                               <Image url="@img/citaPane/pacient.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="515.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="674.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" styleClass="iconoDatos">
                            <image>
                               <Image url="@img/citaPane/dni.png" />
                            </image>
                         </ImageView>
-                        <Separator layoutX="496.0" layoutY="-12.0" orientation="VERTICAL" prefHeight="75.0" prefWidth="11.0" />
-                        <Label fx:id="dniPaciente" layoutX="601.0" layoutY="9.0" prefHeight="69.0" prefWidth="389.0">
+                        <Separator layoutX="526.0" layoutY="-12.0" orientation="VERTICAL" prefHeight="75.0" prefWidth="11.0" />
+                        <Label fx:id="dniPaciente" layoutX="750.0" layoutY="10.0" prefHeight="69.0" prefWidth="292.0">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Separator layoutX="1000.0" layoutY="6.0" orientation="VERTICAL" prefHeight="75.0" prefWidth="11.0" />
-                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1011.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                        <Separator layoutX="1118.0" layoutY="-15.0" orientation="VERTICAL" prefHeight="81.0" prefWidth="11.0" />
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1329.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true" styleClass="iconoDatos">
                            <image>
                               <Image url="@img/citaPane/date.png" />
                            </image>
                         </ImageView>
                      </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
                   </Pane>
                </top>
                <center>
-                  <Pane prefHeight="798.0" prefWidth="1088.0" BorderPane.alignment="CENTER">
+                  <Pane prefHeight="798.0" prefWidth="1110.0" BorderPane.alignment="CENTER">
                      <children>
-                        <TableView fx:id="tablaReceta" layoutX="61.0" layoutY="59.0" prefHeight="717.0" prefWidth="1029.0" styleClass="tablaCita">
+                        <TableView fx:id="tablaReceta" layoutX="61.0" layoutY="122.0" prefHeight="662.0" prefWidth="1029.0" styleClass="tablaCita">
                            <columns>
                               <TableColumn fx:id="nombreLista" prefWidth="114.0" text="Nombre" />
                               <TableColumn fx:id="dosisEstandar" prefWidth="136.0" text="Dosis Estandar" />
@@ -114,7 +118,7 @@
                               <TableColumn fx:id="eliminar" minWidth="0.0" prefWidth="77.0" text="Eliminar" />
                            </columns>
                         </TableView>
-                        <Label layoutX="61.0" layoutY="3.0" prefHeight="45.0" prefWidth="299.0" text="Medicamentos Recetados">
+                        <Label layoutX="61.0" layoutY="27.0" prefHeight="45.0" prefWidth="299.0" text="Medicamentos Recetados">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -128,31 +132,36 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
+                        <Label layoutX="61.0" layoutY="72.0" prefHeight="32.0" prefWidth="634.0" text="Agregue medicamentos para la cita, en caso de necesitar una modificación durante el día vaya a &quot;Realizadas&quot;.">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
                      </children>
                   </Pane>
                </center>
                <right>
-                  <Pane prefHeight="798.0" prefWidth="353.0" BorderPane.alignment="CENTER">
+                  <Pane prefHeight="776.0" prefWidth="353.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label layoutX="132.0" layoutY="228.0" text="Informe">
+                        <Label layoutX="127.0" layoutY="208.0" text="Informe">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <Label layoutX="63.0" layoutY="449.0" prefHeight="25.0" prefWidth="234.0" text="Observacion Medico">
+                        <Label layoutX="82.0" layoutY="452.0" prefHeight="30.0" prefWidth="198.0" text="Observacion Medico">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="ObservacionCitaText" layoutX="33.0" layoutY="264.0" prefHeight="150.0" prefWidth="295.0" />
-                        <TextArea fx:id="ObservacionMedicoText" layoutX="34.0" layoutY="486.0" prefHeight="159.0" prefWidth="294.0" />
-                        <Label layoutX="112.0" layoutY="22.0" text="Motivo Cita">
+                        <TextArea fx:id="ObservacionCitaText" layoutX="35.0" layoutY="251.0" prefHeight="111.0" prefWidth="295.0" />
+                        <TextArea fx:id="ObservacionMedicoText" layoutX="34.0" layoutY="496.0" prefHeight="107.0" prefWidth="294.0" />
+                        <Label layoutX="110.0" layoutY="27.0" text="Motivo Cita">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="motivoCitaText" editable="false" layoutX="33.0" layoutY="59.0" prefHeight="140.0" prefWidth="294.0" />
-                        <JFXComboBox fx:id="duracion" layoutX="96.0" layoutY="715.0" prefHeight="24.0" prefWidth="161.0" promptText="   Selecciona" styleClass="jfx-combo-box">
+                        <TextArea fx:id="motivoCitaText" editable="false" layoutX="36.0" layoutY="69.0" prefHeight="98.0" prefWidth="294.0" />
+                        <JFXComboBox fx:id="duracion" layoutX="100.0" layoutY="704.0" prefHeight="24.0" prefWidth="161.0" promptText="   Selecciona" styleClass="jfx-combo-box">
                            <items>
                               <FXCollections fx:factory="observableArrayList">
                                  <String fx:value="CORTA" />
@@ -161,19 +170,20 @@
                            </items>
                         </JFXComboBox>
 
-                        <Label layoutX="82.0" layoutY="676.0" prefHeight="25.0" prefWidth="188.0" text="Duracion receta">
+                        <Label layoutX="103.0" layoutY="656.0" prefHeight="30.0" prefWidth="155.0" text="Duracion receta">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="errorTextChoice" layoutX="114.0" layoutY="756.0" prefHeight="19.0" prefWidth="124.0" text="Elije una opcion" textFill="RED">
+                        <Label fx:id="errorTextChoice" layoutX="122.0" layoutY="763.0" prefHeight="21.0" prefWidth="109.0" text="Elije una opcion" textFill="RED">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Separator layoutY="220.0" prefHeight="0.0" prefWidth="353.0" />
-                        <Separator layoutX="-2.0" layoutY="429.0" prefHeight="11.0" prefWidth="356.0" />
-                        <Separator layoutX="-2.0" layoutY="658.0" prefHeight="11.0" prefWidth="356.0" />
+                        <Separator layoutX="1.0" layoutY="191.0" prefHeight="5.0" prefWidth="429.0" />
+                        <Separator layoutX="-1.0" layoutY="422.0" prefHeight="11.0" prefWidth="430.0" />
+                        <Separator layoutX="-1.0" layoutY="624.0" prefHeight="11.0" prefWidth="455.0" />
+                        <JFXCheckBox fx:id="soloInforme" layoutX="105.0" layoutY="381.0" text="Recetar solo comentario" />
                      </children>
                      <opaqueInsets>
                         <Insets />
@@ -183,8 +193,8 @@
                <bottom>
                   <Pane prefHeight="116.0" prefWidth="1840.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Button fx:id="generar" layoutX="1573.0" layoutY="33.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="171.0" text="Generar" />
-                        <Label fx:id="errorText" layoutX="1094.0" layoutY="32.0" prefHeight="53.0" prefWidth="389.0" text="" textFill="RED">
+                        <Button fx:id="generar" layoutX="1584.0" layoutY="33.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="171.0" styleClass="btn-generar" text="Generar" />
+                        <Label fx:id="errorText" layoutX="990.0" layoutY="32.0" prefHeight="53.0" prefWidth="496.0" text="" textAlignment="CENTER" textFill="RED">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
