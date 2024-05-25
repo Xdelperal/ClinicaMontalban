@@ -147,7 +147,7 @@ public class MainPanelController implements Initializable {
 
     private Personal medico;
 
-    private String todos = "Todos", userDni;
+    private String todos = "Todos";
 
     private MedicamentoJDBCDAO medicamentoJDBCDAO;
 
@@ -220,6 +220,7 @@ public class MainPanelController implements Initializable {
         }));
 
         setupAutoUpdate();
+        showMedicamentos();
     }
 
     private void setupAutoUpdate() {
@@ -758,12 +759,13 @@ public class MainPanelController implements Initializable {
         tablaMedicamentos.getItems().clear();
         String grupoMedicamento = tiposMedicamento.getValue();
         ObservableList<Medicamento> listaMedicamentos;
-        if (grupoMedicamento != todos) {
+        if (!grupoMedicamento.equals(todos)) { // Cambio aquí
             listaMedicamentos = medicamentoJDBCDAO.getMedicamentos(grupoMedicamento);
-        }else{
+        } else {
             listaMedicamentos = medicamentoJDBCDAO.getMedicamentos();
         }
         // Agregar los elementos obtenidos a la TableView
         tablaMedicamentos.setItems(listaMedicamentos);
     }
+
 }
