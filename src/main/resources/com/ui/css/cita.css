@@ -1,16 +1,4 @@
 
-
-/*
-.button {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-}
-.button:hover {
-    -fx-background-color: #45a049;
-}
-*/
-
 .table-view {
     -fx-border-color: darkblue;
     -fx-border-width: 1px;
@@ -22,3 +10,25 @@
     -fx-text-fill: #333333; /* Color del texto */
     -fx-alignment: center; /* Alineación del contenido */
 }
+
+.jfx-combo-box {
+    -fx-font-size: 14px; /* Cambia el tamaño de la fuente */
+    -fx-background-color: #ffffff; /* Cambia el color de fondo */
+    -jfx-focus-color: #3f51b5; /* Cambia el color de enfoque */
+    -jfx-unfocus-color: #dcdcdc; /* Cambia el color cuando no está enfocado */
+    -fx-border-color: #cccccc; /* Color del borde */
+    -fx-border-width: 1px; /* Ancho del borde */
+    -fx-border-radius: 5px; /* Radio del borde */
+    -fx-background-radius: 5px; /* Radio del fondo */
+}
+
+.jfx-combo-box .text {
+    -fx-alignment: center-left; /* Alinea el texto del combo box */
+}
+
+.jfx-combo-box .prompt-text {
+    -fx-alignment: center-left; /* Alinea el texto del prompt */
+    -fx-padding: 0 10px; /* Añade un poco de padding */
+}
+
+

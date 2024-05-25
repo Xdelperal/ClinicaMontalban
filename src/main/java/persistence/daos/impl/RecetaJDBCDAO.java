@@ -12,6 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecetaJDBCDAO implements RecetaDAO {
+
+    private SQLQueries sqlQueries;
+
+    public RecetaJDBCDAO() {
+        this.sqlQueries = new SQLQueries();
+    }
+
+    private String observacion, duracion;
+
     public void insertarReceta(Receta receta, int idCita) {
         try (Connection connection = JDBCUtils.getConnection()) {
             // Iniciar una transacción
@@ -29,15 +38,10 @@ public class RecetaJDBCDAO implements RecetaDAO {
                     statementReceta.setString(5, receta.getComentario());
                     statementReceta.setString(6, receta.getCantidadDosis());
 
-                    int rowsAffected = statementReceta.executeUpdate();
+                    statementReceta.executeUpdate();
 
                     connection.commit();
 
-                    if (rowsAffected > 0) {
-                        System.out.println("Receta insertada correctamente.");
-                    } else {
-                        System.out.println("No se pudo insertar la receta.");
-                    }
                 }
             } catch (SQLException e) {
                 // Si hay un error, revertir la transacción
@@ -58,6 +62,82 @@ public class RecetaJDBCDAO implements RecetaDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public String getObservacion(int idCita) {
+        try {
+            // Establecer la conexión a la base de datos
+            Connection connection = JDBCUtils.getConnection();
+
+            PreparedStatement statementMotivo = connection.prepareStatement(sqlQueries.getObservacion());
+            statementMotivo.setString(1, String.valueOf(idCita));
+
+            // Ejecutar la consulta
+            ResultSet resultSetCitas = statementMotivo.executeQuery();
+
+            // Verificar si hay resultados
+            if (resultSetCitas.next()) {
+                this.observacion = resultSetCitas.getString("obs_medico");
+            }
+
+            // Cerrar recursos
+            resultSetCitas.close();
+            statementMotivo.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return observacion;
+    }
+
+    public String getDuracion(int idCita) {
+        try {
+            // Establecer la conexión a la base de datos
+            Connection connection = JDBCUtils.getConnection();
+
+            PreparedStatement statementMotivo = connection.prepareStatement(sqlQueries.getDuracion());
+            statementMotivo.setString(1, String.valueOf(idCita));
+
+            // Ejecutar la consulta
+            ResultSet resultSetCitas = statementMotivo.executeQuery();
+
+            // Verificar si hay resultados
+            if (resultSetCitas.next()) {
+                this.duracion = resultSetCitas.getString("tipo_tratamiento");
+            }
+
+            // Cerrar recursos
+            resultSetCitas.close();
+            statementMotivo.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return duracion;
+    }
+
+    public void setObservacionDuracion(int idCita, String observacion, String duracion) {
+        try {
+            Connection connection = JDBCUtils.getConnection();
+
+            PreparedStatement statement = connection.prepareStatement(sqlQueries.setObservacionDuracion());
+            statement.setString(1, duracion);
+            statement.setString(2, observacion);
+            statement.setInt(3, idCita);
+
+            statement.executeUpdate();
+
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -44,7 +44,15 @@ public class SQLQueries {
 
     String obtenerReceta = "SELECT * FROM detalle_consulta WHERE id_consulta = ?";
 
+    String obtenerInforme = "SELECT informe FROM cita WHERE idCita = ?";
 
+    String actualizarInforme = "UPDATE cita SET informe = ? WHERE idCita = ?";
+
+    String obtenerObservacion = "SELECT obs_medico FROM consulta WHERE id_cita = ?";
+
+    String obtenerDuracion = "SELECT tipo_tratamiento FROM consulta WHERE id_cita = ?";
+
+    String actualizarObservacionDuracion = "UPDATE consulta SET tipo_tratamiento = ?, obs_medico = ? WHERE id_cita = ?";
 
     String crearConsulta ="INSERT INTO consulta (id_cita, tipo_tratamiento, codigo_barras,obs_medico) VALUES (?,?,?,?)";
 
@@ -57,9 +65,6 @@ public class SQLQueries {
     String recogerTsi = "SELECT c.TSI FROM cliente c JOIN cita ci ON(c.idCliente = ci.idCliente)WHERE ci.idCita= ? ";
 
     String actualizarEstado = "UPDATE cita SET estado = ?, informe = ? WHERE idCita = ?";
-
-
-    String actualizarInforme = "UPDATE cita SET  informe = ? WHERE idCita = ?";
 
     String recogerMedico = "SELECT p.dni, p.nombre, p.apellido, p.fechaN, per.especialidad, per.idTrabajador " +
             "FROM persona p " +
@@ -76,10 +81,20 @@ public class SQLQueries {
         return citas;
     }
 
+    public String getCita(){
+            return recogerCita;
+    }
 
-public String getCita(){
-        return recogerCita;
-}
+    public String getInforme() { return obtenerInforme; }
+
+    public String setInforme() { return actualizarInforme; }
+
+    public String setObservacionDuracion() { return actualizarObservacionDuracion; }
+
+    public String getObservacion() { return obtenerObservacion; }
+
+    public String getDuracion() { return obtenerDuracion; }
+
     public String getMotivo() {
         return recogerMotivo;
     }
@@ -96,9 +111,7 @@ public String getCita(){
         return recogerConsulta;
     }
 
-    public String setConsulta() {
-        return crearConsulta;
-    }
+    public String setConsulta() { return crearConsulta; }
 
     public String setTsi(){
         return recogerTsi;

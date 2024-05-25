@@ -219,7 +219,6 @@ public class MainPanelController implements Initializable {
         setupAutoUpdate();
     }
 
-
     private void setupAutoUpdate() {
         updateTimeline = new Timeline(new KeyFrame(javafx.util.Duration.seconds(5), event -> {
             if (pendientes.isVisible()) {

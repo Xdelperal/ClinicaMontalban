@@ -19,6 +19,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
 <ScrollPane stylesheets="@css/cita.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.CitaDetalleController">
    <content>
       <AnchorPane prefHeight="1000.0" prefWidth="1840.0">
@@ -35,8 +36,8 @@
 
                         <TableView fx:id="listaMedicamentos" layoutX="33.0" layoutY="112.0" prefHeight="670.0" prefWidth="327.0">
                            <columns>
-                              <TableColumn fx:id="nombreMedicamento" prefWidth="102.0" text="Nombre" />
-                              <TableColumn fx:id="dosisMedicamento" prefWidth="135.0" text="Dosis Estandar" />
+                              <TableColumn fx:id="nombreMedicamento" prefWidth="135.0" text="Nombre" />
+                              <TableColumn fx:id="dosisMedicamento" prefWidth="105.0" text="Dosis Estandar" />
                               <TableColumn fx:id="añadirMedicamento" prefWidth="74.0" text="Añadir" />
                            </columns>
                            <columnResizePolicy>
@@ -44,7 +45,7 @@
                            </columnResizePolicy>
                         </TableView>
                         <TextField fx:id="textMedicamento" layoutX="33.0" layoutY="63.0" prefHeight="24.0" prefWidth="222.0" />
-                        <Button layoutX="276.0" layoutY="61.0" mnemonicParsing="false" onAction="#busquedaMedicamentos" text="Buscar" />
+                        <Button layoutX="276.0" layoutY="61.0" mnemonicParsing="false" onAction="#busquedaMedicamentos" stylesheets="@css/boostrap.css" styleClass="btn-primary" text="Buscar"/>
 
                      </children>
                   </Pane>
@@ -89,7 +90,7 @@
                            <image>
                               <Image url="@img/citaPane/flecha.png" />
                            </image></ImageView>
-                        <Label fx:id="errorTextFecha" layoutX="356.0" layoutY="61.0" prefHeight="29.0" prefWidth="496.0" textFill="RED">
+                        <Label fx:id="errorTextFecha" layoutX="356.0" layoutY="12.0" prefHeight="29.0" prefWidth="496.0" textFill="RED">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -118,14 +119,15 @@
                            </font>
                         </Label>
                         <TextArea fx:id="motivoCitaText" editable="false" layoutX="33.0" layoutY="59.0" prefHeight="140.0" prefWidth="294.0" />
-                        <ChoiceBox fx:id="duracion" layoutX="96.0" layoutY="715.0" prefHeight="24.0" prefWidth="161.0">
+                        <JFXComboBox fx:id="duracion" layoutX="96.0" layoutY="715.0" prefHeight="24.0" prefWidth="161.0" styleClass="jfx-combo-box" promptText="   Selecciona">
                            <items>
                               <FXCollections fx:factory="observableArrayList">
                                  <String fx:value="CORTA" />
                                  <String fx:value="LARGA" />
                               </FXCollections>
                            </items>
-                        </ChoiceBox>
+                        </JFXComboBox>
+
                         <Label layoutX="82.0" layoutY="676.0" prefHeight="25.0" prefWidth="188.0" text="Duracion receta">
                            <font>
                               <Font name="System Bold" size="20.0" />
@@ -154,7 +156,7 @@
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <Button fx:id="cancelar" layoutX="1355.0" layoutY="34.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="171.0" styleClass="btn btn-danger" stylesheets="@css/boostrap.css" text="Cancelar" />
+                        <Button fx:id="cancelar" layoutX="1355.0" layoutY="34.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="160.0" styleClass="btn-danger" stylesheets="@css/boostrap.css" text="Cancelar" />
                      </children></Pane>
                </bottom>
             </BorderPane>

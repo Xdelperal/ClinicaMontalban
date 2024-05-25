@@ -14,12 +14,10 @@ import java.util.Date;
 
 public class CitaJDBCDAO implements CitaDAO {
 
-    @FXML
-    private TableView pendientes;
 
     private SQLQueries sqlQueries;
 
-    private String descripcion, TSI;
+    private String descripcion, TSI, informe;
 
     ObservableList<Cita> citas = FXCollections.emptyObservableList();
 
@@ -28,6 +26,10 @@ public class CitaJDBCDAO implements CitaDAO {
     public CitaJDBCDAO(Connection connection) {
         this.sqlQueries = new SQLQueries();
         this.citas = FXCollections.observableArrayList();
+    }
+
+    public CitaJDBCDAO() {
+        this.sqlQueries = new SQLQueries();
     }
 
 	
@@ -89,11 +91,53 @@ public class CitaJDBCDAO implements CitaDAO {
         return cita;
     }
 
+    public String getInforme(int idCita) {
+        try {
+            // Establecer la conexión a la base de datos
+            Connection connection = JDBCUtils.getConnection();
 
+            PreparedStatement statementMotivo = connection.prepareStatement(sqlQueries.getInforme());
+            statementMotivo.setString(1, String.valueOf(idCita));
 
+            // Ejecutar la consulta
+            ResultSet resultSetCitas = statementMotivo.executeQuery();
 
+            // Verificar si hay resultados
+            if (resultSetCitas.next()) {
+                this.informe = resultSetCitas.getString("informe");
+            }
 
-        @Override
+            // Cerrar recursos
+            resultSetCitas.close();
+            statementMotivo.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return informe;
+    }
+
+    public void setInforme(int idCita, String informe) {
+        try {
+            // Establecer la conexión a la base de datos
+            Connection connection = JDBCUtils.getConnection();
+
+            PreparedStatement statement = connection.prepareStatement(sqlQueries.setInforme());
+            statement.setString(1, informe);
+            statement.setInt(2, idCita);
+
+            statement.executeUpdate();
+
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public ObservableList<Cita> obtenerLista(String estadoCita, String userName) {
         try {
             // Establecer la conexión a la base de datos

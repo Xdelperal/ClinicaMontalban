@@ -4,6 +4,7 @@ import business.entities.Cita;
 import business.entities.Medicamento;
 import business.entities.Personal;
 import business.entities.Receta;
+import com.jfoenix.controls.JFXComboBox;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -65,9 +66,9 @@ public class CitaDetalleController implements Initializable {
         @FXML
         private TextField textMedicamento;
         @FXML
-        private TextArea motivoCitaText, ObservacionCitaText;
+        private TextArea motivoCitaText, ObservacionCitaText, ObservacionMedicoText;
         @FXML
-        private ChoiceBox duracion;
+        private JFXComboBox<String> duracion;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Elementos normales">
@@ -127,34 +128,51 @@ public class CitaDetalleController implements Initializable {
     }
 
     public void actualizarInforme() {
-        RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
-        recetaJDBCDAO.eliminarReceta(this.idCita);
-        for (Receta receta : listaRecetaExistente) {
-            System.out.println("Este es el id de la CITA: " + this.idCita);
-            recetaJDBCDAO.insertarReceta(receta, this.idCita);
+        boolean algunAtributoEsNull = listaRecetaExistente.stream()
+                .anyMatch(receta -> receta.getNombre() == null
+                        || receta.getDosisEstandar() == null
+                        || receta.getFechaInicial() == null
+                        || receta.getFechaFinal() == null
+                        || receta.getCantidadDosis() == null
+                        || receta.getComentario() == null);
+
+        if (algunAtributoEsNull) {
+            errorText.setText("Completa los campos restantes.");
+            errorText.setStyle("-fx-text-fill: red;");
+        } else if (!"CORTA".equals(duracion.getValue()) && !"LARGA".equals(duracion.getValue())) {
+            errorTextChoice.setVisible(true);
+        } else {
+            RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
+            CitaJDBCDAO citaJDBCDAO = new CitaJDBCDAO();
+            recetaJDBCDAO.eliminarReceta(this.idCita);
+            for (Receta receta : listaRecetaExistente) {
+                recetaJDBCDAO.insertarReceta(receta, this.idCita);
+            }
+
+            citaJDBCDAO.setInforme(this.idCita, ObservacionCitaText.getText());
+            recetaJDBCDAO.setObservacionDuracion(this.idCita, ObservacionMedicoText.getText(), duracion.getValue());
+
+            // Cerrar el panel
+            Stage stage = (Stage) errorText.getScene().getWindow();
+            stage.close();
+
+            // Crear el VBox para contener los elementos del texto
+            VBox vbox = new VBox();
+
+            // Crear el texto "Recuerda" en negrita y en verde
+            Label labelRecuerda = new Label("Has actualizado correctamente!");
+            labelRecuerda.setTextFill(Color.GREEN); // Establecer el color del texto
+            labelRecuerda.setStyle("-fx-font-weight: bold;"); // Establecer el texto en negrita
+            vbox.getChildren().add(labelRecuerda);
+
+            // Establecer el contenido del diálogo como el VBox
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Receta actualizada");
+            alert.setHeaderText(null);
+            alert.getDialogPane().setContent(vbox); // Establecer el VBox como contenido del diálogo
+            alert.showAndWait();
         }
-        errorText.setText("Receta actualizada exitosamente.");
-        errorText.setStyle("-fx-text-fill: green;");
-
-        // Cerrar el panel
-        Stage stage = (Stage) errorText.getScene().getWindow();
-        stage.close();
-
-        // Crear el VBox para contener los elementos del texto
-        VBox vbox = new VBox();
-
-        // Crear el texto "Recuerda" en negrita y en verde
-        Label labelRecuerda = new Label("Has actualizado correctamente!");
-        labelRecuerda.setTextFill(Color.GREEN); // Establecer el color del texto
-        labelRecuerda.setStyle("-fx-font-weight: bold;"); // Establecer el texto en negrita
-        vbox.getChildren().add(labelRecuerda);
-
-        // Establecer el contenido del diálogo como el VBox
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Receta actualizada");
-        alert.setHeaderText(null);
-        alert.getDialogPane().setContent(vbox); // Establecer el VBox como contenido del diálogo
-        alert.showAndWait();
+        MainPanelController.detalleCitaStage = null;
     }
 
     public void informeNuevo() {
@@ -173,9 +191,6 @@ public class CitaDetalleController implements Initializable {
             errorTextChoice.setVisible(true);
         } else {
             errorTextChoice.setVisible(false);
-            errorText.setText("Receta creada exitosamente.");
-            errorText.setStyle("-fx-text-fill: green;");
-
             String observacion = ObservacionCitaText.getText();
 
             informeCreado = citaJDBCDAO.crearConsulta(idCita, String.valueOf(duracion.getValue()), observacion);
@@ -309,13 +324,50 @@ public class CitaDetalleController implements Initializable {
         cantidadDosis.setCellValueFactory(new PropertyValueFactory<>("cantidadDosis"));
         comentario.setCellValueFactory(new PropertyValueFactory<>("comentario"));
 
+        tablaReceta.setItems(listaRecetaExistente);
+
         // Configurar celdas editables para las columnas que deben ser editables
         setUpEditableCells();
 
         eliminar.setCellFactory(column -> {
             return new TableCell<Receta, Button>() {
-                private final Button deleteButton = new Button("-");
+                private final Button deleteButton = new Button();
                 {
+                    // Crear un ImageView con la imagen deseada
+                    ImageView imageView = new ImageView(new Image(getClass().getResource("/com/ui/img/citaPane/remove.png").toExternalForm()));
+
+                    // Establecer el tamaño del ImageView según tus necesidades
+                    imageView.setFitWidth(25);
+                    imageView.setFitHeight(25);
+
+                    // Establecer el ImageView como gráfico del botón
+                    deleteButton.setGraphic(imageView);
+
+                    // Hacer el botón transparente
+                    deleteButton.setStyle("-fx-background-color: transparent;");
+
+                    // Agregar efecto de sombra y cambiar cursor al pasar el mouse sobre el botón
+                    DropShadow shadow = new DropShadow();
+                    shadow.setColor(Color.GRAY); // Color de la sombra
+                    shadow.setWidth(5); // Ancho de la sombra
+                    shadow.setHeight(5); // Altura de la sombra
+
+                    deleteButton.setOnMouseEntered(event -> {
+                        // Cambiar el cursor cuando el mouse pasa sobre el botón
+                        deleteButton.setCursor(Cursor.HAND);
+
+                        // Agregar efecto de sombra cuando el mouse pasa sobre el botón
+                        deleteButton.setEffect(shadow);
+                    });
+
+                    deleteButton.setOnMouseExited(event -> {
+                        // Restaurar el cursor cuando el mouse sale del botón
+                        deleteButton.setCursor(Cursor.DEFAULT);
+
+                        // Eliminar el efecto de sombra cuando el mouse sale del botón
+                        deleteButton.setEffect(null);
+                    });
+
                     deleteButton.setOnAction(event -> {
                         Receta receta = getTableRow().getItem();
                         if (receta != null) {
@@ -323,6 +375,7 @@ public class CitaDetalleController implements Initializable {
                         }
                     });
                 }
+
                 @Override
                 protected void updateItem(Button button, boolean empty) {
                     super.updateItem(button, empty);
@@ -334,9 +387,15 @@ public class CitaDetalleController implements Initializable {
                 }
             };
         });
+        getComentarios(idCita);
+    }
 
-        // Establecer los valores manualmente a la tabla
-        tablaReceta.setItems(listaRecetaExistente);
+    private void getComentarios(int idCita) {
+        RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
+        CitaJDBCDAO citaJDBCDAO = new CitaJDBCDAO();
+        ObservacionCitaText.setText(citaJDBCDAO.getInforme(idCita));
+        ObservacionMedicoText.setText(recetaJDBCDAO.getObservacion(idCita));
+        duracion.setValue(recetaJDBCDAO.getDuracion(idCita));
     }
 
     private void setUpEditableCells() {
@@ -357,7 +416,6 @@ public class CitaDetalleController implements Initializable {
             listaReceta.add(receta);
         }
 
-
         nombreLista.setCellValueFactory(new PropertyValueFactory<Receta, String>("nombre"));
         dosisEstandar.setCellValueFactory(new PropertyValueFactory<Receta, String>("dosisEstandar"));
 
@@ -373,12 +431,47 @@ public class CitaDetalleController implements Initializable {
 
         eliminar.setCellFactory(column -> {
             return new TableCell<Receta, Button>() {
-                private final Button deleteButton = new Button("-");
+                private final Button deleteButton = new Button();
                 {
+                    // Crear un ImageView con la imagen deseada
+                    ImageView imageView = new ImageView(new Image(getClass().getResource("/com/ui/img/citaPane/remove.png").toExternalForm()));
+
+                    // Establecer el tamaño del ImageView según tus necesidades
+                    imageView.setFitWidth(25);
+                    imageView.setFitHeight(25);
+
+                    // Establecer el ImageView como gráfico del botón
+                    deleteButton.setGraphic(imageView);
+
+                    // Hacer el botón transparente
+                    deleteButton.setStyle("-fx-background-color: transparent;");
+
+                    // Agregar efecto de sombra y cambiar cursor al pasar el mouse sobre el botón
+                    DropShadow shadow = new DropShadow();
+                    shadow.setColor(Color.GRAY); // Color de la sombra
+                    shadow.setWidth(5); // Ancho de la sombra
+                    shadow.setHeight(5); // Altura de la sombra
+
+                    deleteButton.setOnMouseEntered(event -> {
+                        // Cambiar el cursor cuando el mouse pasa sobre el botón
+                        deleteButton.setCursor(Cursor.HAND);
+
+                        // Agregar efecto de sombra cuando el mouse pasa sobre el botón
+                        deleteButton.setEffect(shadow);
+                    });
+
+                    deleteButton.setOnMouseExited(event -> {
+                        // Restaurar el cursor cuando el mouse sale del botón
+                        deleteButton.setCursor(Cursor.DEFAULT);
+
+                        // Eliminar el efecto de sombra cuando el mouse sale del botón
+                        deleteButton.setEffect(null);
+                    });
+
                     deleteButton.setOnAction(event -> {
                         Receta receta = getTableRow().getItem();
                         if (receta != null) {
-                            if(estado) {
+                            if (estado) {
                                 listaRecetaExistente.remove(receta);
                             } else {
                                 listaReceta.remove(receta);
@@ -386,6 +479,7 @@ public class CitaDetalleController implements Initializable {
                         }
                     });
                 }
+
                 @Override
                 protected void updateItem(Button button, boolean empty) {
                     super.updateItem(button, empty);
@@ -397,6 +491,7 @@ public class CitaDetalleController implements Initializable {
                 }
             };
         });
+
     }
 
     @FXML
