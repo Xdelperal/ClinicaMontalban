@@ -10,6 +10,7 @@ import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
@@ -33,6 +34,7 @@ import java.sql.Connection;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -70,7 +72,8 @@ public class MainPanelController implements Initializable {
     private TableColumn<Cita, String> colMotivo;
 
     @FXML
-    private TableColumn<Cita, Void> colButton;
+    private TableColumn<Cita, Void> colCrear, colCancelar;
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Columnas de Realizadas">
@@ -475,7 +478,7 @@ public class MainPanelController implements Initializable {
         colMotivo.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
 
         // Configurar el botón en la columna de acceso
-        colButton.setCellFactory(new Callback<TableColumn<Cita, Void>, TableCell<Cita, Void>>() {
+        colCrear.setCellFactory(new Callback<TableColumn<Cita, Void>, TableCell<Cita, Void>>() {
             @Override
             public TableCell<Cita, Void> call(TableColumn<Cita, Void> param) {
                 return new TableCell<>() {
@@ -521,6 +524,117 @@ public class MainPanelController implements Initializable {
                             int citaId = cita.getIdCita();
                             cargarCitaDetalle(citaId, false);
                         });
+                    }
+
+                    @Override
+                    protected void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(button);
+                        }
+                    }
+                };
+            }
+        });
+
+        colCancelar.setCellFactory(new Callback<TableColumn<Cita, Void>, TableCell<Cita, Void>>() {
+            @Override
+            public TableCell<Cita, Void> call(TableColumn<Cita, Void> param) {
+                return new TableCell<>() {
+                    private final Button button = new Button();
+                    {
+                        // Crear un ImageView con la imagen deseada
+                        ImageView imageView = new ImageView(new Image(getClass().getResource("/com/ui/img/mainPane/delete.png").toExternalForm()));
+
+                        // Establecer el tamaño del ImageView según tus necesidades
+                        imageView.setFitWidth(35);
+                        imageView.setFitHeight(35);
+
+                        // Establecer el ImageView como gráfico del botón
+                        button.setGraphic(imageView);
+
+                        // Hacer el botón transparente
+                        button.setStyle("-fx-background-color: transparent;");
+
+                        // Agregar efecto de sombra y cambiar cursor al pasar el mouse sobre el botón
+                        DropShadow shadow = new DropShadow();
+                        shadow.setColor(Color.GRAY); // Color de la sombra
+                        shadow.setWidth(10); // Ancho de la sombra
+                        shadow.setHeight(10); // Altura de la sombra
+
+                        button.setOnMouseEntered(event -> {
+                            // Cambiar el cursor cuando el mouse pasa sobre el botón
+                            button.setCursor(Cursor.HAND);
+
+                            // Agregar efecto de sombra cuando el mouse pasa sobre el botón
+                            button.setEffect(shadow);
+                        });
+
+                        button.setOnMouseExited(event -> {
+                            // Restaurar el cursor cuando el mouse sale del botón
+                            button.setCursor(Cursor.DEFAULT);
+
+                            // Eliminar el efecto de sombra cuando el mouse sale del botón
+                            button.setEffect(null);
+                        });
+
+                        button.setOnAction(event -> {
+                            Cita cita = getTableView().getItems().get(getIndex());
+                            int citaId = cita.getIdCita();
+
+                            // Crear una alerta
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Confirmar cancelación de cita");
+                            alert.setHeaderText(null);
+
+                            // Crear el VBox
+                            VBox vbox = new VBox();
+
+                            // Crear el texto normal en color rojo y tamaño de fuente mayor
+                            Label labelNormal = new Label("¿Estás seguro de que deseas cancelar esta cita?");
+                            labelNormal.setTextFill(Color.RED);
+                            labelNormal.setStyle("-fx-font-weight: bold; -fx-font-size: 13pt;"); // Aumentar el tamaño de la letra
+                            vbox.getChildren().add(labelNormal);
+
+                            // Crear el texto en negrita y color rojo con un tamaño de fuente mayor
+                            Label labelNegrita = new Label("¡Esta acción es irreversible!");
+                            labelNegrita.setStyle("-fx-font-size: 13pt;"); // Aumentar el tamaño de la letra
+                            labelNegrita.setTextFill(Color.RED);
+                            vbox.getChildren().add(labelNegrita);
+
+                            ImageView imageDanger= new ImageView(new Image(getClass().getResource("/com/ui/img/mainPane/warning.png").toExternalForm()));
+                            imageDanger.setFitWidth(75); // Ajusta el ancho de la imagen según tus necesidades
+                            imageDanger.setFitHeight(75); // Ajusta la altura de la imagen según tus necesidades
+
+                            // Crear un contenedor para la imagen
+                            VBox imageContainer = new VBox();
+                            imageContainer.getChildren().add(imageDanger);
+                            imageContainer.setAlignment(Pos.CENTER); // Centrar la imagen
+
+                            // Agregar la imagen al VBox principal
+                            vbox.getChildren().add(imageContainer);
+
+                            // Establecer el contenido del diálogo como el VBox
+                            alert.getDialogPane().setContent(vbox);
+
+                            // Personalizar los botones de la alerta
+                            ButtonType buttonTypeAceptar = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
+                            ButtonType buttonTypeCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+                            alert.getButtonTypes().setAll(buttonTypeAceptar, buttonTypeCancelar);
+
+                            // Mostrar la alerta y esperar la respuesta del usuario
+                            Optional<ButtonType> result = alert.showAndWait();
+
+                            // Verificar la respuesta del usuario
+                            if (result.isPresent() && result.get() == buttonTypeAceptar) {
+                                // El usuario ha confirmado la cancelación, llamar al método para cancelar la cita
+                                citaJDBCDAO.canelarCita(citaId);
+                                pendientes.refresh();
+                            }
+                        });
+
                     }
 
                     @Override

@@ -274,7 +274,8 @@
                                         <PropertyValueFactory property="descripcion" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="colButton" prefWidth="50" text="Crear" />
+                                <TableColumn fx:id="colCrear" prefWidth="50" text="Crear" />
+                                <TableColumn fx:id="colCancelar" prefWidth="50" text="Cancelar" />
                             </columns>
                             <!-- Configurar la alineación automática de las columnas -->
                             <columnResizePolicy>

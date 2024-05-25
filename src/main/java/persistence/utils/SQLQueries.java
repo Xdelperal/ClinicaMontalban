@@ -25,6 +25,8 @@ public class SQLQueries {
             "JOIN personal pe ON (ci.idTrabajador = pe.idTrabajador) " +
             "WHERE pe.DNI = ? AND ci.idCita = ?";
 
+    String cancelarCita = "UPDATE cita SET estado = 'Cancelada' WHERE idCita = ?";
+
     String recogerDatosPaciente =
             "SELECT cita.idCita, cita.idCliente, persona.nombre, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
                     "FROM cita " +
@@ -58,7 +60,6 @@ public class SQLQueries {
 
     String recogerConsulta ="SELECT * FROM consulta WHERE id_cita = ?";
 
-
     String nombrePersonal = "SELECT nombre FROM persona JOIN personal WHERE persona.DNI  = ?  ";
 
 
@@ -84,6 +85,8 @@ public class SQLQueries {
     public String getCita(){
             return recogerCita;
     }
+
+    public String cancelCita() {return cancelarCita; }
 
     public String getInforme() { return obtenerInforme; }
 

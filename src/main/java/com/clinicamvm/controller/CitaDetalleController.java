@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -62,7 +63,7 @@ public class CitaDetalleController implements Initializable {
         @FXML
         private Label errorText, errorTextFecha, lblIdCita, errorTextChoice;
         @FXML
-        private Button generar, cancelar;
+        private Button generar, cerrar;
         @FXML
         private TextField textMedicamento;
         @FXML
@@ -87,7 +88,7 @@ public class CitaDetalleController implements Initializable {
 
     @Override //Aqui van las primeras ejecuciones cuando se inicializa
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cancelar.getStyleClass().setAll("btn","btn-danger");
+        cerrar.getStyleClass().setAll("btn","btn-danger");
         medicamentoJDBCDAO = new MedicamentoJDBCDAO();
         Connection connection = JDBCUtils.getConnection();
         citaJDBCDAO = new CitaJDBCDAO(connection);
@@ -156,21 +157,29 @@ public class CitaDetalleController implements Initializable {
             Stage stage = (Stage) errorText.getScene().getWindow();
             stage.close();
 
-            // Crear el VBox para contener los elementos del texto
             VBox vbox = new VBox();
 
-            // Crear el texto "Recuerda" en negrita y en verde
             Label labelRecuerda = new Label("Has actualizado correctamente!");
-            labelRecuerda.setTextFill(Color.GREEN); // Establecer el color del texto
-            labelRecuerda.setStyle("-fx-font-weight: bold;"); // Establecer el texto en negrita
+            labelRecuerda.setTextFill(Color.GREEN);
+            labelRecuerda.setStyle("-fx-font-weight: bold; -fx-font-size: 13pt;");
             vbox.getChildren().add(labelRecuerda);
 
-            // Establecer el contenido del diálogo como el VBox
+            ImageView imageWarning = new ImageView(new Image(getClass().getResource("/com/ui/img/citaPane/done.png").toExternalForm()));
+            imageWarning.setFitWidth(75);
+            imageWarning.setFitHeight(75);
+
+            VBox imageContainer = new VBox();
+            imageContainer.getChildren().add(imageWarning);
+
+            vbox.getChildren().add(imageContainer);
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Receta actualizada");
             alert.setHeaderText(null);
-            alert.getDialogPane().setContent(vbox); // Establecer el VBox como contenido del diálogo
+
+            alert.getDialogPane().setContent(vbox);
             alert.showAndWait();
+
         }
         MainPanelController.detalleCitaStage = null;
     }
@@ -207,26 +216,35 @@ public class CitaDetalleController implements Initializable {
                 stage.close();
                 MainPanelController.detalleCitaStage = null; // Actualizar el MainPanelController para establecerlo a null
 
-                // Crear el VBox para contener los elementos del texto
+                // Crear un VBox para contener los elementos del texto e imagen
                 VBox vbox = new VBox();
 
-                // Crear el texto normal en verde
                 Label labelNormal = new Label("La receta se ha completado con éxito!");
                 labelNormal.setTextFill(Color.GREEN); // Establecer el color del texto
                 vbox.getChildren().add(labelNormal);
 
-                // Crear el texto "Recuerda" en negrita y en verde
                 Label labelRecuerda = new Label("Recuerda, se puede modificar la receta en Realizadas");
                 labelRecuerda.setTextFill(Color.GREEN); // Establecer el color del texto
                 labelRecuerda.setStyle("-fx-font-weight: bold;"); // Establecer el texto en negrita
                 vbox.getChildren().add(labelRecuerda);
 
-                // Establecer el contenido del diálogo como el VBox
+                ImageView imageWarning = new ImageView(new Image(getClass().getResource("/com/ui/img/citaPane/done.png").toExternalForm()));
+                imageWarning.setFitWidth(75);
+                imageWarning.setFitHeight(75);
+
+                VBox imageContainer = new VBox();
+                imageContainer.getChildren().add(imageWarning);
+                imageContainer.setAlignment(Pos.CENTER); // Centrar la imagen
+
+                vbox.getChildren().add(imageContainer);
+
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Receta completada");
                 alert.setHeaderText(null);
-                alert.getDialogPane().setContent(vbox); // Establecer el VBox como contenido del diálogo
+
+                alert.getDialogPane().setContent(vbox);
                 alert.showAndWait();
+
             }
         }
     }

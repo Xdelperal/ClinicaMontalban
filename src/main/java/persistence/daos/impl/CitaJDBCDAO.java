@@ -137,6 +137,22 @@ public class CitaJDBCDAO implements CitaDAO {
         }
     }
 
+    public void canelarCita(int idCita){
+        try {
+            // Establecer la conexión a la base de datos
+            Connection connection = JDBCUtils.getConnection();
+
+            PreparedStatement statement = connection.prepareStatement(sqlQueries.cancelCita());
+            statement.setInt(1, idCita);
+
+            statement.executeUpdate();
+
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public ObservableList<Cita> obtenerLista(String estadoCita, String userName) {
         try {

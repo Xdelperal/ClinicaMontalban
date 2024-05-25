@@ -156,7 +156,7 @@
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <Button fx:id="cancelar" layoutX="1355.0" layoutY="34.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="160.0" styleClass="btn-danger" stylesheets="@css/boostrap.css" text="Cancelar" />
+                        <Button fx:id="cerrar" layoutX="1355.0" layoutY="34.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="160.0" styleClass="btn-danger" stylesheets="@css/boostrap.css" text="Cerrar" />
                      </children></Pane>
                </bottom>
             </BorderPane>
