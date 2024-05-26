@@ -167,7 +167,12 @@ public class CitaDetalleController implements Initializable {
     }
 
     private boolean validarCamposReceta(ObservableList<Receta> listaReceta) {
-        return listaReceta.stream().anyMatch(receta -> receta.getNombre() == null || receta.getDosisEstandar() == null || receta.getFechaInicial() == null || receta.getFechaFinal() == null || receta.getCantidadDosis() == null || receta.getComentario() == null);
+        return listaReceta.stream().anyMatch(receta ->
+                receta.getNombre() == null || receta.getDosisEstandar() == null
+                        || receta.getFechaInicial() == null
+                        || receta.getFechaFinal() == null
+                        || receta.getCantidadDosis() == null
+                        || receta.getComentario() == null);
     }
 
     private void procesarInforme(boolean esNuevo) {
@@ -246,21 +251,17 @@ public class CitaDetalleController implements Initializable {
     }
 
     public void eliminarInforme() {
-        // Crear una alerta
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmar cancelación de cita");
         alert.setHeaderText(null);
 
-        // Crear el VBox
         VBox vbox = new VBox();
 
-        // Crear el texto normal en color rojo y tamaño de fuente mayor
         Label labelNormal = new Label("¿Estás seguro de que deseas cancelar esta cita?");
         labelNormal.setTextFill(Color.RED);
         labelNormal.setStyle("-fx-font-weight: bold; -fx-font-size: 13pt;"); // Aumentar el tamaño de la letra
         vbox.getChildren().add(labelNormal);
 
-        // Crear el texto en negrita y color rojo con un tamaño de fuente mayor
         Label labelNegrita = new Label("¡Esta acción es irreversible!");
         labelNegrita.setStyle("-fx-font-size: 13pt;"); // Aumentar el tamaño de la letra
         labelNegrita.setTextFill(Color.RED);
@@ -270,26 +271,20 @@ public class CitaDetalleController implements Initializable {
         imageDanger.setFitWidth(75); // Ajusta el ancho de la imagen según tus necesidades
         imageDanger.setFitHeight(75); // Ajusta la altura de la imagen según tus necesidades
 
-        // Crear un contenedor para la imagen
         VBox imageContainer = new VBox();
         imageContainer.getChildren().add(imageDanger);
         imageContainer.setAlignment(Pos.CENTER); // Centrar la imagen
 
-        // Agregar la imagen al VBox principal
         vbox.getChildren().add(imageContainer);
 
-        // Establecer el contenido del diálogo como el VBox
         alert.getDialogPane().setContent(vbox);
 
-        // Personalizar los botones de la alerta
         ButtonType buttonTypeAceptar = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
         ButtonType buttonTypeCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
         alert.getButtonTypes().setAll(buttonTypeAceptar, buttonTypeCancelar);
 
-        // Mostrar la alerta y esperar la respuesta del usuario
         Optional<ButtonType> result = alert.showAndWait();
 
-        // Verificar la respuesta del usuario
         if (result.isPresent() && result.get() == buttonTypeAceptar) {
             // El usuario ha confirmado la cancelación, llamar al método para cancelar la cita
             citaJDBCDAO.canelarCita(this.idCita);
@@ -703,7 +698,6 @@ public class CitaDetalleController implements Initializable {
         });
     }
 
-
     @FXML
     private void busquedaMedicamentos() {
         String palabraClave = textMedicamento.getText().trim().toLowerCase();
@@ -721,9 +715,6 @@ public class CitaDetalleController implements Initializable {
             showMedicamentos(medicamentosFiltrados);
         }
     }
-
-
-
     //</editor-fold>
 
 }

@@ -49,11 +49,13 @@ import persistence.utils.JDBCUtils;
 
 public class MainPanelController implements Initializable {
 
-    @FXML
-    private Label userNameLabel, currentTime, countTime;
-
+    //<editor-fold defaultstate="collapsed" desc="TablesView y variables FXML">
     @FXML
     private TableView<Cita> pendientes, realizadas, datosPaciente;
+
+    @FXML
+    private Label userNameLabel, currentTime, countTime;
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Columnas de Pendientes">
     @FXML
@@ -119,6 +121,7 @@ public class MainPanelController implements Initializable {
     private TableColumn<Cita, String> colMotivo11;
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Columnas tiposMedicamento">
     @FXML
     private TableView<Medicamento> tablaMedicamentos;
 
@@ -136,13 +139,15 @@ public class MainPanelController implements Initializable {
 
     @FXML
     private JFXComboBox<String> tiposMedicamento;
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Variables">
     private CitaJDBCDAO citaJDBCDAO;
 
     //Expresion regular para el buscador de DNI.
     private final Pattern pattern = Pattern.compile("\\d{0,8}[a-zA-Z]?");
 
-    //Declaramos como variable el stage para poder hacer verificaciones.
+    //Declaramos como variable el stage para poder hacer verificaciones entre si esta activa o no.
     public static Stage detalleCitaStage;
 
     private Personal medico;
@@ -155,7 +160,7 @@ public class MainPanelController implements Initializable {
     private int seconds = 0, minutes = 0, hours = 0;
 
     private Timeline updateTimeline;
-
+    //</editor-fold>
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -223,6 +228,21 @@ public class MainPanelController implements Initializable {
         showMedicamentos();
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Metodos de MainPanel">
+    public void setMedico(Personal medico){
+        this.medico = medico;
+    }
+
+    public void updateUserNameLabel(Personal medico) { userNameLabel.setText(medico.getNombre() + " " + medico.getApellidos()); }
+
+    public void iniciar() {
+        pendientes.setVisible(true);
+        realizadas.setVisible(false);
+        PanelBuscador.setVisible(false);
+        panelMedicamentos.setVisible(false);
+        getPendiente();
+    }
+
     private void setupAutoUpdate() {
         updateTimeline = new Timeline(new KeyFrame(javafx.util.Duration.seconds(5), event -> {
             if (pendientes.isVisible()) {
@@ -233,23 +253,6 @@ public class MainPanelController implements Initializable {
         }));
         updateTimeline.setCycleCount(Animation.INDEFINITE);
         updateTimeline.play();
-    }
-
-    public void iniciar() {
-        pendientes.setVisible(true);
-        realizadas.setVisible(false);
-        PanelBuscador.setVisible(false);
-        panelMedicamentos.setVisible(false);
-        getPendiente();
-    }
-
-    public void setMedico(Personal medico){
-        this.medico = medico;
-    }
-
-    public void updateUserNameLabel(Personal medico) {
-        userNameLabel.setText(medico.getNombre() + " " + medico.getApellidos());
-
     }
 
     public void cerrarVentana() {
@@ -312,30 +315,6 @@ public class MainPanelController implements Initializable {
         PanelBuscador.setVisible(false);
     }
 
-    @FXML
-    private void abrirPaginaWeb() {
-        try {
-            // Comprobar el sistema operativo
-            String os = System.getProperty("os.name").toLowerCase();
-            Runtime rt = Runtime.getRuntime();
-            if (os.contains("win")) {
-                // Windows
-                rt.exec("rundll32 url.dll,FileProtocolHandler https://www.clinicamontalban.com");
-            } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
-                // Linux
-                rt.exec("xdg-open https://www.clinicamontalban.com");
-            } else if (os.contains("mac")) {
-                // Mac OS
-                rt.exec("open https://www.clinicamontalban.com");
-            } else {
-                // Otros sistemas operativos, intenta con Desktop.browse
-                java.awt.Desktop.getDesktop().browse(new java.net.URI("https://www.clinicamontalban.com"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void cargarCitaDetalle(int idCita, boolean tipo) {
         if (detalleCitaStage != null) {
             // Si ya hay un detalle de cita abierto, preguntar si se desea cerrar
@@ -372,7 +351,6 @@ public class MainPanelController implements Initializable {
             abrirNuevoDetalleCita(idCita, tipo);
         }
     }
-
 
     private void abrirNuevoDetalleCita(int idCita, boolean tipo) {
         try {
@@ -456,15 +434,6 @@ public class MainPanelController implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-
-    // Método para cerrar la ventana del detalle de la cita y actualizar la referencia
-    private void cerrarVentanaDetalleCita() {
-        if (detalleCitaStage != null) {
-            detalleCitaStage.close();
-            detalleCitaStage = null;
         }
     }
 
@@ -730,7 +699,6 @@ public class MainPanelController implements Initializable {
                 };
             }
         });
-
     }
 
     @FXML
@@ -770,4 +738,28 @@ public class MainPanelController implements Initializable {
         tablaMedicamentos.setItems(listaMedicamentos);
     }
 
+    @FXML
+    private void abrirPaginaWeb() {
+        try {
+            // Comprobar el sistema operativo
+            String os = System.getProperty("os.name").toLowerCase();
+            Runtime rt = Runtime.getRuntime();
+            if (os.contains("win")) {
+                // Windows
+                rt.exec("rundll32 url.dll,FileProtocolHandler https://www.clinicamontalban.com");
+            } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+                // Linux
+                rt.exec("xdg-open https://www.clinicamontalban.com");
+            } else if (os.contains("mac")) {
+                // Mac OS
+                rt.exec("open https://www.clinicamontalban.com");
+            } else {
+                // Otros sistemas operativos, intenta con Desktop.browse
+                java.awt.Desktop.getDesktop().browse(new java.net.URI("https://www.clinicamontalban.com"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //</editor-fold>
 }
