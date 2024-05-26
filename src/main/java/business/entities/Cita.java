@@ -1,9 +1,5 @@
 package business.entities;
 
-import business.entities.Cliente;
-import javafx.beans.property.*;
-
-import java.awt.*;
 import java.sql.Date;
 import java.sql.Time;
 

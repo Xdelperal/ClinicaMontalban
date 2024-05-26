@@ -3,8 +3,6 @@ package persistence.daos.impl;
 import business.entities.Cita;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
 import persistence.daos.contracts.CitaDAO;
 import persistence.utils.*;
 import java.sql.*;

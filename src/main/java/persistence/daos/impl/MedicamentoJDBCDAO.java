@@ -1,6 +1,5 @@
 package persistence.daos.impl;
 
-import business.entities.Cita;
 import business.entities.Medicamento;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,7 +8,6 @@ import persistence.utils.JDBCUtils;
 import persistence.utils.SQLQueries;
 
 import java.sql.*;
-import java.util.Date;
 
 public class MedicamentoJDBCDAO  implements MedicamentoDAO {
 

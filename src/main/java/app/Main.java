@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
-//import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.IOException;
 
@@ -21,7 +20,7 @@ public class Main extends Application {
 
         // Configurar la escena del inicio de sesión
         Scene loginScene = new Scene(loginRoot);
-        //loginScene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+
         // Configurar el escenario principal con la escena del inicio de sesión
         primaryStage.setScene(loginScene);
         primaryStage.setTitle("Login");

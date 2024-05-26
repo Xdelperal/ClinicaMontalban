@@ -79,19 +79,4 @@ public class Receta extends Medicamento{
     //Constructor Vacio.
     public Receta(){}
 
-    //De momento para verificar los objetos printandolos por consola.
-    @Override
-    public String toString() {
-        return "Receta{" +
-                "id=" + id + '\'' +
-                "idMed=" + idMed + '\'' +
-                "nombre='" + getNombre() + '\'' +
-                ", dosisEstandar='" + getDosisEstandar() + '\'' +
-                ", fechaInicial=" + fechaInicial +
-                ", fechaFinal=" + fechaFinal +
-                ", cantidadDosis='" + cantidadDosis + '\'' +
-                ", comentario='" + comentario + '\'' +
-                '}';
-    }
-
 }

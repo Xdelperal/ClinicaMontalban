@@ -26,8 +26,6 @@ public class Personal extends Persona {
 
     }
 
-
-
     public int getIdTrabajador() {
         return idTrabajador;
     }
@@ -43,7 +41,6 @@ public class Personal extends Persona {
     public void setEspecialidad(int especialidad) {
         this.especialidad = especialidad;
     }
-
 
 
 }

@@ -13,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import persistence.daos.impl.PersonalJDBCDAO;
@@ -304,11 +303,5 @@ private void cargarMainPanel() {
         // Solicita el foco para el campo seleccionado
         selectedField.requestFocus();
     }
-
-
-
-
-
-
 
 }

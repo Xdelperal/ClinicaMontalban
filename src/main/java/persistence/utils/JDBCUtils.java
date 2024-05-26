@@ -1,6 +1,5 @@
 package persistence.utils;
 
-
 import business.entities.Medicamento;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
