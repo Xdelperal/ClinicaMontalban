@@ -6,18 +6,14 @@ import business.entities.Personal;
 import business.entities.Receta;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
@@ -44,51 +40,52 @@ public class CitaDetalleController implements Initializable {
 
 
     //<editor-fold defaultstate="collapsed" desc="Elementos FXML Receta">
-        @FXML
-        private TableView<Receta> tablaReceta;
-        @FXML
-        private TableColumn<Receta, String> dosisEstandar,nombreLista,cantidadDosis,comentario;
-        @FXML
-        private TableColumn<Receta, Date> fechaInicial, fechaFinal;
-        @FXML
-        private TableColumn<Receta, Button> eliminar;
+    @FXML
+    private TableView<Receta> tablaReceta;
+    @FXML
+    private TableColumn<Receta, String> dosisEstandar,nombreLista,cantidadDosis,comentario;
+    @FXML
+    private TableColumn<Receta, Date> fechaInicial, fechaFinal;
+    @FXML
+    private TableColumn<Receta, Button> eliminar;
+    @FXML
+    private JFXCheckBox soloInforme;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Elementos FXML Medicamento">
-         @FXML
-        private TableColumn<Medicamento, String> nombreMedicamento,dosisMedicamento;
-        @FXML
-        private TableColumn<Medicamento, Void> añadirMedicamento;
-        @FXML
-        private TableView<Medicamento> listaMedicamentos;
+    @FXML
+    private TableColumn<Medicamento, String> nombreMedicamento,dosisMedicamento;
+    @FXML
+    private TableColumn<Medicamento, Void> añadirMedicamento;
+    @FXML
+    private TableView<Medicamento> listaMedicamentos;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Elementos FXML">
-        @FXML
-        private Label errorText, errorTextFecha, errorTextChoice, nombrePaciente, dniPaciente, fechaPaciente;
-        @FXML
-        private Button generar, cerrarCita;
-        @FXML
-        private TextField textMedicamento;
-        @FXML
-        private TextArea motivoCitaText, ObservacionCitaText, ObservacionMedicoText;
-        @FXML
-        private JFXComboBox<String> duracion;
+    @FXML
+    private Label errorText, errorTextFecha, errorTextChoice, nombrePaciente, dniPaciente, fechaPaciente;
+    @FXML
+    private Button generar, cerrarCita;
+    @FXML
+    private TextField textMedicamento;
+    @FXML
+    private TextArea motivoCitaText, ObservacionCitaText, ObservacionMedicoText;
+    @FXML
+    private JFXComboBox<String> duracion;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Elementos normales">
-        private int idCita,numeroReceta;
-        private Personal personal;
-        private boolean informeCreado = false;
-        private CitaJDBCDAO citaJDBCDAO;
-        private MedicamentoJDBCDAO medicamentoJDBCDAO;
-        private ObservableList<Receta> listaReceta = FXCollections.observableArrayList();
-        private ObservableList<Receta> listaRecetaExistente = FXCollections.observableArrayList();
-        private ObservableList<Medicamento> tablaMedicamentos;
-        private Map<Integer, Medicamento> mapaMedicamentos = new HashMap<>();
-        private boolean estado;
-        private Cita cita;
-        private JFXCheckBox soloComentario;
+    private int idCita,numeroReceta;
+    private Personal personal;
+    private boolean informeCreado = false;
+    private CitaJDBCDAO citaJDBCDAO;
+    private MedicamentoJDBCDAO medicamentoJDBCDAO;
+    private ObservableList<Receta> listaReceta = FXCollections.observableArrayList();
+    private ObservableList<Receta> listaRecetaExistente = FXCollections.observableArrayList();
+    private ObservableList<Medicamento> tablaMedicamentos;
+    private Map<Integer, Medicamento> mapaMedicamentos = new HashMap<>();
+    private boolean estado;
+    private Cita cita;
     //</editor-fold>
 
     @Override //Aqui van las primeras ejecuciones cuando se inicializa
@@ -137,96 +134,110 @@ public class CitaDetalleController implements Initializable {
     }
 
     public void actualizarInforme() {
-        if (listaRecetaExistente.isEmpty()) {
-            errorText.setText("No se han añadido medicamentos para actualizar.");
-            errorText.setStyle("-fx-text-fill: red;");
+        if (soloInforme.isSelected()) {
+            // Si soloComentario está seleccionado, saltar las verificaciones de medicamentos y proceder
+            RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
+            CitaJDBCDAO citaJDBCDAO = new CitaJDBCDAO();
+            citaJDBCDAO.setInforme(this.idCita, ObservacionCitaText.getText());
+            recetaJDBCDAO.setObservacionDuracion(this.idCita, ObservacionMedicoText.getText(), duracion.getValue());
+
+            // Cerrar el panel
+            Stage stage = (Stage) errorText.getScene().getWindow();
+            stage.close();
+
+            VBox vbox = new VBox();
+
+            Label labelRecuerda = new Label("Has actualizado correctamente!");
+            labelRecuerda.setTextFill(Color.GREEN);
+            labelRecuerda.setStyle("-fx-font-weight: bold; -fx-font-size: 13pt;");
+            vbox.getChildren().add(labelRecuerda);
+
+            ImageView imageWarning = new ImageView(new Image(getClass().getResource("/com/ui/img/citaPane/done.png").toExternalForm()));
+            imageWarning.setFitWidth(50);
+            imageWarning.setFitHeight(50);
+
+            VBox imageContainer = new VBox();
+            imageContainer.getChildren().add(imageWarning);
+
+            vbox.getChildren().add(imageContainer);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Receta actualizada");
+            alert.setHeaderText(null);
+
+            alert.getDialogPane().setContent(vbox);
+            alert.showAndWait();
         } else {
-            boolean algunAtributoEsNull = listaRecetaExistente.stream()
-                    .anyMatch(receta -> receta.getNombre() == null
-                            || receta.getDosisEstandar() == null
-                            || receta.getFechaInicial() == null
-                            || receta.getFechaFinal() == null
-                            || receta.getCantidadDosis() == null
-                            || receta.getComentario() == null);
-
-            if (algunAtributoEsNull) {
-                errorText.setText("Completa los campos restantes.");
+            if (listaRecetaExistente.isEmpty()) {
+                errorText.setText("No se han añadido medicamentos para actualizar.");
                 errorText.setStyle("-fx-text-fill: red;");
-            } else if (!"CORTA".equals(duracion.getValue()) && !"LARGA".equals(duracion.getValue())) {
-                errorTextChoice.setVisible(true);
             } else {
-                RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
-                CitaJDBCDAO citaJDBCDAO = new CitaJDBCDAO();
-                recetaJDBCDAO.eliminarReceta(this.idCita);
-                for (Receta receta : listaRecetaExistente) {
-                    recetaJDBCDAO.insertarReceta(receta, this.idCita);
+                boolean algunAtributoEsNull = listaRecetaExistente.stream()
+                        .anyMatch(receta -> receta.getNombre() == null
+                                || receta.getDosisEstandar() == null
+                                || receta.getFechaInicial() == null
+                                || receta.getFechaFinal() == null
+                                || receta.getCantidadDosis() == null
+                                || receta.getComentario() == null);
+
+                if (algunAtributoEsNull) {
+                    errorText.setText("Completa los campos restantes.");
+                    errorText.setStyle("-fx-text-fill: red;");
+                } else if (!"CORTA".equals(duracion.getValue()) && !"LARGA".equals(duracion.getValue())) {
+                    errorTextChoice.setVisible(true);
+                } else {
+                    RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
+                    CitaJDBCDAO citaJDBCDAO = new CitaJDBCDAO();
+                    recetaJDBCDAO.eliminarReceta(this.idCita);
+                    for (Receta receta : listaRecetaExistente) {
+                        recetaJDBCDAO.insertarReceta(receta, this.idCita);
+                    }
+
+                    citaJDBCDAO.setInforme(this.idCita, ObservacionCitaText.getText());
+                    recetaJDBCDAO.setObservacionDuracion(this.idCita, ObservacionMedicoText.getText(), duracion.getValue());
+
+                    // Cerrar el panel
+                    Stage stage = (Stage) errorText.getScene().getWindow();
+                    stage.close();
+
+                    VBox vbox = new VBox();
+
+                    Label labelRecuerda = new Label("Has actualizado correctamente!");
+                    labelRecuerda.setTextFill(Color.GREEN);
+                    labelRecuerda.setStyle("-fx-font-weight: bold; -fx-font-size: 13pt;");
+                    vbox.getChildren().add(labelRecuerda);
+
+                    ImageView imageWarning = new ImageView(new Image(getClass().getResource("/com/ui/img/citaPane/done.png").toExternalForm()));
+                    imageWarning.setFitWidth(50);
+                    imageWarning.setFitHeight(50);
+
+                    VBox imageContainer = new VBox();
+                    imageContainer.getChildren().add(imageWarning);
+
+                    vbox.getChildren().add(imageContainer);
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Receta actualizada");
+                    alert.setHeaderText(null);
+
+                    alert.getDialogPane().setContent(vbox);
+                    alert.showAndWait();
                 }
-
-                citaJDBCDAO.setInforme(this.idCita, ObservacionCitaText.getText());
-                recetaJDBCDAO.setObservacionDuracion(this.idCita, ObservacionMedicoText.getText(), duracion.getValue());
-
-                // Cerrar el panel
-                Stage stage = (Stage) errorText.getScene().getWindow();
-                stage.close();
-
-                VBox vbox = new VBox();
-
-                Label labelRecuerda = new Label("Has actualizado correctamente!");
-                labelRecuerda.setTextFill(Color.GREEN);
-                labelRecuerda.setStyle("-fx-font-weight: bold; -fx-font-size: 13pt;");
-                vbox.getChildren().add(labelRecuerda);
-
-                ImageView imageWarning = new ImageView(new Image(getClass().getResource("/com/ui/img/citaPane/done.png").toExternalForm()));
-                imageWarning.setFitWidth(50);
-                imageWarning.setFitHeight(50);
-
-                VBox imageContainer = new VBox();
-                imageContainer.getChildren().add(imageWarning);
-
-                vbox.getChildren().add(imageContainer);
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Receta actualizada");
-                alert.setHeaderText(null);
-
-                alert.getDialogPane().setContent(vbox);
-                alert.showAndWait();
-
             }
-            MainPanelController.detalleCitaStage = null;
         }
+        MainPanelController.detalleCitaStage = null;
     }
 
     public void informeNuevo() {
-        if (listaReceta.isEmpty()) {
-            errorText.setText("No se han añadido medicamentos para recetar.");
-            errorText.setStyle("-fx-text-fill: red;");
-        } else {
-            System.out.println("aqui");
-            boolean algunAtributoEsNull = listaReceta.stream()
-                    .anyMatch(receta -> receta.getNombre() == null
-                            || receta.getDosisEstandar() == null
-                            || receta.getFechaInicial() == null
-                            || receta.getFechaFinal() == null
-                            || receta.getCantidadDosis() == null
-                            || receta.getComentario() == null);
+        if (soloInforme.isSelected() ) {
 
-            if (algunAtributoEsNull) {
-                errorText.setText("Completa los campos restantes.");
-                errorText.setStyle("-fx-text-fill: red;");
-            } else if (!"CORTA".equals(duracion.getValue()) && !"LARGA".equals(duracion.getValue())) {
+            // Si soloComentario está seleccionado, saltar las verificaciones de medicamentos y proceder
+            String observacion = ObservacionCitaText.getText();
+            if (!"CORTA".equals(duracion.getValue()) && !"LARGA".equals(duracion.getValue())) {
                 errorTextChoice.setVisible(true);
             } else {
-                errorTextChoice.setVisible(false);
-                String observacion = ObservacionCitaText.getText();
-
                 informeCreado = citaJDBCDAO.crearConsulta(idCita, String.valueOf(duracion.getValue()), observacion);
-
-                if (informeCreado) {
-                    for (Receta receta : listaReceta) {
-                        RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
-                        recetaJDBCDAO.insertarReceta(receta, this.idCita);
-                    }
+            } if(informeCreado) {
                     citaJDBCDAO.actualizarEstado("Realizada", observacion, idCita);
 
                     // Cerrar el panel y asegurarse de que se actualiza el detalleCitaStage
@@ -263,9 +274,77 @@ public class CitaDetalleController implements Initializable {
                     alert.getDialogPane().setContent(vbox);
                     alert.showAndWait();
                 }
+            } else{
+                    if (listaReceta.isEmpty()) {
+                        errorText.setText("No se han añadido medicamentos para recetar.");
+                        errorText.setStyle("-fx-text-fill: red;");
+                    } else {
+                        System.out.println("aqui");
+                        boolean algunAtributoEsNull = listaReceta.stream()
+                                .anyMatch(receta -> receta.getNombre() == null
+                                        || receta.getDosisEstandar() == null
+                                        || receta.getFechaInicial() == null
+                                        || receta.getFechaFinal() == null
+                                        || receta.getCantidadDosis() == null
+                                        || receta.getComentario() == null);
+
+                        if (algunAtributoEsNull) {
+                            errorText.setText("Completa los campos restantes.");
+                            errorText.setStyle("-fx-text-fill: red;");
+                        } else if (!"CORTA".equals(duracion.getValue()) && !"LARGA".equals(duracion.getValue())) {
+                            errorTextChoice.setVisible(true);
+                        } else {
+                            errorTextChoice.setVisible(false);
+                            String observacion = ObservacionCitaText.getText();
+
+                            informeCreado = citaJDBCDAO.crearConsulta(idCita, String.valueOf(duracion.getValue()), observacion);
+
+                            if (informeCreado) {
+                                for (Receta receta : listaReceta) {
+                                    RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
+                                    recetaJDBCDAO.insertarReceta(receta, this.idCita);
+                                }
+                                citaJDBCDAO.actualizarEstado("Realizada", observacion, idCita);
+
+                                // Cerrar el panel y asegurarse de que se actualiza el detalleCitaStage
+                                Stage stage = (Stage) errorText.getScene().getWindow();
+                                stage.close();
+                                MainPanelController.detalleCitaStage = null; // Actualizar el MainPanelController para establecerlo a null
+
+                                // Crear un VBox para contener los elementos del texto e imagen
+                                VBox vbox = new VBox();
+
+                                Label labelNormal = new Label("La receta se ha completado con éxito!");
+                                labelNormal.setTextFill(Color.GREEN); // Establecer el color del texto
+                                vbox.getChildren().add(labelNormal);
+
+                                Label labelRecuerda = new Label("Recuerda, se puede modificar la receta en Realizadas");
+                                labelRecuerda.setTextFill(Color.GREEN); // Establecer el color del texto
+                                labelRecuerda.setStyle("-fx-font-weight: bold;"); // Establecer el texto en negrita
+                                vbox.getChildren().add(labelRecuerda);
+
+                                ImageView imageWarning = new ImageView(new Image(getClass().getResource("/com/ui/img/citaPane/done.png").toExternalForm()));
+                                imageWarning.setFitWidth(50);
+                                imageWarning.setFitHeight(50);
+
+                                VBox imageContainer = new VBox();
+                                imageContainer.getChildren().add(imageWarning);
+                                imageContainer.setAlignment(Pos.CENTER); // Centrar la imagen
+
+                                vbox.getChildren().add(imageContainer);
+
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("Receta completada");
+                                alert.setHeaderText(null);
+
+                                alert.getDialogPane().setContent(vbox);
+                                alert.showAndWait();
+                            }
+                        }
+                    }
             }
-        }
     }
+
 
     @FXML
     private void showMedicamentos(ObservableList<Medicamento> tablaMedicamentos) {
@@ -343,12 +422,12 @@ public class CitaDetalleController implements Initializable {
         for (Receta receta : ListaRecetaCita) {
             Medicamento medicamento = mapaMedicamentos.get(receta.getIdMed());
             Receta recetaExistente = new Receta(numeroReceta++, medicamento.getId(),
-                                                medicamento.getNombre(),
-                                                medicamento.getDosisEstandar(),
-                                                receta.getFechaInicial(),
-                                                receta.getFechaFinal(),
-                                                receta.getCantidadDosis(),
-                                                receta.getComentario());
+                    medicamento.getNombre(),
+                    medicamento.getDosisEstandar(),
+                    receta.getFechaInicial(),
+                    receta.getFechaFinal(),
+                    receta.getCantidadDosis(),
+                    receta.getComentario());
             listaRecetaExistente.add(recetaExistente);
         }
         // Configurar las celdas para cada columna con CellValueFactory personalizada
