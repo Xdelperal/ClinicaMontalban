@@ -137,6 +137,23 @@
                               <Font size="13.0" />
                            </font>
                         </Label>
+                        <Label fx:id="eliminarMensaje" layoutX="880.0" layoutY="54.0" text="Cancelar receta" textFill="RED">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="eliminarCita" contentDisplay="RIGHT" layoutX="988.0" layoutY="35.0" mnemonicParsing="false" onAction="#eliminarInforme" prefHeight="57.0" prefWidth="70.0" stylesheets="@css/cita.css">
+                           <graphic>
+                              <ImageView fitHeight="44.0" fitWidth="46.0" layoutX="1744.0" layoutY="19.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" style="-fx-padding-right: 10px;" styleClass="iconoDelete">
+                                 <image>
+                                    <Image url="@img/citaPane/delete.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
                      </children>
                   </Pane>
                </center>

@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -61,9 +62,9 @@ public class CitaDetalleController implements Initializable {
 
     //<editor-fold defaultstate="collapsed" desc="Elementos FXML">
     @FXML
-    private Label errorText, errorTextFecha, errorTextChoice, nombrePaciente, dniPaciente, fechaPaciente;
+    private Label errorText, errorTextFecha, errorTextChoice, nombrePaciente, dniPaciente, fechaPaciente, eliminarMensaje;
     @FXML
-    private Button generar, cerrarCita;
+    private Button generar, cerrarCita, eliminarCita;
     @FXML
     private TextField textMedicamento;
     @FXML
@@ -99,6 +100,10 @@ public class CitaDetalleController implements Initializable {
         for (Medicamento medicamento : tablaMedicamentos) {
             mapaMedicamentos.put(medicamento.getId(), medicamento);
         }
+
+        eliminarMensaje.setVisible(false);
+        eliminarCita.setVisible(false);
+
     }
 
     //<editor-fold defaultstate="collapsed" desc="Metodos de cita">
@@ -240,6 +245,58 @@ public class CitaDetalleController implements Initializable {
         procesarInforme(true);
     }
 
+    public void eliminarInforme() {
+        // Crear una alerta
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar cancelación de cita");
+        alert.setHeaderText(null);
+
+        // Crear el VBox
+        VBox vbox = new VBox();
+
+        // Crear el texto normal en color rojo y tamaño de fuente mayor
+        Label labelNormal = new Label("¿Estás seguro de que deseas cancelar esta cita?");
+        labelNormal.setTextFill(Color.RED);
+        labelNormal.setStyle("-fx-font-weight: bold; -fx-font-size: 13pt;"); // Aumentar el tamaño de la letra
+        vbox.getChildren().add(labelNormal);
+
+        // Crear el texto en negrita y color rojo con un tamaño de fuente mayor
+        Label labelNegrita = new Label("¡Esta acción es irreversible!");
+        labelNegrita.setStyle("-fx-font-size: 13pt;"); // Aumentar el tamaño de la letra
+        labelNegrita.setTextFill(Color.RED);
+        vbox.getChildren().add(labelNegrita);
+
+        ImageView imageDanger= new ImageView(new Image(getClass().getResource("/com/ui/img/mainPane/warning.png").toExternalForm()));
+        imageDanger.setFitWidth(75); // Ajusta el ancho de la imagen según tus necesidades
+        imageDanger.setFitHeight(75); // Ajusta la altura de la imagen según tus necesidades
+
+        // Crear un contenedor para la imagen
+        VBox imageContainer = new VBox();
+        imageContainer.getChildren().add(imageDanger);
+        imageContainer.setAlignment(Pos.CENTER); // Centrar la imagen
+
+        // Agregar la imagen al VBox principal
+        vbox.getChildren().add(imageContainer);
+
+        // Establecer el contenido del diálogo como el VBox
+        alert.getDialogPane().setContent(vbox);
+
+        // Personalizar los botones de la alerta
+        ButtonType buttonTypeAceptar = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
+        ButtonType buttonTypeCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(buttonTypeAceptar, buttonTypeCancelar);
+
+        // Mostrar la alerta y esperar la respuesta del usuario
+        Optional<ButtonType> result = alert.showAndWait();
+
+        // Verificar la respuesta del usuario
+        if (result.isPresent() && result.get() == buttonTypeAceptar) {
+            // El usuario ha confirmado la cancelación, llamar al método para cancelar la cita
+            citaJDBCDAO.canelarCita(this.idCita);
+            cerrarCita();
+        }
+    }
+
     @FXML
     private void showMedicamentos(ObservableList<Medicamento> tablaMedicamentos) {
         nombreMedicamento.setCellValueFactory(new PropertyValueFactory<Medicamento, String>("nombre"));
@@ -310,6 +367,8 @@ public class CitaDetalleController implements Initializable {
 
     public void setReceta(int idCita) {
         estado = true;
+        eliminarMensaje.setVisible(true);
+        eliminarCita.setVisible(true);
         generar.setText("Actualizar");
         RecetaJDBCDAO dao = new RecetaJDBCDAO();
         List<Receta> ListaRecetaCita = dao.obtenerReceta(idCita);

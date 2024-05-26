@@ -71,6 +71,21 @@
     -fx-padding: 0 10px; /* Añade un poco de padding */
 }
 
+#eliminarCita {
+    -fx-background-color: transparent;
+}
+
+#eliminarCita .iconoDelete {
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+    -fx-opacity: 0.5;
+}
+
+#eliminarCita:hover .iconoDelete {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-opacity: 1;
+}
+
 #cerrarCita {
     -fx-background-color: transparent;
 }
