@@ -12,6 +12,11 @@ import java.io.IOException;
 
 public class Main extends Application {
 
+    /**
+     * El main principal que se encarga de abrir la escena login.
+     * @param primaryStage
+     * @throws IOException
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
         // Cargar la vista del inicio de sesión
