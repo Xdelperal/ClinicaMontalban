@@ -417,7 +417,7 @@
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                     </columnResizePolicy>
                                 </TableView>
-                        <ImageView fitHeight="31.0" fitWidth="39.0" layoutX="387.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="31.0" fitWidth="39.0" layoutX="387.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" styleClass="tiposFlecha">
                            <image>
                               <Image url="@img/mainPane/flecha-tipoMedicamento.png" />
                            </image>

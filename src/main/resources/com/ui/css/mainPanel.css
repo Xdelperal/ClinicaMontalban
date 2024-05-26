@@ -17,7 +17,6 @@
     -fx-border-radius: 50;
     -fx-border-color: #D7D7D7;
 }
-
 .root {
     -fx-default-background: white;
 }
@@ -42,6 +41,12 @@
 #colMotivo11 {
     -fx-alignment: center-left;
 }
+
+
+.tiposFlecha {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 4);
+}
+
 
 .table-view {
     -fx-background-color: #ffffff;
