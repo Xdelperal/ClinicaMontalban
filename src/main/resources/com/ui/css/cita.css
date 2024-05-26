@@ -1,151 +1,120 @@
-
+/* Vista de tabla */
 .table-view {
-    -fx-background-color: #ffffff; /* Fondo blanco */
-    -fx-background-radius: 10px; /* Bordes redondeados */
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4); /* Sombra suave */
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);
 }
 
-.table-cell {
-    -fx-text-fill: #333333; /* Color del texto gris oscuro */
+.table-cell, .table-row-cell .table-cell {
+    -fx-text-fill: #333333;
     -fx-alignment: center;
-    -fx-padding: 8px; /* Espaciado interno */
+    -fx-padding: 8px;
+    -fx-font-size: 1.15em;
 }
-
-.table-row-cell:odd {
-    -fx-background-color: #f7f9fc; /* Fondo para filas impares */
-}
-
-.table-row-cell:even {
-    -fx-background-color: #ffffff; /* Fondo para filas pares */
-}
-
-.table-row-cell:selected {
-    -fx-background-color: #e9f5ff; /* Fondo para la fila seleccionada */
-    -fx-text-fill: #212529; /* Color del texto para la fila seleccionada */
-}
-
-.table-header-background {
-    -fx-background-color: #4a90e2; /* Color de fondo para la cabecera */
-    -fx-border-radius: 5px 5px 0 0; /* Bordes redondeados en la parte superior */
-    -fx-background-radius: 5px 5px 0 0; /* Bordes redondeados en la parte superior */
-}
-
-.table-header {
-    -fx-background-color: #4a90e2; /* Color de fondo para la cabecera */
-    -fx-text-fill: #ffffff; /* Color del texto blanco */
-    -fx-border-color: #d1d1d1;
-    -fx-border-width: 0 0 1px 0;
-    -fx-font-weight: bold; /* Texto en negrita */
-    -fx-padding: 10px 15px; /* Espaciado interno */
-    -fx-font-size: 1.2em; /* Tamaño de fuente */
-}
-
 
 .table-row-cell {
     -fx-spacing: 50px;
-    -fx-border-color: #dcdcdc; /* Borde entre filas */
+    -fx-border-color: #dcdcdc;
     -fx-border-width: 0 0 1px 0;
 }
 
-.table-row-cell .table-cell {
-    -fx-font-size: 1.15em; /* Tamaño de fuente */
-    -fx-padding: 4px; /* Espaciado interno */
+.table-row-cell:odd {
+    -fx-background-color: #f7f9fc;
 }
+
+.table-row-cell:even {
+    -fx-background-color: #ffffff;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #e9f5ff;
+    -fx-text-fill: #212529;
+}
+
+.table-header-background, .table-header {
+    -fx-background-color: #4a90e2;
+    -fx-border-radius: 5px 5px 0 0;
+    -fx-background-radius: 5px 5px 0 0;
+    -fx-text-fill: #ffffff;
+}
+
+.table-header {
+    -fx-border-color: #d1d1d1;
+    -fx-border-width: 0 0 1px 0;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 15px;
+    -fx-font-size: 1.2em;
+}
+
 .jfx-combo-box {
-    -fx-font-size: 14px; /* Cambia el tamaño de la fuente */
-    -fx-background-color: #ffffff; /* Cambia el color de fondo */
-    -jfx-focus-color: #3f51b5; /* Cambia el color de enfoque */
-    -jfx-unfocus-color: #dcdcdc; /* Cambia el color cuando no está enfocado */
-    -fx-border-color: #cccccc; /* Color del borde */
-    -fx-border-width: 1px; /* Ancho del borde */
-    -fx-border-radius: 5px; /* Radio del borde */
-    -fx-background-radius: 5px; /* Radio del fondo */
+    -fx-font-size: 14px;
+    -fx-background-color: #ffffff;
+    -jfx-focus-color: #3f51b5;
+    -jfx-unfocus-color: #dcdcdc;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
 }
 
-.jfx-combo-box .text {
-    -fx-alignment: center-left; /* Alinea el texto del combo box */
-}
-
+.jfx-combo-box .text,
 .jfx-combo-box .prompt-text {
-    -fx-alignment: center-left; /* Alinea el texto del prompt */
-    -fx-padding: 0 10px; /* Añade un poco de padding */
+    -fx-alignment: center-left;
+    -fx-padding: 0 10px;
 }
 
-#eliminarCita {
+/* Estilos para eliminar y cerrar cita */
+#eliminarCita, #cerrarCita {
     -fx-background-color: transparent;
 }
 
-#eliminarCita .iconoDelete {
-    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+#eliminarCita .iconoDelete, #cerrarCita .icono {
+    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.5), 0, 0, 0, 1);
     -fx-opacity: 0.5;
 }
 
-#eliminarCita:hover .iconoDelete {
+#eliminarCita:hover .iconoDelete, #cerrarCita:hover .icono {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
     -fx-opacity: 1;
 }
 
-#cerrarCita {
-    -fx-background-color: transparent;
-}
-
-#cerrarCita .icono {
-    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
-    -fx-opacity: 0.5;
-}
-
-#cerrarCita:hover .icono {
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-    -fx-opacity: 1;
-}
-
-.iconoDatos {
+/* Estilo para iconos */
+.iconoDatos, .header {
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 1);
     -fx-border-color: black;
     -fx-border-width: 1px;
 }
 
-.header {
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 1);
-}
-
-/* Estilo del botón de éxito con la clase generar */
+/* Botón de éxito */
 .btn-generar {
     -fx-display: inline-block;
     -fx-font-weight: 400;
     -fx-text-fill: #fff;
-    -fx-background-color: #28a745; /* Color de fondo verde de éxito */
+    -fx-background-color: #28a745;
     -fx-border-width: 1px;
     -fx-border-color: transparent;
-    -fx-padding: 3px 6px; /* Equivalente a 0.375rem 0.75rem */
-    -fx-font-size: 14px; /* Equivalente a 1rem */
+    -fx-padding: 3px 6px;
+    -fx-font-size: 14px;
     -fx-line-spacing: 1.5;
-    -fx-border-radius: 3px; /* Equivalente a 0.25rem */
+    -fx-border-radius: 3px;
     -fx-transition: -fx-text-fill 0.15s ease-in-out, -fx-background-color 0.15s ease-in-out, -fx-border-color 0.15s ease-in-out, -fx-effect 0.15s ease-in-out;
 }
 
-/* Estilo de hover para el botón de éxito con la clase generar */
 .btn-generar:hover {
-    -fx-background-color: #218838; /* Color de fondo verde oscuro de éxito al pasar el mouse */
-    -fx-border-color: #1e7e34; /* Color del borde verde oscuro de éxito al pasar el mouse */
+    -fx-background-color: #218838;
+    -fx-border-color: #1e7e34;
 }
 
-/* Estilo de focus para el botón de éxito con la clase generar */
 .btn-generar:focused,
 .btn-generar.focus {
-    -fx-background-color: #218838; /* Color de fondo verde oscuro de éxito al enfocar */
-    -fx-border-color: #1e7e34; /* Color del borde verde oscuro de éxito al enfocar */
-    -fx-effect: innershadow(gaussian, rgba(40, 167, 69, 0.5), 10, 0.5, 0, 0); /* Sombra al enfocar */
+    -fx-background-color: #218838;
+    -fx-border-color: #1e7e34;
+    -fx-effect: innershadow(gaussian, rgba(40, 167, 69, 0.5), 10, 0.5, 0, 0);
 }
 
-/* Estilo de active para el botón de éxito con la clase generar */
 .btn-generar:pressed,
 .btn-generar.pressed {
-    -fx-background-color: #1e7e34; /* Color de fondo verde oscuro de éxito al hacer clic */
-    -fx-border-color: #1c7430; /* Color del borde verde oscuro de éxito al hacer clic */
+    -fx-background-color: #1e7e34;
+    -fx-border-color: #1c7430;
 }
-
-
-

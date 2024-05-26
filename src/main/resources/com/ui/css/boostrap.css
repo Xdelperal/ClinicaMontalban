@@ -1,4 +1,4 @@
-/* Estilo para el botón btn-danger */
+/* Botón de peligro */
 .btn-danger {
     -fx-background-color: #dc3545;
     -fx-text-fill: white;
@@ -11,41 +11,41 @@
 }
 
 .btn-danger:hover {
-    -fx-background-color: #c82333; /* Color de fondo al pasar el mouse */
+    -fx-background-color: #c82333;
 }
 
+/* Botón principal */
 .btn-primary {
-    -fx-alignment: center; /* Alineación del texto */
-    -fx-background-color: #007bff; /* Color de fondo */
-    -fx-border-color: #007bff; /* Borde */
-    -fx-border-width: 1px; /* Grosor del borde */
-    -fx-text-fill: white; /* Color del texto */
-    -fx-font-size: 16px; /* Tamaño de fuente */
-    -fx-border-radius: 4px; /* Radio del borde */
-    -fx-cursor: hand; /* Cambia el cursor al pasar sobre el botón */
-    -fx-background-radius: 4px; /* Radio de la esquina del fondo */
+    -fx-alignment: center;
+    -fx-background-color: #007bff;
+    -fx-border-color: #007bff;
+    -fx-border-width: 1px;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+    -fx-background-radius: 4px;
 }
 
 .btn-primary:hover {
-    -fx-background-color: #0056b3; /* Color de fondo al pasar el ratón */
-    -fx-border-color: #0056b3; /* Color del borde al pasar el ratón */
+    -fx-background-color: #0056b3;
+    -fx-border-color: #0056b3;
 }
 
+/* Botón verde */
 .btn-green {
-    -fx-alignment: center; /* Alineación del texto */
-    -fx-background-color: #007bff; /* Color de fondo */
-    -fx-border-color: #007bff; /* Borde */
-    -fx-border-width: 1px; /* Grosor del borde */
-    -fx-text-fill: white; /* Color del texto */
-    -fx-font-size: 16px; /* Tamaño de fuente */
-    -fx-border-radius: 4px; /* Radio del borde */
-    -fx-cursor: hand; /* Cambia el cursor al pasar sobre el botón */
-    -fx-background-radius: 4px; /* Radio de la esquina del fondo */
+    -fx-alignment: center;
+    -fx-background-color: #007bff;
+    -fx-border-color: #007bff;
+    -fx-border-width: 1px;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+    -fx-background-radius: 4px;
 }
 
 .btn-green:hover {
-    -fx-background-color: #0056b3; /* Color de fondo al pasar el ratón */
-    -fx-border-color: #0056b3; /* Color del borde al pasar el ratón */
+    -fx-background-color: #0056b3;
+    -fx-border-color: #0056b3;
 }
-
-

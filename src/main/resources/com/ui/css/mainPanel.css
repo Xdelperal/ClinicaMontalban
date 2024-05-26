@@ -37,73 +37,73 @@
 }
 
 .table-view {
-    -fx-background-color: #ffffff; /* Fondo blanco */
-    -fx-background-radius: 10px; /* Bordes redondeados */
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10px;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4); /* Sombra suave */
 }
 
 .table-cell {
-    -fx-text-fill: #333333; /* Color del texto gris oscuro */
+    -fx-text-fill: #333333;
     -fx-alignment: center;
-    -fx-padding: 8px; /* Espaciado interno */
+    -fx-padding: 8px;
 }
 
 .table-row-cell:odd {
-    -fx-background-color: #f7f9fc; /* Fondo para filas impares */
+    -fx-background-color: #f7f9fc;
 }
 
 .table-row-cell:even {
-    -fx-background-color: #ffffff; /* Fondo para filas pares */
+    -fx-background-color: #ffffff;
 }
 
 .table-row-cell:selected {
-    -fx-background-color: #e9f5ff; /* Fondo para la fila seleccionada */
-    -fx-text-fill: #212529; /* Color del texto para la fila seleccionada */
+    -fx-background-color: #e9f5ff;
+    -fx-text-fill: #212529;
 }
 
 .table-header-background {
-    -fx-background-color: #4a90e2; /* Color de fondo para la cabecera */
-    -fx-border-radius: 10px 10px 0 0; /* Bordes redondeados en la parte superior */
-    -fx-background-radius: 10px 10px 0 0; /* Bordes redondeados en la parte superior */
+    -fx-background-color: #4a90e2;
+    -fx-border-radius: 10px 10px 0 0;
+    -fx-background-radius: 10px 10px 0 0;
 }
 
 .table-header {
-    -fx-background-color: #4a90e2; /* Color de fondo para la cabecera */
-    -fx-text-fill: #ffffff; /* Color del texto blanco */
+    -fx-background-color: #4a90e2;
+    -fx-text-fill: #ffffff;
     -fx-border-color: #d1d1d1;
     -fx-border-width: 0 0 1px 0;
-    -fx-font-weight: bold; /* Texto en negrita */
-    -fx-padding: 15px; /* Espaciado interno aumentado */
-    -fx-font-size: 1.2em; /* Tamaño de fuente aumentado */
-    -fx-background-radius: 10px 10px 0 0; /* Esquinas redondeadas en la parte superior */
+    -fx-font-weight: bold;
+    -fx-padding: 15px;
+    -fx-font-size: 1.2em;
+    -fx-background-radius: 10px 10px 0 0;
 }
 
 /* Mejoras adicionales para los encabezados de las columnas */
 .table-view .column-header .label {
-    -fx-font-size: 1.2em; /* Aumentar tamaño de fuente para el texto del encabezado */
-    -fx-font-weight: bold; /* Asegurar que el texto esté en negrita */
+    -fx-font-size: 1.2em;
+    -fx-font-weight: bold;
 }
 
 /* Mejora general para el encabezado de la tabla */
 .table-view .column-header {
-    -fx-background-color: #96c6fa; /* Color de fondo para la cabecera */
-    -fx-text-fill: #ffffff; /* Color del texto blanco */
+    -fx-background-color: #96c6fa;
+    -fx-text-fill: #ffffff;
     -fx-border-color: #d1d1d1;
     -fx-border-width: 0 0 1px 0;
-    -fx-font-weight: bold; /* Texto en negrita */
-    -fx-padding: 15px; /* Espaciado interno aumentado */
-    -fx-font-size: 1.2em; /* Tamaño de fuente aumentado */
-    -fx-background-radius: 10px 10px 0 0; /* Esquinas redondeadas en la parte superior */
+    -fx-font-weight: bold;
+    -fx-padding: 15px;
+    -fx-font-size: 1.2em;
+    -fx-background-radius: 10px 10px 0 0;
 }
 
 .table-row-cell {
-    -fx-border-color: #dcdcdc; /* Borde entre filas */
+    -fx-border-color: #dcdcdc;
     -fx-border-width: 0 0 1px 0;
-    -fx-padding: 8px 0; /* Espaciado entre filas (arriba y abajo) */
+    -fx-padding: 8px 0;
 }
 
 .table-row-cell .table-cell {
-    -fx-font-size: 1.3em; /* Tamaño de fuente */
+    -fx-font-size: 1.3em;
 }
 
 .tabla-tipos-medicamento .table-cell {
@@ -117,61 +117,61 @@
 }
 
 #tablaMedicamentos .column-header {
-    -fx-background-color: #96c6fa; /* Color de fondo mejorado */
+    -fx-background-color: #96c6fa;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-font-size: 12px; /* Tamaño de fuente más grande */
-    -fx-padding: 10px; /* Espaciado interno */
-    -fx-border-radius: 10px 10px 0 0; /* Esquinas redondeadas en la parte superior */
+    -fx-font-size: 12px;
+    -fx-padding: 10px;
+    -fx-border-radius: 10px 10px 0 0;
 }
 
 #tablaMedicamentos .table-row-cell {
     -fx-border-color: lightgray;
-    -fx-border-width: 0 0 1px 0; /* Solo borde inferior */
+    -fx-border-width: 0 0 1px 0;
     -fx-background-color: white;
-    -fx-border-radius: 0 0 10px 10px; /* Esquinas redondeadas en la parte inferior */
-    -fx-padding: 5px 0; /* Espaciado vertical entre filas */
+    -fx-border-radius: 0 0 10px 10px;
+    -fx-padding: 5px 0;
 }
 
 #tablaMedicamentos .table-cell {
-    -fx-padding: 10px; /* Espaciado interno */
+    -fx-padding: 10px;
     -fx-font-size: 14px;
 }
 
 #tablaMedicamentos .table-row-cell:selected {
-    -fx-background-color: #d3eaf7; /* Color de fondo para la fila seleccionada */
+    -fx-background-color: #d3eaf7;
 }
 
 #datosPaciente {
     -fx-background-radius: 10px;
     -fx-background-color: #f9f9f9;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4); /* Sombra suave */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);
 }
 
 #datosPaciente .column-header {
-    -fx-background-color: #96c6fa; /* Color de fondo mejorado */
+    -fx-background-color: #96c6fa;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-font-size: 12px; /* Tamaño de fuente más grande */
-    -fx-padding: 10px; /* Espaciado interno */
-    -fx-border-radius: 10px 10px 0 0; /* Esquinas redondeadas en la parte superior */
+    -fx-font-size: 12px;
+    -fx-padding: 10px;
+    -fx-border-radius: 10px 10px 0 0;
 }
 
 #datosPaciente .table-row-cell {
     -fx-border-color: lightgray;
-    -fx-border-width: 0 0 1px 0; /* Solo borde inferior */
+    -fx-border-width: 0 0 1px 0;
     -fx-background-color: white;
-    -fx-border-radius: 0 0 10px 10px; /* Esquinas redondeadas en la parte inferior */
-    -fx-padding: 5px 0; /* Espaciado vertical entre filas */
+    -fx-border-radius: 0 0 10px 10px;
+    -fx-padding: 5px 0;
 }
 
 #datosPaciente .table-cell {
-    -fx-padding: 10px; /* Espaciado interno */
+    -fx-padding: 10px;
     -fx-font-size: 14px;
 }
 
 #datosPaciente .table-row-cell:selected {
-    -fx-background-color: #d3eaf7; /* Color de fondo para la fila seleccionada */
+    -fx-background-color: #d3eaf7;
 }
 
 #closeButton {
@@ -191,9 +191,9 @@
 
 
 .buttonPendiente {
-    -fx-background-color: #4CAF50; /* Color de fondo */
-    -fx-text-fill: white; /* Color del texto */
-    -fx-font-size: 16px; /* Tamaño de fuente */
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
 }
 
 .toggle-button {
@@ -220,8 +220,6 @@
     -fx-border-width: 1px;
 }
 
-
-/* Style para el dropdown items */
 .jfx-combo-box .list-cell {
     -fx-background-color: white;
     -fx-text-fill: #495057;
@@ -229,35 +227,29 @@
     -fx-font-size: 14px;
 }
 
-/* Hover effect for list cells */
 .jfx-combo-box .list-cell:hover {
     -fx-background-color: #f1f3f5;
 }
 
-/* Selected list cell */
 .jfx-combo-box .list-cell:selected {
     -fx-background-color: #e9ecef;
     -fx-text-fill: #212529;
 }
 
-/* Focus and prompt text */
 .jfx-combo-box .combo-box-base .text-input {
     -fx-prompt-text-fill: #adb5bd;
     -fx-text-fill: #495057;
 }
 
-/* Arrow button styling */
 .jfx-combo-box .arrow-button {
     -fx-background-color: transparent;
     -fx-padding: 4px;
 }
 
-/* Arrow icon color */
 .jfx-combo-box .arrow-button .arrow {
     -fx-background-color: #495057;
 }
 
-/* Hover effect for the arrow button */
 .jfx-combo-box .arrow-button:hover {
     -fx-background-color: #e9ecef;
     -fx-border-radius: 6px;
