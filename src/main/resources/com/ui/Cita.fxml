@@ -20,6 +20,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
+<!--
+
+   Este es el FXML de cita, se utiliza inicialmente ScrollPanels para poder gestionar las diferentes resoluciónes.
+   Además en este declaramos el estilo y el controllador que esta asignado, es el modelo Vista de JavaFX.
+
+-->
+
 <ScrollPane stylesheets="@css/cita.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.CitaDetalleController">
    <content>
       <AnchorPane>

@@ -22,6 +22,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<!--
+
+   Este es el FXML de mainPanel, lo mismo que los anteriores con la diferencia de que aquí todos los paneles del modulo central
+   estan sobrepuestos entre si, ya que luego en el controlador determinaremos su visualicacion activando los paneles entre
+   setVisible(false o true). Este es el más complejo de los 3.
+
+-->
+
 <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.clinicamvm.controller.MainPanelController">
     <content>
         <BorderPane>
