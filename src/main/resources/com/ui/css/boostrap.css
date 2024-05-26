@@ -1,3 +1,10 @@
+/*
+    En este CSS se encarga de globalizar por los diferentes FXML los estilos
+    simulados de boostrap. Para hacerlo más modular, aunque al final, no lo he
+    utilizado tanto.
+*/
+
+
 /* Botón de peligro */
 .btn-danger {
     -fx-background-color: #dc3545;

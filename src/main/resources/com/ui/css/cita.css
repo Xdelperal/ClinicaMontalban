@@ -1,3 +1,8 @@
+/*
+    En el cita.css he globalizado los estilos de las tabla, esceptuando dos que van individuales,
+    También se ha dado estilo algun boton en concreto etc..
+*/
+
 /* Vista de tabla */
 .table-view {
     -fx-background-color: #ffffff;

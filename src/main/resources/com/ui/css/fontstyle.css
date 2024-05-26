@@ -1,3 +1,8 @@
+/*
+    Aquí tenemos la tipografia que se incluye en el proyecto, con su estilo CSS
+    para poder cargarlo.
+*/
+
 @font-face {
     font-family: 'Averta-Regular';
     src: url('/fonts/Averta-Regular.ttf');

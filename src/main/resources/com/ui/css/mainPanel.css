@@ -1,3 +1,10 @@
+/*
+    Este estilo es el que tiene más cosas ya que incluye. Primero declaramos
+    el fondo de color blanco ya que este contendra un panel central gris para diferenciar
+    el contraste de color entre secciones. Las View tables tambien son comunes, pero en algunas de ellas
+    las columnas las he puesto el texto centrado a la izquierda para leer mejor el motivo etc...
+*/
+
 .white-background {
     -fx-background-color: #fff;
 }

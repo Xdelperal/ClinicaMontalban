@@ -163,7 +163,12 @@ public class MainPanelController implements Initializable {
     //</editor-fold>
 
     /**
+     *  Voy a explicar lo más importante, ya que en nada más iniciar inicia contadores, fecha en tiempo real y demás.
+     *  Lo más importante es el sistema de los ToggleButtons que estan asocioados a un grupo. Esto es porque en un mismo
+     *  panel intercambiamos visibilidades de tables y paneles. Así una misma ventana tiene diferentes secciones.
      *
+     *  Al iniciar llamamos a ShowMedicamentos para lo primero que haya es obtener la lista de todos los medicamentos.
+     *  Iniciar() y dropDownTipos() hacen algo similar pero dentro de su sección.
      * @param url
      * @param resourceBundle
      */
@@ -240,6 +245,10 @@ public class MainPanelController implements Initializable {
 
     public void updateUserNameLabel(Personal medico) { userNameLabel.setText(medico.getNombre() + " " + medico.getApellidos()); }
 
+    /**
+     * Al iniciar la ventana primero se mostrar pendientes, esta es la función de este metodo, y llama a getPendientes() para
+     * que la tabla muestre las citas pendientes en la tabla.
+     */
     public void iniciar() {
         pendientes.setVisible(true);
         realizadas.setVisible(false);
@@ -260,6 +269,7 @@ public class MainPanelController implements Initializable {
         updateTimeline.play();
     }
 
+    // Metodo para cerrar la ventan actual.
     public void cerrarVentana() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
@@ -275,6 +285,9 @@ public class MainPanelController implements Initializable {
         }
     }
 
+    /**
+     * Estos metodos switchean entre los toggle buttons para cambiar se secciónes.
+     */
     @FXML
     private void mostrarPendientes() {
         pendientes.setVisible(true);
@@ -320,6 +333,14 @@ public class MainPanelController implements Initializable {
         PanelBuscador.setVisible(false);
     }
 
+    /**
+     * Este es el metodo que se encarga de cargar la ventana de Cita/Receta. Tiene en cuenta si otro panel esta abierto
+     * y te indicara si quieres seguir en el actual o cambiar. En el caso de estar bien, la función ejecutara
+     * abrirNuevoDetalleCita() que esta se encargara de inicializar.
+     *
+     * @param idCita --> Para recoger o inicializar con la cita correspondiente.
+     * @param tipo --> Por si cargaremos una nueva cita o una a modificar
+     */
     public void cargarCitaDetalle(int idCita, boolean tipo) {
         if (detalleCitaStage != null) {
             // Si ya hay un detalle de cita abierto, preguntar si se desea cerrar
@@ -357,6 +378,13 @@ public class MainPanelController implements Initializable {
         }
     }
 
+    /**
+     * Aquí ya ha hecho la excepción de errores y simplemente se encargara de inicializar la ventana por el tipo y además
+     * incluye especificaciones de la escena y también que si quieres cerrarla te pregunte ya que perderias el progreso.
+     *
+     * @param idCita
+     * @param tipo
+     */
     private void abrirNuevoDetalleCita(int idCita, boolean tipo) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ui/Cita.fxml"));
@@ -442,6 +470,13 @@ public class MainPanelController implements Initializable {
         }
     }
 
+    /**
+     * Esta función se encarga de recoger todos los cientes que tiene cita con el medico pendientes de el día.
+     * Para ello obtenemos la lista desde el metodo de CitaJDBCDAO y printamos la lista en el panel.
+     *
+     * Lo más importante es que cuando se crea la lista por cada idCita creara un boton de Crear Cita o Borrarla,
+     * para asi abrir la ventana para iterar la cita o eliminarla para cancelarla, que además estara en estado "Cancelada".
+     */
     public void getPendiente() {
         pendientes.getItems().clear();
         ObservableList<Cita> listaPendiente = citaJDBCDAO.obtenerLista("Pendiente", medico.getDni());
@@ -628,6 +663,10 @@ public class MainPanelController implements Initializable {
         });
     }
 
+    /**
+     * Similar al metodo getPendientes(), pero mostrara las citas realizadas del día de hoy. En este caso creara un boton de modificar.
+     * Que si lo apretamos nos dejara modificar la Cita correspondiente.
+     */
     @FXML
     private void getRealizadas() {
         // Limpiar los elementos existentes en la TableView
@@ -706,6 +745,10 @@ public class MainPanelController implements Initializable {
         });
     }
 
+    /**
+     * Este metodo se encarga de la sección de buscar, la cual podras buscar por el DNI del paciente, las Citas que ha realizado
+     * con su información para que el medico pueda verificar las ultimas realizadas.
+     */
     @FXML
     private void getBusqueda() {
         datosPaciente.getItems().clear();
@@ -730,6 +773,10 @@ public class MainPanelController implements Initializable {
         colMotivo11.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
     }
 
+    /**
+     * Recoge todos los medicamentos de la base de datos y los añade a una lista, esto es para la seccion de Medicamentos
+     * para poder buscar por tipo etc...
+     */
     private void showMedicamentos() {
         tablaMedicamentos.getItems().clear();
         String grupoMedicamento = tiposMedicamento.getValue();
@@ -743,6 +790,11 @@ public class MainPanelController implements Initializable {
         tablaMedicamentos.setItems(listaMedicamentos);
     }
 
+    /**
+     * En el panel podemos abrir directamente la WEB del navegador, lo que de primeras funcionaba solo en un sistema operativo
+     * investigando pudimos averiguar que puedes recoger el sistema operativo, y entonces con este if/else segun el sistema
+     * opertativo ejecutara un comando u otro.
+     */
     @FXML
     private void abrirPaginaWeb() {
         try {

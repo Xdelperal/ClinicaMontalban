@@ -1,3 +1,11 @@
+/*
+    Este es el del login, más pequeño ya que hay menos que estilizar,
+    pero lo importante es el boton de invisible que le he dado un estilo para
+    mayor visibilidad e interaccion y el boton para entrar.
+    También el label de error tiene el estilo rojo y visibilidad(false), para que se muestre
+    en el controlador cuando hay un error.
+*/
+
 /* Botón de entrada */
 .buttonEntrap {
     -fx-background-color: rgb(151, 212, 154);
