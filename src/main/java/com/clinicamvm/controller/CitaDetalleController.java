@@ -87,6 +87,16 @@ public class CitaDetalleController implements Initializable {
     private Cita cita;
     //</editor-fold>
 
+    /**
+     * Este metodo es el que se inicia nada más inicializar el controlador. Lo más relevante es que
+     * itera el hasMap para obtener todos los medicamentos por su ID nada más iniciar ya que hay otros metodos
+     * que dependen de esta lista generada con el Hasmap.
+     *
+     * También hay campos que se inicializan en Visible(False), ya que dependiendo si estas modificando o creando se veran
+     * diferentes labels y botones.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         medicamentoJDBCDAO = new MedicamentoJDBCDAO();
@@ -107,6 +117,13 @@ public class CitaDetalleController implements Initializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Metodos de cita">
+
+    /**
+     * En estos tres metodos que vienen seteamos con la información del anterior controllador a este, la cita, estado, dni
+     * información del paciente y el motivo.
+     * @param idCita
+     * @param dni
+     */
     public void setCita(int idCita, String dni) {
         cita = citaJDBCDAO.getCita(dni, idCita);
         this.idCita = idCita;
@@ -123,12 +140,17 @@ public class CitaDetalleController implements Initializable {
         motivoCitaText.setText(citaJDBCDAO.getMotivo(idCita));
     }
 
+    // Este metodo se encarga de cerrar la ventana y que la ventana sea nulla para que no haya errores.
     public void cerrarCita() {
         Stage stage = (Stage) cerrarCita.getScene().getWindow();
         stage.close();
         MainPanelController.detalleCitaStage = null;
     }
 
+    /**
+     * Basicamente crearemos el informe segun el booleano que declaramos en el controlador anterior,
+     * ya que la misma ventana y controlador funciona tanto en crear o modificar las citas.
+     */
     @FXML
     public void crearInforme() {
         if (estado) {
@@ -138,6 +160,10 @@ public class CitaDetalleController implements Initializable {
         }
     }
 
+    /**
+     * Aquí he intentado hacer lo mas modular posible lo de las alertas, pasandole por parametro
+     * los textos ya que se repetia varias veces sobre la clase.
+     */
     private void mostrarAlerta(String titulo, String mensaje, String detalle) {
         VBox vbox = new VBox();
         Label label = new Label(mensaje);
@@ -166,6 +192,12 @@ public class CitaDetalleController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Este metodo valida la lista de Receta para saber si algun atributo de esta esta nullo, para que no
+     * puedas procesar el informe con un campo nullo.
+     * @param listaReceta
+     * @return
+     */
     private boolean validarCamposReceta(ObservableList<Receta> listaReceta) {
         return listaReceta.stream().anyMatch(receta ->
                 receta.getNombre() == null || receta.getDosisEstandar() == null
@@ -175,6 +207,12 @@ public class CitaDetalleController implements Initializable {
                         || receta.getComentario() == null);
     }
 
+    /**
+     * Este metodo procesa el informe y con el booleano sabe si tiene que crearo o actualizado,
+     * verifica de primeras si solo lo que quieres de la receta es el informe, que esta opcion
+     * esta en FXML de cita. He tirado de if/else, supongo que se podria hacer más modular.
+     * @param esNuevo
+     */
     private void procesarInforme(boolean esNuevo) {
         if (soloInforme.isSelected()) {
             if (!"CORTA".equals(duracion.getValue()) && !"LARGA".equals(duracion.getValue())) {
@@ -242,6 +280,9 @@ public class CitaDetalleController implements Initializable {
         }
     }
 
+    /**
+     * Estos dos metodos son accionados por el metodo anterior del boolean, para hacerlo más modular.
+     */
     public void actualizarInforme() {
         procesarInforme(false);
     }
@@ -250,6 +291,11 @@ public class CitaDetalleController implements Initializable {
         procesarInforme(true);
     }
 
+    /**
+     * Aquí no he podido modularizar la alerta, entonces la he instanciado directamente ya que esta
+     * es más compleja, porque te dara a escoger en la alerta la confirmación de eliminacion de cita,
+     * el if del final es la que se encarca de que si le has dado a aceptar elimine la cita y te cierre la ventana.
+     */
     public void eliminarInforme() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmar cancelación de cita");
@@ -292,6 +338,12 @@ public class CitaDetalleController implements Initializable {
         }
     }
 
+    /**
+     * Esta es la lista de la izquierda del panel, la cual te muestra todos los medicamentos disponibles, además por cada
+     * medicamento en la base de datos, creara un boton que tiene su ID que es el de la imagen del "+" para que este accione otro metodo
+     * que añadira a la lista segun sea modificada o nueva a esta.
+     * @param tablaMedicamentos
+     */
     @FXML
     private void showMedicamentos(ObservableList<Medicamento> tablaMedicamentos) {
         nombreMedicamento.setCellValueFactory(new PropertyValueFactory<Medicamento, String>("nombre"));
@@ -360,6 +412,14 @@ public class CitaDetalleController implements Initializable {
         });
     }
 
+    /**
+     * Este es el metodo que que se llama al mainPanelController cuando quieres modificar la receta,
+     * esta función se encarga de settear todos los valores de la Receta en la base de datos en el panel.
+     * Por eso iteramos la lista y añadimos a la nueva. Como se puede ver utiliza "listaRecetaEcistente".
+     * Tambíen como en la otra función se crea un boton por cada elemento con su idMedicamento para eliminarla.
+     *
+     * @param idCita --> Setea segun la cita abierta.
+     */
     public void setReceta(int idCita) {
         estado = true;
         eliminarMensaje.setVisible(true);
@@ -452,6 +512,11 @@ public class CitaDetalleController implements Initializable {
         getComentarios(idCita);
     }
 
+    /**
+     * Este recoge lo restante de setReceta. es decir, los comentarios y la duración y las pone
+     * en el panel.
+     * @param idCita --> Otra vez recoge la información segun la cita.
+     */
     private void getComentarios(int idCita) {
         RecetaJDBCDAO recetaJDBCDAO = new RecetaJDBCDAO();
         CitaJDBCDAO citaJDBCDAO = new CitaJDBCDAO();
@@ -460,6 +525,13 @@ public class CitaDetalleController implements Initializable {
         duracion.setValue(recetaJDBCDAO.getDuracion(idCita));
     }
 
+    /**
+     * Basicamente se ha modularizado el llamar a estas funciones ya que se hace varias veces.
+     *
+     * Aquí explicare que los setUp's de se encargan de crear celdas editables para poder actualizarlas en tiempo real al objeto
+     * asi permite que no haya errores, es un poco forzado ya que si cambias cada caracter actualiza el objeto de la lista, pero es
+     * la manera de no tener errores que hemos encontrado.
+     */
     private void setUpEditableCells() {
         // Configurar celdas editables para las columnas que deben ser editables
         setUpDatePickers();
@@ -467,6 +539,13 @@ public class CitaDetalleController implements Initializable {
         setUpComentarioCell();
     }
 
+    /**
+     * Esta función se encarga de añadir el medicamento seleccionado con el "+" a la lista correspondiente, sea la nueva
+     * o la que se tenga que modificar. Lo mismo se crea un boton de eliminar por cada elemento. Se podria modular un poco más.
+     * La receta recoge por el hasMap inicializado arriba segun el idMedicamento que contiene ese boton, para posicionar la información
+     * en el objeto, los otros se inicializan en nullo para poder introducir la información en ellos.
+     * @param idMedicamento
+     */
     @FXML
     private void addMedicamentoReceta(int idMedicamento) {
         Medicamento medicamento = mapaMedicamentos.get(idMedicamento);
@@ -487,9 +566,7 @@ public class CitaDetalleController implements Initializable {
             tablaReceta.setItems(listaReceta);
         }
 
-        setUpDatePickers();
-        setUpDosisCell();
-        setUpComentarioCell();
+        setUpEditableCells();
 
         eliminar.setCellFactory(column -> {
             return new TableCell<Receta, Button>() {
@@ -556,6 +633,11 @@ public class CitaDetalleController implements Initializable {
 
     }
 
+    /**
+     * Utiliza el DaraPicker proporcionado por JavaFX para seleccionar la fecha, aquí lo relevante, es que de primeras
+     * la fecha inicial te pone por defecto la actual y además tiene una comprobación de si la fecha que introduces
+     * es anterior a la actual, no te deje posicionarla y crear el informe.
+     */
     @FXML
     private void setUpDatePickers() {
         fechaInicial.setCellValueFactory(new PropertyValueFactory<>("fechaInicial"));
@@ -698,6 +780,11 @@ public class CitaDetalleController implements Initializable {
         });
     }
 
+    /**
+     * Este metodo es el accionado por el boton "Buscar" de la lista izquierda con todos los medicamentos,
+     * lo que hace es buscar por las letras y "palabraClave" dentro de la lista, para mostrarte solo los resultados
+     * con las letras correspondientes. Su funcion es facilitar la busqueda de medicamentos.
+     */
     @FXML
     private void busquedaMedicamentos() {
         String palabraClave = textMedicamento.getText().trim().toLowerCase();

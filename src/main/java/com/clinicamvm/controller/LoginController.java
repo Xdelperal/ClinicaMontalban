@@ -269,6 +269,10 @@ private void cargarMainPanel() {
         stage.setResizable(false);
     }
 
+    /**
+     * Este metodo intercambia la visibilidad de la contraseña, el tructo esta en que hay dos textos super puestos
+     * al utilizar la libreria JFoenix he visto que no sabia como arreglarlo de otra manera.
+     */
     @FXML
     private void togglePasswordVisibility() {
         // Almacena el contenido actual de ambos campos de contraseña

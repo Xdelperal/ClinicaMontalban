@@ -162,6 +162,11 @@ public class MainPanelController implements Initializable {
     private Timeline updateTimeline;
     //</editor-fold>
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ToggleGroup toggleGroup = new ToggleGroup();
