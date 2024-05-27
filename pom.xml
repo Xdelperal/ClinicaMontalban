@@ -15,7 +15,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.0</junit.version>
         <javafx.version>21</javafx.version>
-        <javafx.platform>win</javafx.platform>
     </properties>
 
     <repositories>

@@ -125,15 +125,15 @@
 #tablaMedicamentos {
     -fx-background-radius: 10px;
     -fx-background-color: #f9f9f9;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4); /* Sombra suave */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);
 }
 
 #tablaMedicamentos .column-header {
     -fx-background-color: #96c6fa;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-font-size: 12px;
-    -fx-padding: 10px;
+    -fx-font-size: 1em;
+    -fx-padding: 0.5em;
     -fx-border-radius: 10px 10px 0 0;
 }
 
@@ -141,13 +141,12 @@
     -fx-border-color: lightgray;
     -fx-border-width: 0 0 1px 0;
     -fx-background-color: white;
-    -fx-border-radius: 0 0 10px 10px;
-    -fx-padding: 5px 0;
+    -fx-padding: 0.5em 0;
 }
 
 #tablaMedicamentos .table-cell {
-    -fx-padding: 10px;
-    -fx-font-size: 14px;
+    -fx-padding: 0.5em;
+    -fx-font-size: 1em;
 }
 
 #tablaMedicamentos .table-row-cell:selected {
@@ -164,8 +163,8 @@
     -fx-background-color: #96c6fa;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-font-size: 12px;
-    -fx-padding: 10px;
+    -fx-font-size: 1em;
+    -fx-padding: 0.5em;
     -fx-border-radius: 10px 10px 0 0;
 }
 
@@ -173,18 +172,18 @@
     -fx-border-color: lightgray;
     -fx-border-width: 0 0 1px 0;
     -fx-background-color: white;
-    -fx-border-radius: 0 0 10px 10px;
-    -fx-padding: 5px 0;
+    -fx-padding: 0.5em 0;
 }
 
 #datosPaciente .table-cell {
-    -fx-padding: 10px;
-    -fx-font-size: 14px;
+    -fx-padding: 0.5em;
+    -fx-font-size: 1em;
 }
 
 #datosPaciente .table-row-cell:selected {
     -fx-background-color: #d3eaf7;
 }
+
 
 #closeButton {
     -fx-background-color: transparent;
@@ -296,5 +295,3 @@
 .btn-primary:pressed {
     -fx-background-color: #0056b3;
 }
-
-

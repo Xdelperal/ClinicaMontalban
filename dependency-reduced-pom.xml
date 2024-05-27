@@ -104,9 +104,8 @@
     </dependency>
   </dependencies>
   <properties>
-    <javafx.platform>win</javafx.platform>
-    <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javafx.version>21</javafx.version>
     <junit.version>5.10.0</junit.version>
