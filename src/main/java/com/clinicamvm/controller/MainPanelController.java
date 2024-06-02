@@ -270,7 +270,7 @@ public class MainPanelController implements Initializable {
         updateTimeline.play();
     }
 
-    // Metodo para cerrar la ventan actual.
+    // Método para cerrar la ventana actual y abrir la ventana de login
     public void cerrarVentana() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
@@ -280,6 +280,17 @@ public class MainPanelController implements Initializable {
             Scene scene = new Scene(root);
             Stage loginStage = new Stage();
             loginStage.setScene(scene);
+
+            // Centrar la ventana en la pantalla
+            loginStage.centerOnScreen();
+
+            // Establecer el icono de la ventana
+            Image icono = new Image(getClass().getResourceAsStream("/com/ui/img/logo.png"), 200, 200, true, true);
+            loginStage.getIcons().add(icono);
+
+            // Evitar que la ventana se pueda redimensionar
+            loginStage.setResizable(false);
+
             loginStage.show();
         } catch (Exception e) {
             e.printStackTrace();
