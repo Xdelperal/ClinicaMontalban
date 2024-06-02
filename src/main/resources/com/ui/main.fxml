@@ -343,11 +343,6 @@
                                                 <PropertyValueFactory property="idCita" />
                                             </cellValueFactory>
                                         </TableColumn>
-                                        <TableColumn fx:id="colDNI11" prefWidth="100" text="DNI">
-                                            <cellValueFactory>
-                                                <PropertyValueFactory property="idCliente" />
-                                            </cellValueFactory>
-                                        </TableColumn>
                                         <TableColumn fx:id="colNombre11" prefWidth="150" text="Nombre">
                                             <cellValueFactory>
                                                 <PropertyValueFactory property="nombre" />
@@ -363,9 +358,14 @@
                                                 <PropertyValueFactory property="hora" />
                                             </cellValueFactory>
                                         </TableColumn>
-                                        <TableColumn fx:id="colMotivo11" prefWidth="200" text="Motivo">
+                                        <TableColumn fx:id="colInforme" prefWidth="200" text="Informe">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="descripcion" />
+                                                <PropertyValueFactory property="informe" />
+                                            </cellValueFactory>
+                                        </TableColumn>
+                                        <TableColumn fx:id="colObsMedico" prefWidth="200" text="Observacion Medico">
+                                            <cellValueFactory>
+                                                <PropertyValueFactory property="obs_medico" />
                                             </cellValueFactory>
                                         </TableColumn>
                                     </columns>

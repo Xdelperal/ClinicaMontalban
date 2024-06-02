@@ -222,24 +222,27 @@ public class CitaJDBCDAO implements CitaDAO {
         ObservableList<Cita> citas = FXCollections.observableArrayList(); // Crear una nueva lista
 
         try (Connection connection = JDBCUtils.getConnection();
-             PreparedStatement statementCitas = connection.prepareStatement("SELECT cita.idCita, cita.idCliente, persona.DNI, CONCAT(persona.nombre, ' ', persona.apellido) as nombreCompleto, cita.estado, cita.fecha, cita.hora, cita.descripcion " +
-                     "FROM cita " +
-                     "INNER JOIN cliente ON cita.idCliente = cliente.idCliente " +
-                     "INNER JOIN persona ON cliente.DNI = persona.DNI " +
-                     "WHERE persona.DNI = ?")) { // Cambiar la columna a persona.DNI
+             PreparedStatement statementCitas = connection.prepareStatement(
+                     "SELECT cita.idCita, cita.idCliente, CONCAT(persona.nombre, ' ', persona.apellido) as nombreCompleto, cita.estado, cita.fecha, cita.hora, cita.informe, consulta.obs_medico " +
+                             "FROM cita " +
+                             "INNER JOIN cliente ON cita.idCliente = cliente.idCliente " +
+                             "INNER JOIN persona ON cliente.DNI = persona.DNI " +
+                             "INNER JOIN consulta ON cita.idCita = consulta.id_cita " +
+                             "WHERE persona.DNI = ? AND cita.estado = 'Realizada'"
+             )) { // Cambiar la columna a persona.DNI
             statementCitas.setString(1, dni);
             ResultSet resultSetCitas = statementCitas.executeQuery();
 
             while (resultSetCitas.next()) {
                 int idCita = resultSetCitas.getInt("idCita");
                 int idCliente = resultSetCitas.getInt("idCliente");
-                String DNI = resultSetCitas.getString("DNI");
                 String nombreCompleto = resultSetCitas.getString("nombreCompleto"); // Cambiar al alias nombreCompleto
                 String estado = resultSetCitas.getString("estado");
                 Date fecha = resultSetCitas.getDate("fecha");
                 Time hora = resultSetCitas.getTime("hora");
-                String descripcion = resultSetCitas.getString("descripcion");
-                Cita nuevaCita = new Cita(idCliente, idCita, DNI, nombreCompleto, estado, (java.sql.Date) fecha, hora, descripcion); // Usar nombreCompleto
+                String informe = resultSetCitas.getString("informe");
+                String obsMedico = resultSetCitas.getString("obs_medico");
+                Cita nuevaCita = new Cita(idCliente, idCita, nombreCompleto, estado, (java.sql.Date) fecha, hora, informe, obsMedico); // Usar nombreCompleto
                 citas.add(nuevaCita);
             }
         } catch (SQLException e) {

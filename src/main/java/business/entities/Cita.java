@@ -6,7 +6,7 @@ import java.sql.Time;
 public class Cita extends Cliente {
 
     private int idCita;
-    private String DNI, nombre, estado, descripcion;
+    private String DNI, nombre, estado, descripcion, informe, obsMedico;
     private Date fecha;
     private Time hora;
 
@@ -20,6 +20,18 @@ public class Cita extends Cliente {
         this.hora = hora;
         this.descripcion = descripcion;
     }
+
+    public Cita(int idCliente, int idCita, String nombre, String estado, Date fecha, Time hora, String informe, String obsMedico) {
+        super(idCliente);
+        this.idCita = idCita;
+        this.nombre = nombre;
+        this.estado = estado;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.informe = informe;
+        this.obsMedico = obsMedico;
+    }
+
 
 
     // Otros métodos, getters y setters
@@ -52,4 +64,12 @@ public class Cita extends Cliente {
     public Time getHora() { return hora; }
 
     public void setHora(Time hora) { this.hora = hora; }
+
+    public String getInforme() { return informe; }
+
+    public void setInforme(String informe) { this.informe = informe; }
+
+    public String getObsMedico() { return obsMedico; }
+
+    public void setObsMedico(String obsMedico) { this.obsMedico = obsMedico; }
 }

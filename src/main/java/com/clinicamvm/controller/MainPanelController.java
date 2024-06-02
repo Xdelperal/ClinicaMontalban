@@ -106,9 +106,6 @@ public class MainPanelController implements Initializable {
     private TableColumn<Cita, Integer> colCita11;
 
     @FXML
-    private TableColumn<Cita, Integer> colDNI11;
-
-    @FXML
     private TableColumn<Cita, String> colNombre11;
 
     @FXML
@@ -118,7 +115,11 @@ public class MainPanelController implements Initializable {
     private TableColumn<Cita, Time> colHora11;
 
     @FXML
-    private TableColumn<Cita, String> colMotivo11;
+    private TableColumn<Cita, String> colInforme;
+
+    @FXML
+    private TableColumn<Cita, String> colObsMedico;
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Columnas tiposMedicamento">
@@ -766,11 +767,11 @@ public class MainPanelController implements Initializable {
 
         // Configurar manualmente las celdas de las columnas
         colCita11.setCellValueFactory(new PropertyValueFactory<>("idCita"));
-        colDNI11.setCellValueFactory(new PropertyValueFactory<>("DNI"));
         colNombre11.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colFecha11.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         colHora11.setCellValueFactory(new PropertyValueFactory<>("hora"));
-        colMotivo11.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        colInforme.setCellValueFactory(new PropertyValueFactory<>("informe"));
+        colObsMedico.setCellValueFactory(new PropertyValueFactory<>("obsMedico"));
     }
 
     /**
